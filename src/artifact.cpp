@@ -46,6 +46,10 @@ artifact::artifact(int mainSand, int mainGoblet, int mainCirclet, int rarity)
 	// mArtifact.pieces[0].totalFortune[0]=0.8;
 	// mArtifact.pieces[0].subtext[3]=IS_ARTIFACT_TEXT;
 	// mArtifact.pieces[0].totalFortune[0]=0.7;
+	if (!checkMainText())
+	{
+		DEBUG_LOG("wrong checkMainText\n");
+	}
 }
 
 artifact::artifact(tArtifact paraArtifact) : mArtifact(paraArtifact)
@@ -74,7 +78,7 @@ bool artifact::checkMainText()
 			// 		printf("allHave==%8X\n",allHave);
 			// printf("(allHave | ART_TEXT_MAIN_RECHARGE)==%8X\n",(allHave | ART_TEXT_MAIN_RECHARGE));
 			// printf("&==%8X\n",(mArtifact.pieces[i].maintext & (allHave | ART_TEXT_MAIN_RECHARGE)));
-			if ((mArtifact.pieces[i].maintext & (allHave | ART_TEXT_MAIN_RECHARGE)) ^ IS_ARTIFACT_TEXT)
+			if (CHECK(mArtifact.pieces[i].maintext, (allHave | ART_TEXT_MAIN_RECHARGE), IS_ARTIFACT_TEXT))
 			{
 				loadTextValue(mArtifact.pieces[i].maintext, 0, mainTextLevelFactor(20)); //*mArtifact.pieces[i].rare*mArtifact.pieces[i].level;mArtifact
 			}
@@ -85,7 +89,7 @@ bool artifact::checkMainText()
 			}
 			break;
 		case ARTIFACT_GOBLET_OF_EONOTHEM:
-			if ((mArtifact.pieces[i].maintext & (allHave | ART_TEXT_MAIN_ELEMENT_BONUS)) ^ IS_ARTIFACT_TEXT)
+			if (CHECK(mArtifact.pieces[i].maintext, (allHave | ART_TEXT_MAIN_ELEMENT_BONUS), IS_ARTIFACT_TEXT))
 			{
 				loadTextValue(mArtifact.pieces[i].maintext, 0, mainTextLevelFactor(20)); //*mArtifact.pieces[i].rare*mArtifact.pieces[i].level;
 			}
@@ -96,7 +100,8 @@ bool artifact::checkMainText()
 			}
 			break;
 		case ARTIFACT_CIRCLET_OF_LOGOS:
-			if ((mArtifact.pieces[i].maintext & (allHave | ART_TEXT_MAIN_CRIT_RATE | ART_TEXT_MAIN_CRIT_DMG)) ^ IS_ARTIFACT_TEXT)
+			if (CHECK(mArtifact.pieces[i].maintext, (allHave | ART_TEXT_MAIN_CRIT_RATE | ART_TEXT_MAIN_CRIT_DMG), IS_ARTIFACT_TEXT))
+
 			{
 				loadTextValue(mArtifact.pieces[i].maintext, 0, mainTextLevelFactor(20)); //*mArtifact.pieces[i].rare*mArtifact.pieces[i].level;
 			}
@@ -246,29 +251,29 @@ float artifact::mainTextLevelFactor(int level)
 	return 1;
 }
 
-bool artifact::checkSubtext(tOneArtifact paraOneArtifact)
-{
-	// u8 maxSubtextNum = 0;
-	// u8 maxOneSubtextNum = 0;
-	// u8 minSubtextNum = 0;
-	// u8 totalSubtextType=0;
-	// switch (paraOneArtifact.rare)
-	// {
-	// case STAR_5:
-	// 	maxSubtextNum = 9;
-	// 	maxOneSubtextNum = 6;
-	// 	minSubtextNum = maxSubtextNum - 1;
-	// 	break;
-	// case STAR_4:
-	// 	maxSubtextNum = 8;
-	// 	maxOneSubtextNum = 5;
-	// 	minSubtextNum = maxSubtextNum - 1;
-	// 	break;
-	// }
+// bool artifact::checkSubtext(tOneArtifact paraOneArtifact)
+// {
+// 	// u8 maxSubtextNum = 0;
+// 	// u8 maxOneSubtextNum = 0;
+// 	// u8 minSubtextNum = 0;
+// 	// u8 totalSubtextType=0;
+// 	// switch (paraOneArtifact.rare)
+// 	// {
+// 	// case STAR_5:
+// 	// 	maxSubtextNum = 9;
+// 	// 	maxOneSubtextNum = 6;
+// 	// 	minSubtextNum = maxSubtextNum - 1;
+// 	// 	break;
+// 	// case STAR_4:
+// 	// 	maxSubtextNum = 8;
+// 	// 	maxOneSubtextNum = 5;
+// 	// 	minSubtextNum = maxSubtextNum - 1;
+// 	// 	break;
+// 	// }
 
-	// if(paraOneArtifact.subtext&ART_TEXT_SUB_HP)
-	// {
+// 	// if(paraOneArtifact.subtext&ART_TEXT_SUB_HP)
+// 	// {
 
-	// }
-	// else if(paraOneArtifact.subtext&ART_TEXT_SUB_HP)
-}
+// 	// }
+// 	// else if(paraOneArtifact.subtext&ART_TEXT_SUB_HP)
+// }

@@ -20,13 +20,12 @@ namespace genShinImpact
 		bool loadWeapon(const tWeapon *tempWeapon);
 		bool loadArtifactMainText(const tArtifact *tempArtifact);
 		bool loadArtifactSubText(const tArtifact *tempArtifact);
-		bool loadArtifactEffect(const tArtifact *tempArtifact, int set);
+		// bool loadArtifactEffect(const tArtifact *tempArtifact, int set);
 		bool loadTeamEffect(int type);
 
 		void printAllAttribute(void);
 		
 		// not implement---------------------------------------------------------
-		float attributeConvert(int sourceType, int aimType, float convertFactor, float startPoint ,float max);
 		bool loadBreakThroughAttr(int level);
 
 	protected:

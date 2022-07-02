@@ -48,7 +48,7 @@ namespace genShinImpact
 		bool checkMainText();
 
 	protected:
-		bool checkSubtext(tOneArtifact paraOneArtifact);
+		// bool checkSubtext(tOneArtifact paraOneArtifact);
 		float getTextValue(int text, float luck, float levelFactor);
 		void loadTextValue(int text, float luck, float levelFactor);
 		float mainTextLevelFactor(int level);

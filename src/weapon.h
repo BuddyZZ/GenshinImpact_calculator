@@ -11,8 +11,9 @@ namespace genShinImpact
 	public:
 		weapon(int rarity, int level, int atkGrade);
 		weapon(tWeapon oWeapon,int level);
+		weapon();
 		tWeapon mWeapon;
-		bool checkWeaponAttribute();
+		// bool checkWeaponAttribute();
 		void calWeaponTable(int star, int level, int initialAtk, int subText,tWeapon weap);
 	protected:
 	private:
