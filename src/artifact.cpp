@@ -13,7 +13,7 @@ artifact::artifact(int mainSand, int mainGoblet, int mainCirclet, int rarity)
 	mArtifact.pieces[0].rare = rarity;
 	mArtifact.pieces[0].position = ARTIFACT_FLOWER_OF_LIFE;
 	mArtifact.pieces[0].maintext = ART_TEXT_MAIN_HP;
-
+//
 	mArtifact.pieces[1].name = "piece_1";
 	mArtifact.pieces[1].level = 20;
 	mArtifact.pieces[1].rare = rarity;
