@@ -4,7 +4,7 @@
 
 namespace genShinImpact
 {
-    class artifact
+    class artifact:public virtual origin
     {
     public:
         tAllAttr base;
