@@ -9,7 +9,7 @@
 #define CALCULATE_H
 
 namespace genShinImpact {
-class calculate : public character, enemy, environment, logger {
+class calculate : public character, enemy, environment,weapon,artifact, logger {
 public:
   calculate();
   ~calculate();
@@ -33,7 +33,7 @@ public:
   float calCritDmg();
   float calDefFactor();
   float calLevelFactor();
-  float calElmentalMastery();
+  float calElementalMastery();
   float calReactFactor(eReactType reactType, float elementalMastery);
   float calResFactor(eDamageType damageType, eElementType elementType);
   float calBonus(eDamageType damageType, eElementType elementType);

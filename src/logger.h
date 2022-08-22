@@ -24,19 +24,19 @@ namespace genShinImpact
         // int logReactValue(tAllAttr *obj, eReactType value);
         // int logTextValue(tAllAttr *obj, eTextType value);
 
-        int logAttribute(tAllAttr *obj, int type);
-        int logAttributeFix(tAllAttr *obj, int type);
-        int logRes(tAllAttr *obj, int damageType, int elementType);
-        int logBonus(tAllAttr *obj, int type);
-        int logIndepMult(tAllAttr *obj, int type);
-        int logExtraRate(tAllAttr *obj, int type);
-        int logReactFactor(tAllAttr *obj, int type);
-        int logBuff(tAllAttr *obj, int type);
+        void logAttribute(tAllAttr *obj, int type);
+        void logAttributeFix(tAllAttr *obj, int type);
+        void logRes(tAllAttr *obj, int damageType, int elementType);
+        void logBonus(tAllAttr *obj, int type);
+        void logIndepMult(tAllAttr *obj, int type);
+        void logExtraRate(tAllAttr *obj, int type);
+        void logReactFactor(tAllAttr *obj, int type);
+        void logBuff(tAllAttr *obj, int type);
 
-        int logInfo(tAllAttr *obj, int type);   // tInfo info;
-        int logAttack(tAllAttr *obj, int type); // tAttack attack;
-        int logBurst(tAllAttr *obj, int type);  // tBurst burst;
-        int logSkill(tAllAttr *obj, int type);  // tSkill skill;
+        void logInfo(tAllAttr *obj, int type);   // tInfo info;
+        void logAttack(tAllAttr *obj, int type); // tAttack attack;
+        void logBurst(tAllAttr *obj, int type);  // tBurst burst;
+        void logSkill(tAllAttr *obj, int type);  // tSkill skill;
         
         		void printAllAttribute(void);
 

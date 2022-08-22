@@ -10,7 +10,7 @@ namespace genShinImpact
         tAllAttr base;
         environment();
         ~environment();
-        int loadTeamEffect(elementType type);
+        void loadTeamEffect(elementType type);
 
     protected:
     private:

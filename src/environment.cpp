@@ -10,14 +10,13 @@ environment::~environment()
 	memset(&base, '0', sizeof(tAllAttr));
 }
 
-int environment::loadTeamEffect(elementType type)
+void environment::loadTeamEffect(elementType type)
 {
 			tBonus temp;
 
 	switch (type)
 	{
 	case ELEMENT_UNSURE:
-		return 0;
 		break;
 	case ELEMENT_CRYO:
 		base.attr.critRate += 0.15;
@@ -56,6 +55,5 @@ int environment::loadTeamEffect(elementType type)
 		temp.skill = 0;
 		temp.burst = 0;
 		LOAD_STRUCT(base.res, temp, tRes, float);
-		return 0;
 	}
 }
