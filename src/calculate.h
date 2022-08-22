@@ -10,7 +10,7 @@
 
 namespace genShinImpact
 {
-    class calculate : public character, enemy, weapon, artifact, environment
+    class calculate : public character, enemy, environment,logger
     {
     public:
         calculate();

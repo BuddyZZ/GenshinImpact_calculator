@@ -4,7 +4,7 @@
 
 namespace genShinImpact
 {
-    class character
+    class character:public virtual origin
     {
     public:
         tAllAttr base;

@@ -4,7 +4,7 @@
 
 namespace genShinImpact
 {
-    class enemy
+    class enemy:public virtual origin
     {
     public:
         tAllAttr base;

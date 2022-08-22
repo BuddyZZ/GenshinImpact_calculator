@@ -7,11 +7,11 @@
 //============================================================================
 #include "origin.h"
 
-#include "weapon.h"
-#include "artifact.h"
 #include "character.h"
 #include "enemy.h"
 #include "calculate.h"
+#include "environment.h"
+#include "loger.h"
 
 #include <iostream>
 #include <bitset> //输出二进制的头文件

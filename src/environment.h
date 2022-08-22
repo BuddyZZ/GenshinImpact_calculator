@@ -4,7 +4,7 @@
 
 namespace genShinImpact
 {
-    class environment
+    class environment:public virtual origin
     {
     public:
         tAllAttr base;
