@@ -1,43 +1,45 @@
+#include "origin.h"
 #ifndef CHARACTER_H
 #define CHARACTER_H
-#include "para.h"
-#include "weapon.h"
-#include "artifact.h"
-
-
 
 namespace genShinImpact
 {
-	class character
-	{
-	public:
-		character();
-		character(const tCharacter temp);
+    class character
+    {
+    public:
+        tAllAttr base;
+        character();
+        ~character();
 
-		tCharacter mCharacter;
-
-		void resetCharacter(void);
-		bool loadWeapon(const tWeapon *tempWeapon);
-		bool loadArtifactMainText(const tArtifact *tempArtifact);
-		bool loadArtifactSubText(const tArtifact *tempArtifact);
-		// bool loadArtifactEffect(const tArtifact *tempArtifact, int set);
-		bool loadTeamEffect(int type);
-
-		void printAllAttribute(void);
-		
-		// not implement---------------------------------------------------------
-		bool loadBreakThroughAttr(int level);
-
-	protected:
-		tAttributeFix mAttributeFix;
-		bool weaponLoaded;
-		bool artifactMainTextLoaded;
-		bool artifactSubTextLoaded;
-		bool artifactEffectLoaded;
-		bool teamEffectLoaded;
-
-	private:
-	};
-
+    protected:
+    private:
+    };
 }
+
 #endif
+
+// /**
+//  * A struct use to define a whole character, and it is consist of some other struct defined before
+//  * This struct can be use to transfer data between object to simplize operate steps
+//  * @param basic character basic attribute that should not change after initiate
+//  * @param attribute addition attribute form weapon/artifact/
+//  *
+//  */
+// typedef struct characterAttribute
+// {
+//     int level;
+//     int rare;
+//     string name;
+//     int weaponType;
+//     int element;
+//     tAttribute basic;           // character basic value
+//     tAttribute attribute;       // add percent and such as element master
+//     tAttributeFix attributeFix; // add fix Atk Hp Def basicAtk
+//     tBonus bonus;
+//     tRes res;
+//     tBuff buff;
+//     tReactFactor reactFactor;
+//     tSkill skill;
+//     tBurst burst;
+//     tAttack attack;
+// } tCharacter, *pCharacter;
