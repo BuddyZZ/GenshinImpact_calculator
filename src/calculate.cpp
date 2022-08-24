@@ -17,14 +17,16 @@ float fusioncalLevelFactor[LEVEL_MAX] = {
 
 calculate::calculate() { memset(&(character::base), '0', sizeof(tAllAttr)); }
 calculate::~calculate() { memset(&(character::base), '0', sizeof(tAllAttr)); }
-void calculate::resetAll() {
+void calculate::resetAll()
+{
   memset(&mAttacker, '\0', sizeof(tAttribute));
   memset(&mSuffer, '\0', sizeof(tAttribute));
   memset(&mWeapon, '\0', sizeof(tAttribute));
   memset(&mArtifact, '\0', sizeof(tAttribute));
   memset(&mEnvironment, '\0', sizeof(tAttribute));
 }
-void calculate::loadALL() {
+void calculate::loadALL()
+{
   loadAttacker();
   loadSuffer();
   loadWeapon();
@@ -34,7 +36,8 @@ void calculate::loadALL() {
 
 float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
                            eCalType calType, eDamageType damageType,
-                           eElementType elementType) {
+                           eElementType elementType)
+{
   float critFactor;
   float basicDamageValue;
   float critRate = calCritRate();
@@ -48,7 +51,8 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
 
-  switch (mainAttr) {
+  switch (mainAttr)
+  {
   case TEXT_HP:
     basicDamageValue = calHp();
     break;
@@ -62,7 +66,8 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
     critFactor = 1;
   }
 
-  switch (calType) {
+  switch (calType)
+  {
   case CAL_MAX:
     critFactor = 1 + critDmg;
     break;
@@ -77,22 +82,27 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
   }
 
   if (REACT_TYPE_INCREASEMENT_START < reactType &&
-      reactType < REACT_TYPE_INCREASEMENT_END) {
+      reactType < REACT_TYPE_INCREASEMENT_END)
+  {
     return defFactor * resFactor * levelFactor * bonus *
            (basicDamageValue * rate + extraRate) * indepMult * critFactor *
            reactFactor;
-  } else if (REACT_TYPE_FUSION_START < reactType &&
-             reactType < REACT_TYPE_FUSION_END) {
+  }
+  else if (REACT_TYPE_FUSION_START < reactType &&
+           reactType < REACT_TYPE_FUSION_END)
+  {
     return resFactor * levelFactor * reactFactor *
            fusioncalLevelFactor[mAttacker.info.level];
-  } else // no react
+  }
+  else // no react
   {
     return defFactor * resFactor * levelFactor * bonus *
            (basicDamageValue * rate + extraRate) * indepMult * critFactor;
   }
 }
 
-float calculate::calHp() {
+float calculate::calHp()
+{
   float base = getAttribute(&mAttacker, TEXT_BASE_HP) +
                getAttribute(&mWeapon, TEXT_BASE_HP) +
                getAttribute(&mArtifact, TEXT_BASE_HP) +
@@ -105,9 +115,14 @@ float calculate::calHp() {
                   getAttribute(&mWeapon, TEXT_HP) +
                   getAttribute(&mArtifact, TEXT_HP) +
                   getAttribute(&mEnvironment, TEXT_HP);
+  cout << "base==" << base << endl;
+  cout << "fix==" << fix << endl;
+  cout << "percent==" << percent << endl;
+
   return base * (1 + percent) + fix;
 }
-float calculate::calAtk() {
+float calculate::calAtk()
+{
   float base = getAttribute(&mAttacker, TEXT_BASE_ATK) +
                getAttribute(&mWeapon, TEXT_BASE_ATK) +
                getAttribute(&mArtifact, TEXT_BASE_ATK) +
@@ -122,7 +137,8 @@ float calculate::calAtk() {
                   getAttribute(&mEnvironment, TEXT_ATK);
   return base * (1 + percent) + fix;
 }
-float calculate::calDef() {
+float calculate::calDef()
+{
   float base = getAttribute(&mAttacker, TEXT_BASE_DEF) +
                getAttribute(&mWeapon, TEXT_BASE_DEF) +
                getAttribute(&mArtifact, TEXT_BASE_DEF) +
@@ -137,7 +153,8 @@ float calculate::calDef() {
                   getAttribute(&mEnvironment, TEXT_DEF);
   return base * (1 + percent) + fix;
 }
-float calculate::calCritRate() {
+float calculate::calCritRate()
+{
   float base = getAttribute(&mAttacker, TEXT_CRIT_RATE) +
                getAttribute(&mWeapon, TEXT_CRIT_RATE) +
                getAttribute(&mArtifact, TEXT_CRIT_RATE) +
@@ -149,7 +166,8 @@ float calculate::calCritRate() {
   else
     return 0;
 }
-float calculate::calCritDmg() {
+float calculate::calCritDmg()
+{
   float base = getAttribute(&mAttacker, TEXT_CRIT_DMG) +
                getAttribute(&mWeapon, TEXT_CRIT_DMG) +
                getAttribute(&mArtifact, TEXT_CRIT_DMG) +
@@ -160,24 +178,32 @@ float calculate::calCritDmg() {
   else
     return 0;
 }
-float calculate::calDefFactor() {
+float calculate::calDefFactor()
+{
   return (1 - (mSuffer.info.level + 100.0f) /
                   (mAttacker.info.level + mSuffer.info.level + 200.0f));
 }
-float calculate::calLevelFactor() {
-  if (mAttacker.info.level < 10 || mSuffer.info.level < 10) {
-    if ((mAttacker.info.level - mSuffer.info.level) >= 70) {
+float calculate::calLevelFactor()
+{
+  if (mAttacker.info.level < 10 || mSuffer.info.level < 10)
+  {
+    if ((mAttacker.info.level - mSuffer.info.level) >= 70)
+    {
       return 1.5;
     }
-    if ((mAttacker.info.level - mSuffer.info.level) <= -70) {
+    if ((mAttacker.info.level - mSuffer.info.level) <= -70)
+    {
       return 0.5;
     }
     return 0;
-  } else {
+  }
+  else
+  {
     return 1;
   }
 }
-float calculate::calElementalMastery() {
+float calculate::calElementalMastery()
+{
   float base = getAttribute(&mAttacker, TEXT_ELEMENTAL_MASTERY) +
                getAttribute(&mWeapon, TEXT_ELEMENTAL_MASTERY) +
                getAttribute(&mArtifact, TEXT_ELEMENTAL_MASTERY) +
@@ -188,7 +214,8 @@ float calculate::calElementalMastery() {
   else
     return 0;
 }
-float calculate::calReactFactor(eReactType reactType, float elementalMastery) {
+float calculate::calReactFactor(eReactType reactType, float elementalMastery)
+{
   float mastery = calElementalMastery();
 
   if (REACT_TYPE_FUSION_START < reactType &&
@@ -199,7 +226,8 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery) {
     return (FUSION_K * mastery / (mastery + FUSION_A) + 1 +
             getReactFactor(&mAttacker, reactType)) *
            getReactCoefficient(reactType);
-  } else if (
+  }
+  else if (
       REACT_TYPE_INCREASEMENT_START < reactType &&
       reactType <
           REACT_TYPE_INCREASEMENT_END) // CHECK(reactType,REACT_TYPE_FUSION,IS_REACT)
@@ -211,7 +239,9 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery) {
     return (CRYSTALLIZE_K * mastery / (mastery + CRYSTALLIZE_A) + 1 +
             getReactFactor(&mAttacker, reactType)) *
            getReactCoefficient(reactType);
-  } else {
+  }
+  else
+  {
     // cout<< "qwe"<<endl;
     // return (CRYSTALLIZE_K * mastery / (mastery + CRYSTALLIZE_A) + 1 +
     // getReactFactor(reactType)) * getReactCoefficient(reactType);
@@ -221,37 +251,72 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery) {
   }
 }
 float calculate::calResFactor(eDamageType damageType,
-                              eElementType elementType) {
-  // float res = 0;//getRes(&mSuffer,damageType,elementType);
-  // if (res > 0.75) // Res>0.75
-  // {
-  //   return 1 / (1 + 4 * res);
-  // } else if (res > 0) // 0.75>=Res>0
-  // {
-  //   return 1 - res;
-  // } else // 0>=Res
-  // {
-  //   return 1 - (res / 2);
-  // }
+                              eElementType elementType)
+{
+  float base = getRes(&mAttacker, damageType, elementType) +
+               getRes(&mWeapon, damageType, elementType) +
+               getRes(&mArtifact, damageType, elementType) +
+               getRes(&mEnvironment, damageType, elementType);
+  if (base > 0.75) // Res>0.75
+  {
+    return 1 / (1 + 4 * base);
+  }
+  else if (base > 0) // 0.75>=Res>0
+  {
+    return 1 - base;
+  }
+  else // 0>=Res
+  {
+    return 1 - (base / 2);
+  }
 }
-float calculate::calBonus(eDamageType damageType, eElementType elementType) {}
+float calculate::calBonus(eDamageType damageType, eElementType elementType)
+{
+  float base = getBonus(&mAttacker, damageType, elementType) +
+               getBonus(&mWeapon, damageType, elementType) +
+               getBonus(&mArtifact, damageType, elementType) +
+               getBonus(&mEnvironment, damageType, elementType);
+  return base;
+}
 float calculate::calIndepMult(eDamageType damageType,
-                              eElementType elementType) {}
-float calculate::calExtraRate(eDamageType damageType,
-                              eElementType elementType) {}
-
-void calculate::loadAttacker() {
-  memcpy(&mAttacker, &(character::base), sizeof(tAttribute));
+                              eElementType elementType)
+{
+  float base = getIndepMult(&mAttacker, damageType, elementType) +
+               getIndepMult(&mWeapon, damageType, elementType) +
+               getIndepMult(&mArtifact, damageType, elementType) +
+               getIndepMult(&mEnvironment, damageType, elementType);
+  return base;
 }
-void calculate::loadSuffer() {
+float calculate::calExtraRate(eDamageType damageType,
+                              eElementType elementType)
+{
+  float base = getExtraRate(&mAttacker, damageType, elementType) +
+               getExtraRate(&mWeapon, damageType, elementType) +
+               getExtraRate(&mArtifact, damageType, elementType) +
+               getExtraRate(&mEnvironment, damageType, elementType);
+  return base;
+}
+
+void calculate::loadAttacker()
+{
+    character *testCharacter = new character();
+
+  cout<<"character::base.attrB.hpFix=="<<testCharacter->base.attrB.hpFix<<endl;
+  memcpy(&mAttacker, &(testCharacter->base), sizeof(tAttribute));
+}
+void calculate::loadSuffer()
+{
   memcpy(&mSuffer, &(enemy::base), sizeof(tAttribute));
 }
-void calculate::loadWeapon() {
+void calculate::loadWeapon()
+{
   memcpy(&mWeapon, &(weapon::base), sizeof(tAttribute));
 }
-void calculate::loadArtifact() {
+void calculate::loadArtifact()
+{
   memcpy(&mArtifact, &(artifact::base), sizeof(tAttribute));
 }
-void calculate::loadEnvironment() {
+void calculate::loadEnvironment()
+{
   memcpy(&mEnvironment, &(environment::base), sizeof(tAttribute));
 }

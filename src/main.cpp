@@ -26,8 +26,14 @@ using namespace genShinImpact;
 
 int main() {
 
-  // character *testCharacter = new character();
+  calculate *testCalculate = new calculate();
+testCalculate->loadAttacker();
+testCalculate->loadSuffer();
+testCalculate->loadEnvironment();
+testCalculate->loadArtifact();
+testCalculate->loadWeapon();
 
+cout<<testCalculate->calHp()<<endl;
   // enemy *testEnemy = new enemy();
   // weapon *testWeapon = new weapon();
   // artifact *testArtifact = new artifact(ART_TEXT_MAIN_ATK,

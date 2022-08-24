@@ -40,12 +40,14 @@ public:
   float calIndepMult(eDamageType damageType, eElementType elementType);
   float calExtraRate(eDamageType damageType, eElementType elementType);
 
-protected:
+
   void loadAttacker();
   void loadSuffer();
   void loadWeapon();
   void loadArtifact();
   void loadEnvironment();
+protected:
+
 
 private:
 };
