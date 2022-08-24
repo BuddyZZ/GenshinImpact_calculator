@@ -299,24 +299,38 @@ float calculate::calExtraRate(eDamageType damageType,
 
 void calculate::loadAttacker()
 {
-    character *testCharacter = new character();
+  character *testCharacter = new character();
+  memcpy(&mAttacker, &testCharacter->base, sizeof(tAllAttr));
+  cout << "testCharacter->base.attrB.hpFix==" << testCharacter->base.attrB.hpFix << endl;
+  cout << "mAttacker.attrB.hpFix==" << mAttacker.attrB.hpFix << endl;
+  // memcpy(&mAttacker, &(character::base), sizeof(tAllAttr));
+  // cout << "testCharacter->base.attrB.hpFix==" << character::base.attrB.hpFix << endl;
+  // cout << "mAttacker.attrB.hpFix==" << mAttacker.attrB.hpFix << endl;
 
-  cout<<"character::base.attrB.hpFix=="<<testCharacter->base.attrB.hpFix<<endl;
-  memcpy(&mAttacker, &(testCharacter->base), sizeof(tAttribute));
+
+  // delete testCharacter;
 }
 void calculate::loadSuffer()
 {
-  memcpy(&mSuffer, &(enemy::base), sizeof(tAttribute));
+  enemy *testEnemy = new enemy();
+  memcpy(&mSuffer, &(testEnemy->base), sizeof(tAllAttr));
+  // delete testEnemy;
 }
 void calculate::loadWeapon()
 {
-  memcpy(&mWeapon, &(weapon::base), sizeof(tAttribute));
+  weapon *testWeapon = new weapon();
+  memcpy(&mWeapon, &(testWeapon->base), sizeof(tAllAttr));
+  // delete testWeapon;
 }
 void calculate::loadArtifact()
 {
-  memcpy(&mArtifact, &(artifact::base), sizeof(tAttribute));
+  artifact *testArtifact = new artifact();
+  memcpy(&mArtifact, &(testArtifact->base), sizeof(tAllAttr));
+  // delete testArtifact;
 }
 void calculate::loadEnvironment()
 {
-  memcpy(&mEnvironment, &(environment::base), sizeof(tAttribute));
+  environment *testEnvironment = new environment();
+  memcpy(&mEnvironment, &(testEnvironment->base), sizeof(tAllAttr));
+  // delete testEnvironment;
 }

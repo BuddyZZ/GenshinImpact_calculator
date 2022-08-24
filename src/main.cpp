@@ -28,10 +28,15 @@ int main() {
 
   calculate *testCalculate = new calculate();
 testCalculate->loadAttacker();
+cout<<"1"<<endl;
 testCalculate->loadSuffer();
+cout<<"2"<<endl;
 testCalculate->loadEnvironment();
+cout<<"3"<<endl;
 testCalculate->loadArtifact();
+cout<<"4"<<endl;
 testCalculate->loadWeapon();
+cout<<"5"<<endl;
 
 cout<<testCalculate->calHp()<<endl;
   // enemy *testEnemy = new enemy();
