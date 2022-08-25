@@ -97,16 +97,22 @@ float origin::getIndepMult(tAllAttr *obj, eDamageType damageType, eElementType e
   {
   case DAMAGE_UNSURE:
     retVal += 0;
+    break;
   case DAMAGE_HIT:
     retVal += obj->indepMult.hit;
+    break;
   case DAMAGE_CHARGE_HIT:
     retVal += obj->indepMult.chargeHit;
+    break;
   case DAMAGE_PLUNGE:
     retVal += obj->indepMult.plunge;
+    break;
   case DAMAGE_SKILL:
     retVal += obj->indepMult.skill;
+    break;
   case DAMAGE_BURST:
     retVal += obj->indepMult.burst;
+    break;
   default:
     return -1;
   }
@@ -117,20 +123,28 @@ float origin::getIndepMult(tAllAttr *obj, eDamageType damageType, eElementType e
     retVal += 0;
   case ELEMENT_CRYO:
     retVal += obj->indepMult.cryo;
+    break;
   case ELEMENT_PYRO:
     retVal += obj->indepMult.pyro;
+    break;
   case ELEMENT_HYDRO:
     retVal += obj->indepMult.hydro;
+    break;
   case ELEMENT_DENDRO:
     retVal += obj->indepMult.dendro;
+    break;
   case ELEMENT_ELECTRO:
     retVal += obj->indepMult.electro;
+    break;
   case ELEMENT_ANEMO:
     retVal += obj->indepMult.anemo;
+    break;
   case ELEMENT_GEO:
     retVal += obj->indepMult.geo;
+    break;
   case ELEMENT_PHYSICS:
     retVal += obj->indepMult.physical;
+    break;
   default:
     return -2;
   }
@@ -144,16 +158,22 @@ float origin::getExtraRate(tAllAttr *obj, eDamageType damageType, eElementType e
   {
   case DAMAGE_UNSURE:
     retVal += 0;
+    break;
   case DAMAGE_HIT:
     retVal += obj->extraRate.hit;
+    break;
   case DAMAGE_CHARGE_HIT:
     retVal += obj->extraRate.chargeHit;
+    break;
   case DAMAGE_PLUNGE:
     retVal += obj->extraRate.plunge;
+    break;
   case DAMAGE_SKILL:
     retVal += obj->extraRate.skill;
+    break;
   case DAMAGE_BURST:
     retVal += obj->extraRate.burst;
+    break;
   default:
     retVal += -11;
   }
@@ -162,22 +182,31 @@ float origin::getExtraRate(tAllAttr *obj, eDamageType damageType, eElementType e
   {
   case ELEMENT_UNSURE:
     retVal += 0;
+    break;
   case ELEMENT_CRYO:
     retVal += obj->extraRate.cryo;
+    break;
   case ELEMENT_PYRO:
     retVal += obj->extraRate.pyro;
+    break;
   case ELEMENT_HYDRO:
     retVal += obj->extraRate.hydro;
+    break;
   case ELEMENT_DENDRO:
     retVal += obj->extraRate.dendro;
+    break;
   case ELEMENT_ELECTRO:
     retVal += obj->extraRate.electro;
+    break;
   case ELEMENT_ANEMO:
     retVal += obj->extraRate.anemo;
+    break;
   case ELEMENT_GEO:
     retVal += obj->extraRate.geo;
+    break;
   case ELEMENT_PHYSICS:
     retVal += obj->extraRate.physical;
+    break;
   default:
     return -22;
   }
@@ -224,21 +253,26 @@ float origin::getReactFactor(tAllAttr *obj, eReactType type)
 float origin::getRes(tAllAttr *obj, eDamageType damageType, eElementType elementType)
 {
   float retVal = 0;
-
   switch (damageType)
   {
   case DAMAGE_UNSURE:
     retVal += 0;
+    break;
   case DAMAGE_HIT:
     retVal += obj->res.hit;
+    break;
   case DAMAGE_CHARGE_HIT:
     retVal += obj->res.chargeHit;
+    break;
   case DAMAGE_PLUNGE:
     retVal += obj->res.plunge;
+    break;
   case DAMAGE_SKILL:
     retVal += obj->res.skill;
+    break;
   case DAMAGE_BURST:
     retVal += obj->res.burst;
+    break;
   default:
     return -11;
   }
@@ -246,22 +280,31 @@ float origin::getRes(tAllAttr *obj, eDamageType damageType, eElementType element
   {
   case ELEMENT_UNSURE:
     retVal += 0;
+    break;
   case ELEMENT_CRYO:
     retVal += obj->res.cryo;
+    break;
   case ELEMENT_PYRO:
     retVal += obj->res.pyro;
+    break;
   case ELEMENT_HYDRO:
     retVal += obj->res.hydro;
+    break;
   case ELEMENT_DENDRO:
     retVal += obj->res.dendro;
+    break;
   case ELEMENT_ELECTRO:
     retVal += obj->res.electro;
+    break;
   case ELEMENT_ANEMO:
     retVal += obj->res.anemo;
+    break;
   case ELEMENT_GEO:
     retVal += obj->res.geo;
+    break;
   case ELEMENT_PHYSICS:
     retVal += obj->res.physical;
+    break;
   default:
     return -22;
   }
@@ -275,16 +318,22 @@ float origin::getBonus(tAllAttr *obj, eDamageType damageType, eElementType eleme
   {
   case DAMAGE_UNSURE:
     retVal += 0;
+    break;
   case DAMAGE_HIT:
     retVal += obj->bonus.hit;
+    break;
   case DAMAGE_CHARGE_HIT:
     retVal += obj->bonus.chargeHit;
+    break;
   case DAMAGE_PLUNGE:
     retVal += obj->bonus.plunge;
+    break;
   case DAMAGE_SKILL:
     retVal += obj->bonus.skill;
+    break;
   case DAMAGE_BURST:
     retVal += obj->bonus.burst;
+    break;
   default:
     return -11;
   }
@@ -293,22 +342,31 @@ float origin::getBonus(tAllAttr *obj, eDamageType damageType, eElementType eleme
   {
   case ELEMENT_UNSURE:
     retVal += 0;
+    break;
   case ELEMENT_CRYO:
     retVal += obj->bonus.cryo;
+    break;
   case ELEMENT_PYRO:
     retVal += obj->bonus.pyro;
+    break;
   case ELEMENT_HYDRO:
     retVal += obj->bonus.hydro;
+    break;
   case ELEMENT_DENDRO:
     retVal += obj->bonus.dendro;
+    break;
   case ELEMENT_ELECTRO:
     retVal += obj->bonus.electro;
+    break;
   case ELEMENT_ANEMO:
     retVal += obj->bonus.anemo;
+    break;
   case ELEMENT_GEO:
     retVal += obj->bonus.geo;
+    break;
   case ELEMENT_PHYSICS:
     retVal += obj->bonus.physical;
+    break;
   default:
     return -22;
   }

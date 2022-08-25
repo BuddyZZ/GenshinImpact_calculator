@@ -9,7 +9,7 @@ namespace genShinImpact
     public:
         tAllAttr base;
         character();
-        ~character();
+        // ~character();
 
     protected:
     private:

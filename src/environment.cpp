@@ -4,6 +4,9 @@ using namespace std;
 environment::environment()
 {
 	memset(&base, '0', sizeof(tAllAttr));
+    INIT_STRUCT(base.extraRate, tExtraRate, float, 0.01);
+    INIT_STRUCT(base.indepMult, tIndepMult, float, 0.01);
+
 }
 environment::~environment()
 {

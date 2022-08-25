@@ -84,8 +84,8 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
   if (REACT_TYPE_INCREASEMENT_START < reactType &&
       reactType < REACT_TYPE_INCREASEMENT_END)
   {
-    return defFactor * resFactor * levelFactor * bonus *
-           (basicDamageValue * rate + extraRate) * indepMult * critFactor *
+    return defFactor * resFactor * levelFactor * (1 + bonus) *
+           (basicDamageValue * rate + extraRate) * (1 + indepMult) * critFactor *
            reactFactor;
   }
   else if (REACT_TYPE_FUSION_START < reactType &&
@@ -96,8 +96,8 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
   }
   else // no react
   {
-    return defFactor * resFactor * levelFactor * bonus *
-           (basicDamageValue * rate + extraRate) * indepMult * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) *
+           (basicDamageValue * rate + extraRate) * (1 + indepMult) * critFactor;
   }
 }
 
@@ -115,10 +115,6 @@ float calculate::calHp()
                   getAttribute(&mWeapon, TEXT_HP) +
                   getAttribute(&mArtifact, TEXT_HP) +
                   getAttribute(&mEnvironment, TEXT_HP);
-  cout << "base==" << base << endl;
-  cout << "fix==" << fix << endl;
-  cout << "percent==" << percent << endl;
-
   return base * (1 + percent) + fix;
 }
 float calculate::calAtk()
@@ -180,8 +176,7 @@ float calculate::calCritDmg()
 }
 float calculate::calDefFactor()
 {
-  return (1 - (mSuffer.info.level + 100.0f) /
-                  (mAttacker.info.level + mSuffer.info.level + 200.0f));
+  return (1 - (mSuffer.info.level + 100.0f) / (mAttacker.info.level + mSuffer.info.level + 200.0f));
 }
 float calculate::calLevelFactor()
 {
@@ -253,10 +248,7 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery)
 float calculate::calResFactor(eDamageType damageType,
                               eElementType elementType)
 {
-  float base = getRes(&mAttacker, damageType, elementType) +
-               getRes(&mWeapon, damageType, elementType) +
-               getRes(&mArtifact, damageType, elementType) +
-               getRes(&mEnvironment, damageType, elementType);
+  float base = getRes(&mSuffer, damageType, elementType);
   if (base > 0.75) // Res>0.75
   {
     return 1 / (1 + 4 * base);
@@ -301,20 +293,13 @@ void calculate::loadAttacker()
 {
   character *testCharacter = new character();
   memcpy(&mAttacker, &testCharacter->base, sizeof(tAllAttr));
-  cout << "testCharacter->base.attrB.hpFix==" << testCharacter->base.attrB.hpFix << endl;
-  cout << "mAttacker.attrB.hpFix==" << mAttacker.attrB.hpFix << endl;
-  // memcpy(&mAttacker, &(character::base), sizeof(tAllAttr));
-  // cout << "testCharacter->base.attrB.hpFix==" << character::base.attrB.hpFix << endl;
-  // cout << "mAttacker.attrB.hpFix==" << mAttacker.attrB.hpFix << endl;
-
-
   // delete testCharacter;
 }
 void calculate::loadSuffer()
 {
   enemy *testEnemy = new enemy();
   memcpy(&mSuffer, &(testEnemy->base), sizeof(tAllAttr));
-  // delete testEnemy;
+  // delete testEnemy; auto delete?
 }
 void calculate::loadWeapon()
 {

@@ -24,28 +24,29 @@ using namespace genShinImpact;
 //    A b = A(1);  //栈中分配
 //    A* c = new A(1);  //堆中分配
 
-int main() {
+int main()
+{
 
   calculate *testCalculate = new calculate();
-testCalculate->loadAttacker();
-cout<<"1"<<endl;
-testCalculate->loadSuffer();
-cout<<"2"<<endl;
-testCalculate->loadEnvironment();
-cout<<"3"<<endl;
-testCalculate->loadArtifact();
-cout<<"4"<<endl;
-testCalculate->loadWeapon();
-cout<<"5"<<endl;
+  testCalculate->loadAttacker();
+  testCalculate->loadSuffer();
+  testCalculate->loadEnvironment();
+  testCalculate->loadArtifact();
+  testCalculate->loadWeapon();
 
-cout<<testCalculate->calHp()<<endl;
-  // enemy *testEnemy = new enemy();
-  // weapon *testWeapon = new weapon();
-  // artifact *testArtifact = new artifact(ART_TEXT_MAIN_ATK,
-  // ART_TEXT_MAIN_ELEMENT_BONUS_CRYO, ART_TEXT_MAIN_CRIT_RATE, STAR_5); //
-  // ART_TEXT_MAIN_ELEMENT_BONUS
-
-  // testCharacter->loadWeapon(&(testWeapon->mWeapon));
-  // testCharacter->loadTeamEffect(TEAM_EFFECT_DOUBLE_ELECTRO);
-  // testCharacter->mCharacter.attribute.elementalMastery=336;
+  cout << "calHp()                ==" << testCalculate->calHp() << endl;
+  cout << "calAtk()               ==" << testCalculate->calAtk() << endl;
+  cout << "calDef()               ==" << testCalculate->calDef() << endl;
+  cout << "calCritRate()          ==" << testCalculate->calCritRate() << endl;
+  cout << "calCritDmg()           ==" << testCalculate->calCritDmg() << endl;
+  cout << "calDefFactor()         ==" << testCalculate->calDefFactor() << endl;
+  cout << "calLevelFactor()       ==" << testCalculate->calLevelFactor() << endl;
+  cout << "calElementalMastery()  ==" << testCalculate->calElementalMastery() << endl;
+  cout << "calReactFactor()       ==" << testCalculate->calReactFactor(REACT_VAPORIZE_A, testCalculate->calElementalMastery()) << endl;
+  cout << "calResFactor()         ==" << testCalculate->calResFactor(DAMAGE_HIT, ELEMENT_PYRO) << endl;
+  cout << "calBonus()             ==" << testCalculate->calBonus(DAMAGE_HIT, ELEMENT_PYRO) << endl;
+  cout << "calIndepMult()         ==" << testCalculate->calIndepMult(DAMAGE_HIT, ELEMENT_PYRO) << endl;
+  cout << "calExtraRate()         ==" << testCalculate->calExtraRate(DAMAGE_HIT, ELEMENT_PYRO) << endl;
+  float damage = testCalculate->calDamage(1.0f, REACT_VAPORIZE_A, TEXT_ATK, CAL_EXPECTANCE, DAMAGE_HIT, ELEMENT_PYRO);
+  cout << "damage==" << damage << endl;
 }
