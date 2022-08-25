@@ -22,20 +22,24 @@ namespace genShinImpact
     tAllAttr mEnvironment;
 
     void resetAll();
-    void loadALL();
+    void loadAll();
 
-    float calDamage(float rate, eReactType reactType, TextType mainAttr,
-                    eCalType calType, eDamageType damageType,
-                    eElementType elementType);
+    float calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType);
+    float findMaxGreedSimple(int times, float fortune, eCalType calType, TextType mainAttr, eReactType reactType);
+    float findMaxGreed(int times, float fortune, float rate, eCalType calType, TextType mainAttr, eReactType reactType);
 
+  protected:
     float calHp();
     float calAtk();
     float calDef();
     float calCritRate();
     float calCritDmg();
+    float calElementalMastery();
+
     float calDefFactor();
     float calLevelFactor();
-    float calElementalMastery();
+    float calMainFactor(TextType mainAttr);
+    float calCritFactor(eCalType calType);
     float calReactFactor(eReactType reactType, float elementalMastery);
     float calResFactor(eDamageType damageType, eElementType elementType);
     float calBonus(eDamageType damageType, eElementType elementType);
@@ -48,7 +52,6 @@ namespace genShinImpact
     void loadArtifact();
     void loadEnvironment();
 
-  protected:
   private:
   };
 } // namespace genShinImpact

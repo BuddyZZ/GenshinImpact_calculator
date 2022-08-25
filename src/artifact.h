@@ -10,6 +10,8 @@ namespace genShinImpact
         tAllAttr base;
         artifact();
         ~artifact();
+        float changeOneText(bool isInc, eTextType text,float fortune);
+
 
     protected:
     private:

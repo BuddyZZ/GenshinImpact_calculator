@@ -28,25 +28,8 @@ int main()
 {
 
   calculate *testCalculate = new calculate();
-  testCalculate->loadAttacker();
-  testCalculate->loadSuffer();
-  testCalculate->loadEnvironment();
-  testCalculate->loadArtifact();
-  testCalculate->loadWeapon();
+  testCalculate->loadAll();
 
-  cout << "calHp()                ==" << testCalculate->calHp() << endl;
-  cout << "calAtk()               ==" << testCalculate->calAtk() << endl;
-  cout << "calDef()               ==" << testCalculate->calDef() << endl;
-  cout << "calCritRate()          ==" << testCalculate->calCritRate() << endl;
-  cout << "calCritDmg()           ==" << testCalculate->calCritDmg() << endl;
-  cout << "calDefFactor()         ==" << testCalculate->calDefFactor() << endl;
-  cout << "calLevelFactor()       ==" << testCalculate->calLevelFactor() << endl;
-  cout << "calElementalMastery()  ==" << testCalculate->calElementalMastery() << endl;
-  cout << "calReactFactor()       ==" << testCalculate->calReactFactor(REACT_VAPORIZE_A, testCalculate->calElementalMastery()) << endl;
-  cout << "calResFactor()         ==" << testCalculate->calResFactor(DAMAGE_HIT, ELEMENT_PYRO) << endl;
-  cout << "calBonus()             ==" << testCalculate->calBonus(DAMAGE_HIT, ELEMENT_PYRO) << endl;
-  cout << "calIndepMult()         ==" << testCalculate->calIndepMult(DAMAGE_HIT, ELEMENT_PYRO) << endl;
-  cout << "calExtraRate()         ==" << testCalculate->calExtraRate(DAMAGE_HIT, ELEMENT_PYRO) << endl;
-  float damage = testCalculate->calDamage(1.0f, REACT_VAPORIZE_A, TEXT_ATK, CAL_EXPECTANCE, DAMAGE_HIT, ELEMENT_PYRO);
+float damage = testCalculate->calDamage(1.0f, REACT_VAPORIZE_A, TEXT_ATK, CAL_EXPECTANCE, DAMAGE_HIT, ELEMENT_PYRO);
   cout << "damage==" << damage << endl;
 }
