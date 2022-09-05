@@ -4,12 +4,12 @@ using namespace std;
 origin::origin() {}
 origin::~origin() {}
 
-float * origin::getAttribute(tAllAttr *obj, eTextType type)
+float FALSE_RETURN=0;
+
+float *origin::getAttributeAddr(tAllAttr *obj, eTextType type)
 {
   switch (type)
   {
-  case TEXT_UNSURE:
-    return NULL;
   case TEXT_HP:
     return &(obj->attr.hp);
   case TEXT_ATK:
@@ -40,354 +40,295 @@ float * origin::getAttribute(tAllAttr *obj, eTextType type)
     return &(obj->attrB.defFix);
 
   default:
-    return NULL;
+    return &FALSE_RETURN;
   }
 }
-float origin::getInfo(tAllAttr *obj, eInfoType type)
+void *origin::getInfoAddr(tAllAttr *obj, eInfoType type)
 {
   switch (type)
   {
-  case INFO_UNSURE:
-    return 0;
-  // case INFO_NAME :
-  // return obj->info.name;
+  case INFO_NAME:
+    return &(obj->info.name);
   case INFO_WEAPON:
-    return obj->info.weapon;
+    return &(obj->info.weapon);
   case INFO_LEVEL:
-    return obj->info.level;
+    return &(obj->info.level);
   case INFO_RARITY:
-    return obj->info.rarity;
+    return &(obj->info.rarity);
   case INFO_ELEMENT:
-    return obj->info.element;
+    return &(obj->info.element);
   default:
-    return -1;
+    return &FALSE_RETURN;
   }
 }
 
-float origin::getBuff(tAllAttr *obj, eBuffType type)
+float *origin::getBuffAddr(tAllAttr *obj, eBuffType type)
 {
   switch (type)
   {
-  case BUFF_UNSURE:
-    return 0;
   case BUFF_HEALING_BONUS:
-    return obj->buff.healingBonus;
+    return &(obj->buff.healingBonus);
   case BUFF_INCOMING_HELTHING_BONUS:
-    return obj->buff.incomingHelthingBonus;
+    return &(obj->buff.incomingHelthingBonus);
   case BUFF_SHELD_STRENGTH:
-    return obj->buff.sheldStrength;
+    return &(obj->buff.sheldStrength);
   case BUFF_CD_REDUCE:
-    return obj->buff.cdReduce;
+    return &(obj->buff.cdReduce);
   case BUFF_MOVE_SPEED:
-    return obj->buff.moveSpeed;
+    return &(obj->buff.moveSpeed);
   case BUFF_NORMAL_ATK_SPEED:
-    return obj->buff.normalAtkSpeed;
+    return &(obj->buff.normalAtkSpeed);
   case BUFF_STAMINA_REDUCE:
-    return obj->buff.staminaReduce;
+    return &(obj->buff.staminaReduce);
   case BUFF_DEF_IGNOR:
-    return obj->buff.defIgnor;
+    return &(obj->buff.defIgnor);
   default:
-    return -1;
+    return &FALSE_RETURN;
   }
 }
-float origin::getIndepMult(tAllAttr *obj, eDamageType damageType, eElementType elementType)
+float *origin::getIndepMultAddr(tAllAttr *obj, eKind kind, int type)
 {
-  float retVal = 0;
-  switch (damageType)
+  switch (kind)
   {
-  case DAMAGE_UNSURE:
-    retVal += 0;
+  case KIND_ELEMENT:
+    switch (type)
+    {
+    case ELEMENT_CRYO:
+      return &(obj->indepMult.cryo);
+    case ELEMENT_PYRO:
+      return &(obj->indepMult.pyro);
+    case ELEMENT_HYDRO:
+      return &(obj->indepMult.hydro);
+    case ELEMENT_DENDRO:
+      return &(obj->indepMult.dendro);
+    case ELEMENT_ELECTRO:
+      return &(obj->indepMult.electro);
+    case ELEMENT_ANEMO:
+      return &(obj->indepMult.anemo);
+    case ELEMENT_GEO:
+      return &(obj->indepMult.geo);
+    case ELEMENT_PHYSICS:
+      return &(obj->indepMult.physical);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
-  case DAMAGE_HIT:
-    retVal += obj->indepMult.hit;
-    break;
-  case DAMAGE_CHARGE_HIT:
-    retVal += obj->indepMult.chargeHit;
-    break;
-  case DAMAGE_PLUNGE:
-    retVal += obj->indepMult.plunge;
-    break;
-  case DAMAGE_SKILL:
-    retVal += obj->indepMult.skill;
-    break;
-  case DAMAGE_BURST:
-    retVal += obj->indepMult.burst;
+  case KIND_DAMAGE:
+    switch (type)
+    {
+    case DAMAGE_HIT:
+      return &(obj->indepMult.hit);
+    case DAMAGE_CHARGE_HIT:
+      return &(obj->indepMult.chargeHit);
+    case DAMAGE_PLUNGE:
+      return &(obj->indepMult.plunge);
+    case DAMAGE_SKILL:
+      return &(obj->indepMult.skill);
+    case DAMAGE_BURST:
+      return &(obj->indepMult.burst);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
   default:
-    return -1;
+    return &FALSE_RETURN;
   }
-
-  switch (elementType)
-  {
-  case ELEMENT_UNSURE:
-    retVal += 0;
-  case ELEMENT_CRYO:
-    retVal += obj->indepMult.cryo;
-    break;
-  case ELEMENT_PYRO:
-    retVal += obj->indepMult.pyro;
-    break;
-  case ELEMENT_HYDRO:
-    retVal += obj->indepMult.hydro;
-    break;
-  case ELEMENT_DENDRO:
-    retVal += obj->indepMult.dendro;
-    break;
-  case ELEMENT_ELECTRO:
-    retVal += obj->indepMult.electro;
-    break;
-  case ELEMENT_ANEMO:
-    retVal += obj->indepMult.anemo;
-    break;
-  case ELEMENT_GEO:
-    retVal += obj->indepMult.geo;
-    break;
-  case ELEMENT_PHYSICS:
-    retVal += obj->indepMult.physical;
-    break;
-  default:
-    return -2;
-  }
-  return retVal;
 }
-float origin::getExtraRate(tAllAttr *obj, eDamageType damageType, eElementType elementType)
+float *origin::getExtraRateAddr(tAllAttr *obj, eKind kind, int type)
 {
-  float retVal = 0;
-
-  switch (damageType)
+  switch (kind)
   {
-  case DAMAGE_UNSURE:
-    retVal += 0;
+  case KIND_ELEMENT:
+    switch (type)
+    {
+
+    case ELEMENT_CRYO:
+      return &(obj->extraRate.cryo);
+    case ELEMENT_PYRO:
+      return &(obj->extraRate.pyro);
+    case ELEMENT_HYDRO:
+      return &(obj->extraRate.hydro);
+    case ELEMENT_DENDRO:
+      return &(obj->extraRate.dendro);
+    case ELEMENT_ELECTRO:
+      return &(obj->extraRate.electro);
+    case ELEMENT_ANEMO:
+      return &(obj->extraRate.anemo);
+    case ELEMENT_GEO:
+      return &(obj->extraRate.geo);
+    case ELEMENT_PHYSICS:
+      return &(obj->extraRate.physical);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
-  case DAMAGE_HIT:
-    retVal += obj->extraRate.hit;
-    break;
-  case DAMAGE_CHARGE_HIT:
-    retVal += obj->extraRate.chargeHit;
-    break;
-  case DAMAGE_PLUNGE:
-    retVal += obj->extraRate.plunge;
-    break;
-  case DAMAGE_SKILL:
-    retVal += obj->extraRate.skill;
-    break;
-  case DAMAGE_BURST:
-    retVal += obj->extraRate.burst;
+  case KIND_DAMAGE:
+    switch (type)
+    {
+    case DAMAGE_HIT:
+      return &(obj->extraRate.hit);
+    case DAMAGE_CHARGE_HIT:
+      return &(obj->extraRate.chargeHit);
+    case DAMAGE_PLUNGE:
+      return &(obj->extraRate.plunge);
+    case DAMAGE_SKILL:
+      return &(obj->extraRate.skill);
+    case DAMAGE_BURST:
+      return &(obj->extraRate.burst);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
   default:
-    retVal += -11;
+    return &FALSE_RETURN;
   }
-
-  switch (elementType)
-  {
-  case ELEMENT_UNSURE:
-    retVal += 0;
-    break;
-  case ELEMENT_CRYO:
-    retVal += obj->extraRate.cryo;
-    break;
-  case ELEMENT_PYRO:
-    retVal += obj->extraRate.pyro;
-    break;
-  case ELEMENT_HYDRO:
-    retVal += obj->extraRate.hydro;
-    break;
-  case ELEMENT_DENDRO:
-    retVal += obj->extraRate.dendro;
-    break;
-  case ELEMENT_ELECTRO:
-    retVal += obj->extraRate.electro;
-    break;
-  case ELEMENT_ANEMO:
-    retVal += obj->extraRate.anemo;
-    break;
-  case ELEMENT_GEO:
-    retVal += obj->extraRate.geo;
-    break;
-  case ELEMENT_PHYSICS:
-    retVal += obj->extraRate.physical;
-    break;
-  default:
-    return -22;
-  }
-  return retVal;
 }
-float origin::getReactFactor(tAllAttr *obj, eReactType type)
+float *origin::getReactFactorAddr(tAllAttr *obj, eReactType type)
 {
   switch (type)
   {
-  case REACT_UNSURE:
-    return 0;
   case REACT_VAPORIZE_A:
-    return obj->reactFactor.vaporize_a;
+    return &(obj->reactFactor.vaporize_a);
   case REACT_VAPORIZE_B:
-    return obj->reactFactor.vaporize_b;
+    return &(obj->reactFactor.vaporize_b);
   case REACT_MELT_A:
-    return obj->reactFactor.melt_a;
+    return &(obj->reactFactor.melt_a);
   case REACT_MELT_B:
-    return obj->reactFactor.melt_b;
+    return &(obj->reactFactor.melt_b);
   case REACT_SWIRL:
-    return obj->reactFactor.swirl;
+    return &(obj->reactFactor.swirl);
   case REACT_SUPERCONDUCT:
-    return obj->reactFactor.superconduct;
+    return &(obj->reactFactor.superconduct);
   case REACT_BURNING:
-    return obj->reactFactor.burning;
+    return &(obj->reactFactor.burning);
   case REACT_OVERGROWN:
-    return obj->reactFactor.overgrown;
+    return &(obj->reactFactor.overgrown);
   case REACT_RADICALIZE:
-    return obj->reactFactor.redicalize;
+    return &(obj->reactFactor.redicalize);
   case REACT_ELECTRO_CHARGED:
-    return obj->reactFactor.electroCharged;
+    return &(obj->reactFactor.electroCharged);
   case REACT_OVERLOADED:
-    return obj->reactFactor.overloaded;
+    return &(obj->reactFactor.overloaded);
   case REACT_CRYSTALLIZE:
-    return obj->reactFactor.crystallize;
+    return &(obj->reactFactor.crystallize);
     // case REACT_FROZEN:
-    //     return obj->reactFactor.frozen;
+    //     return &(obj->reactFactor.frozen;
 
   default:
-    return -1;
+    return &FALSE_RETURN;
   }
 }
 
-float origin::getRes(tAllAttr *obj, eDamageType damageType, eElementType elementType)
+float *origin::getResAddr(tAllAttr *obj, eKind kind, int type)
 {
-  float retVal = 0;
-  switch (damageType)
+  switch (kind)
   {
-  case DAMAGE_UNSURE:
-    retVal += 0;
+  case KIND_ELEMENT:
+    switch (type)
+    {
+    case ELEMENT_CRYO:
+      return &(obj->res.cryo);
+    case ELEMENT_PYRO:
+      return &(obj->res.pyro);
+    case ELEMENT_HYDRO:
+      return &(obj->res.hydro);
+    case ELEMENT_DENDRO:
+      return &(obj->res.dendro);
+    case ELEMENT_ELECTRO:
+      return &(obj->res.electro);
+    case ELEMENT_ANEMO:
+      return &(obj->res.anemo);
+    case ELEMENT_GEO:
+      return &(obj->res.geo);
+    case ELEMENT_PHYSICS:
+      return &(obj->res.physical);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
-  case DAMAGE_HIT:
-    retVal += obj->res.hit;
-    break;
-  case DAMAGE_CHARGE_HIT:
-    retVal += obj->res.chargeHit;
-    break;
-  case DAMAGE_PLUNGE:
-    retVal += obj->res.plunge;
-    break;
-  case DAMAGE_SKILL:
-    retVal += obj->res.skill;
-    break;
-  case DAMAGE_BURST:
-    retVal += obj->res.burst;
+  case KIND_DAMAGE:
+    switch (type)
+    {
+    case DAMAGE_HIT:
+      return &(obj->res.hit);
+    case DAMAGE_CHARGE_HIT:
+      return &(obj->res.chargeHit);
+    case DAMAGE_PLUNGE:
+      return &(obj->res.plunge);
+    case DAMAGE_SKILL:
+      return &(obj->res.skill);
+    case DAMAGE_BURST:
+      return &(obj->res.burst);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
   default:
-    return -11;
+    return &FALSE_RETURN;
   }
-  switch (elementType)
-  {
-  case ELEMENT_UNSURE:
-    retVal += 0;
-    break;
-  case ELEMENT_CRYO:
-    retVal += obj->res.cryo;
-    break;
-  case ELEMENT_PYRO:
-    retVal += obj->res.pyro;
-    break;
-  case ELEMENT_HYDRO:
-    retVal += obj->res.hydro;
-    break;
-  case ELEMENT_DENDRO:
-    retVal += obj->res.dendro;
-    break;
-  case ELEMENT_ELECTRO:
-    retVal += obj->res.electro;
-    break;
-  case ELEMENT_ANEMO:
-    retVal += obj->res.anemo;
-    break;
-  case ELEMENT_GEO:
-    retVal += obj->res.geo;
-    break;
-  case ELEMENT_PHYSICS:
-    retVal += obj->res.physical;
-    break;
-  default:
-    return -22;
-  }
-  return retVal;
 }
-float origin::getBonus(tAllAttr *obj, eDamageType damageType, eElementType elementType)
+float *origin::getBonusAddr(tAllAttr *obj, eKind kind, int type)
 {
-  float retVal = 0;
-
-  switch (damageType)
+  switch (kind)
   {
-  case DAMAGE_UNSURE:
-    retVal += 0;
+  case KIND_ELEMENT:
+    switch (type)
+    {
+    case ELEMENT_CRYO:
+      return &(obj->bonus.cryo);
+    case ELEMENT_PYRO:
+      return &(obj->bonus.pyro);
+    case ELEMENT_HYDRO:
+      return &(obj->bonus.hydro);
+    case ELEMENT_DENDRO:
+      return &(obj->bonus.dendro);
+    case ELEMENT_ELECTRO:
+      return &(obj->bonus.electro);
+    case ELEMENT_ANEMO:
+      return &(obj->bonus.anemo);
+    case ELEMENT_GEO:
+      return &(obj->bonus.geo);
+    case ELEMENT_PHYSICS:
+      return &(obj->bonus.physical);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
-  case DAMAGE_HIT:
-    retVal += obj->bonus.hit;
-    break;
-  case DAMAGE_CHARGE_HIT:
-    retVal += obj->bonus.chargeHit;
-    break;
-  case DAMAGE_PLUNGE:
-    retVal += obj->bonus.plunge;
-    break;
-  case DAMAGE_SKILL:
-    retVal += obj->bonus.skill;
-    break;
-  case DAMAGE_BURST:
-    retVal += obj->bonus.burst;
+  case KIND_DAMAGE:
+    switch (type)
+    {
+    case DAMAGE_HIT:
+      return &(obj->bonus.hit);
+    case DAMAGE_CHARGE_HIT:
+      return &(obj->bonus.chargeHit);
+    case DAMAGE_PLUNGE:
+      return &(obj->bonus.plunge);
+    case DAMAGE_SKILL:
+      return &(obj->bonus.skill);
+    case DAMAGE_BURST:
+      return &(obj->bonus.burst);
+    default:
+      return &FALSE_RETURN;
+    }
     break;
   default:
-    return -11;
+    return &FALSE_RETURN;
   }
-
-  switch (elementType)
-  {
-  case ELEMENT_UNSURE:
-    retVal += 0;
-    break;
-  case ELEMENT_CRYO:
-    retVal += obj->bonus.cryo;
-    break;
-  case ELEMENT_PYRO:
-    retVal += obj->bonus.pyro;
-    break;
-  case ELEMENT_HYDRO:
-    retVal += obj->bonus.hydro;
-    break;
-  case ELEMENT_DENDRO:
-    retVal += obj->bonus.dendro;
-    break;
-  case ELEMENT_ELECTRO:
-    retVal += obj->bonus.electro;
-    break;
-  case ELEMENT_ANEMO:
-    retVal += obj->bonus.anemo;
-    break;
-  case ELEMENT_GEO:
-    retVal += obj->bonus.geo;
-    break;
-  case ELEMENT_PHYSICS:
-    retVal += obj->bonus.physical;
-    break;
-  default:
-    return -22;
-  }
-  return retVal;
 }
 
-float origin::getRate(tAllAttr *obj, eKind kind, int level, int segment)
+float *origin::getRateAddr(tAllAttr *obj, eKind kind, int level, int segment)
 {
   void *temp;
   switch (kind)
   {
   case KIND_SKILL:
-    return obj->skill.rate[level][segment];
-    break;
+    return &(obj->skill.rate[level][segment]);
   case KIND_BURST:
-    return obj->burst.rate[level][segment];
+    return &(obj->burst.rate[level][segment]);
   case KIND_ATTACK:
-    return obj->attack.NormalAttackDmg[level][segment];
-    break;
+    return &(obj->attack.NormalAttackDmg[level][segment]);
   default:
-    return 1;
+    return &FALSE_RETURN;
   }
 }
 float origin::getReactCoefficient(eReactType type)
@@ -395,9 +336,6 @@ float origin::getReactCoefficient(eReactType type)
 
   switch (type)
   {
-  // no react
-  case REACT_UNSURE:
-    return 0;
     // fusion
   case REACT_SWIRL:
     return REACT_COEFFICIENT_SWIRL;

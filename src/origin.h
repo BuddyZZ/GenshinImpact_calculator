@@ -408,16 +408,17 @@ namespace genShinImpact
     ~origin();
     tAllAttr base;
 
-    static float * getAttribute(tAllAttr *obj, eTextType type);
-    static float getBuff(tAllAttr *obj, eBuffType type);
-    static float getInfo(tAllAttr *obj, eInfoType type);
-    static float getReactFactor(tAllAttr *obj, eReactType type);
-    
-    static float getIndepMult(tAllAttr *obj, eDamageType damageType, eElementType elementType);
-    static float getExtraRate(tAllAttr *obj, eDamageType damageType, eElementType elementType);
-    static float getRes(tAllAttr *obj, eDamageType damageType, eElementType elementType);
-    static float getBonus(tAllAttr *obj, eDamageType damageType, eElementType elementType);
-    static float getRate(tAllAttr *obj, eKind kind, int level, int segment);
+    static float *getAttributeAddr(tAllAttr *obj, eTextType type);
+    static float *getBuffAddr(tAllAttr *obj, eBuffType type);
+    static void *getInfoAddr(tAllAttr *obj, eInfoType type);
+    static float *getReactFactorAddr(tAllAttr *obj, eReactType type);
+
+    static float *getIndepMultAddr(tAllAttr *obj, eKind kind, int type);
+    static float *getExtraRateAddr(tAllAttr *obj, eKind kind, int type);
+    static float *getResAddr(tAllAttr *obj, eKind kind, int type);
+    static float *getBonusAddr(tAllAttr *obj, eKind kind, int type);
+
+    static float *getRateAddr(tAllAttr *obj, eKind kind, int level, int segment);
 
     static float getReactCoefficient(eReactType type);
 

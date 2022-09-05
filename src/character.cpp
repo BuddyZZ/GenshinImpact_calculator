@@ -8,7 +8,7 @@ character::character()
     base.attrB.hpFix = 10000;
     base.attrB.atkFix = 350;
     base.attrB.defFix = 650;
-    INIT_STRUCT(base.bonus, tBonus, float, 0.01);
+    // INIT_STRUCT(base.bonus, tBonus, float, 0.01);
 }
 // character::~character()
 // {
