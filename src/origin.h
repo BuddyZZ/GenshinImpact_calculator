@@ -408,7 +408,7 @@ namespace genShinImpact
     ~origin();
     tAllAttr base;
 
-    static float getAttribute(tAllAttr *obj, eTextType type);
+    static float * getAttribute(tAllAttr *obj, eTextType type);
     static float getBuff(tAllAttr *obj, eBuffType type);
     static float getInfo(tAllAttr *obj, eInfoType type);
     static float getReactFactor(tAllAttr *obj, eReactType type);

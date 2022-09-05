@@ -28,6 +28,8 @@ namespace genShinImpact
     float findMaxGreedSimple(int times, float fortune, eCalType calType, TextType mainAttr, eReactType reactType);
     float findMaxGreed(int times, float fortune, float rate, eCalType calType, TextType mainAttr, eReactType reactType);
 
+    float attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc);
+
   protected:
     float calHp();
     float calAtk();

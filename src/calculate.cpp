@@ -34,12 +34,28 @@ void calculate::loadAll()
   loadEnvironment();
 }
 
-float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
-                           eCalType calType, eDamageType damageType,
-                           eElementType elementType)
+float calculate::attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc)
+{
+  float value, rtval;
+  value = **getAttribute(&mAttacker, src);
+  if (value > maxSrc)
+    value = maxSrc;
+  else if (value > minSrc)
+    value -= minSrc;
+  else
+    value = 0;
+
+  rtval = value * rate;
+
+  if (rtval > maxAim)
+    rtval = maxAim;
+
+  return rtval;
+}
+
+float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType)
 {
   float elementalMastery = calElementalMastery();
-
   float critFactor = calCritFactor(calType);
   float basicDamageFactor = calMainFactor(mainAttr);
   float defFactor = calDefFactor();
@@ -64,23 +80,17 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr,
   cout << "calIndepMult()         ==" << indepMult << endl;
   cout << "calExtraRate()         ==" << extraRate << endl;
 
-  if (REACT_TYPE_INCREASEMENT_START < reactType &&
-      reactType < REACT_TYPE_INCREASEMENT_END)
+  if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END)
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) *
-           (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor *
-           reactFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor * reactFactor;
   }
-  else if (REACT_TYPE_FUSION_START < reactType &&
-           reactType < REACT_TYPE_FUSION_END)
+  else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END)
   {
-    return resFactor * levelFactor * reactFactor *
-           fusioncalLevelFactor[mAttacker.info.level];
+    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level];
   }
   else // no react
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) *
-           (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor;
   }
 }
 float calculate::findMaxGreedSimple(int times, float fortune, eCalType calType, TextType mainAttr, eReactType reactType)
@@ -100,58 +110,58 @@ float calculate::findMaxGreed(int times, float fortune, float rate, eCalType cal
 
 float calculate::calHp()
 {
-  float base = getAttribute(&mAttacker, TEXT_BASE_HP) +
-               getAttribute(&mWeapon, TEXT_BASE_HP) +
-               getAttribute(&mArtifact, TEXT_BASE_HP) +
-               getAttribute(&mEnvironment, TEXT_BASE_HP);
-  float fix = getAttribute(&mAttacker, TEXT_FIX_HP) +
-              getAttribute(&mWeapon, TEXT_FIX_HP) +
-              getAttribute(&mArtifact, TEXT_FIX_HP) +
-              getAttribute(&mEnvironment, TEXT_FIX_HP);
-  float percent = getAttribute(&mAttacker, TEXT_HP) +
-                  getAttribute(&mWeapon, TEXT_HP) +
-                  getAttribute(&mArtifact, TEXT_HP) +
-                  getAttribute(&mEnvironment, TEXT_HP);
+  float base = *getAttribute(&mAttacker, TEXT_BASE_HP) +
+               *getAttribute(&mWeapon, TEXT_BASE_HP) +
+               *getAttribute(&mArtifact, TEXT_BASE_HP) +
+               *getAttribute(&mEnvironment, TEXT_BASE_HP);
+  float fix = *getAttribute(&mAttacker, TEXT_FIX_HP) +
+              *getAttribute(&mWeapon, TEXT_FIX_HP) +
+              *getAttribute(&mArtifact, TEXT_FIX_HP) +
+              *getAttribute(&mEnvironment, TEXT_FIX_HP);
+  float percent = *getAttribute(&mAttacker, TEXT_HP) +
+                  *getAttribute(&mWeapon, TEXT_HP) +
+                  *getAttribute(&mArtifact, TEXT_HP) +
+                  *getAttribute(&mEnvironment, TEXT_HP);
   return base * (1 + percent) + fix;
 }
 float calculate::calAtk()
 {
-  float base = getAttribute(&mAttacker, TEXT_BASE_ATK) +
-               getAttribute(&mWeapon, TEXT_BASE_ATK) +
-               getAttribute(&mArtifact, TEXT_BASE_ATK) +
-               getAttribute(&mEnvironment, TEXT_BASE_ATK);
-  float fix = getAttribute(&mAttacker, TEXT_FIX_ATK) +
-              getAttribute(&mWeapon, TEXT_FIX_ATK) +
-              getAttribute(&mArtifact, TEXT_FIX_ATK) +
-              getAttribute(&mEnvironment, TEXT_FIX_ATK);
-  float percent = getAttribute(&mAttacker, TEXT_ATK) +
-                  getAttribute(&mWeapon, TEXT_ATK) +
-                  getAttribute(&mArtifact, TEXT_ATK) +
-                  getAttribute(&mEnvironment, TEXT_ATK);
+  float base = *getAttribute(&mAttacker, TEXT_BASE_ATK) +
+               *getAttribute(&mWeapon, TEXT_BASE_ATK) +
+               *getAttribute(&mArtifact, TEXT_BASE_ATK) +
+               *getAttribute(&mEnvironment, TEXT_BASE_ATK);
+  float fix = *getAttribute(&mAttacker, TEXT_FIX_ATK) +
+              *getAttribute(&mWeapon, TEXT_FIX_ATK) +
+              *getAttribute(&mArtifact, TEXT_FIX_ATK) +
+              *getAttribute(&mEnvironment, TEXT_FIX_ATK);
+  float percent = *getAttribute(&mAttacker, TEXT_ATK) +
+                  *getAttribute(&mWeapon, TEXT_ATK) +
+                  *getAttribute(&mArtifact, TEXT_ATK) +
+                  *getAttribute(&mEnvironment, TEXT_ATK);
   return base * (1 + percent) + fix;
 }
 float calculate::calDef()
 {
-  float base = getAttribute(&mAttacker, TEXT_BASE_DEF) +
-               getAttribute(&mWeapon, TEXT_BASE_DEF) +
-               getAttribute(&mArtifact, TEXT_BASE_DEF) +
-               getAttribute(&mEnvironment, TEXT_BASE_DEF);
-  float fix = getAttribute(&mAttacker, TEXT_FIX_DEF) +
-              getAttribute(&mWeapon, TEXT_FIX_DEF) +
-              getAttribute(&mArtifact, TEXT_FIX_DEF) +
-              getAttribute(&mEnvironment, TEXT_FIX_DEF);
-  float percent = getAttribute(&mAttacker, TEXT_DEF) +
-                  getAttribute(&mWeapon, TEXT_DEF) +
-                  getAttribute(&mArtifact, TEXT_DEF) +
-                  getAttribute(&mEnvironment, TEXT_DEF);
+  float base = *getAttribute(&mAttacker, TEXT_BASE_DEF) +
+               *getAttribute(&mWeapon, TEXT_BASE_DEF) +
+               *getAttribute(&mArtifact, TEXT_BASE_DEF) +
+               *getAttribute(&mEnvironment, TEXT_BASE_DEF);
+  float fix = *getAttribute(&mAttacker, TEXT_FIX_DEF) +
+              *getAttribute(&mWeapon, TEXT_FIX_DEF) +
+              *getAttribute(&mArtifact, TEXT_FIX_DEF) +
+              *getAttribute(&mEnvironment, TEXT_FIX_DEF);
+  float percent = *getAttribute(&mAttacker, TEXT_DEF) +
+                  *getAttribute(&mWeapon, TEXT_DEF) +
+                  *getAttribute(&mArtifact, TEXT_DEF) +
+                  *getAttribute(&mEnvironment, TEXT_DEF);
   return base * (1 + percent) + fix;
 }
 float calculate::calCritRate()
 {
-  float base = getAttribute(&mAttacker, TEXT_CRIT_RATE) +
-               getAttribute(&mWeapon, TEXT_CRIT_RATE) +
-               getAttribute(&mArtifact, TEXT_CRIT_RATE) +
-               getAttribute(&mEnvironment, TEXT_CRIT_RATE);
+  float base = *getAttribute(&mAttacker, TEXT_CRIT_RATE) +
+               *getAttribute(&mWeapon, TEXT_CRIT_RATE) +
+               *getAttribute(&mArtifact, TEXT_CRIT_RATE) +
+               *getAttribute(&mEnvironment, TEXT_CRIT_RATE);
   if (base > 1)
     return 1;
   else if (base > 0)
@@ -161,10 +171,10 @@ float calculate::calCritRate()
 }
 float calculate::calCritDmg()
 {
-  float base = getAttribute(&mAttacker, TEXT_CRIT_DMG) +
-               getAttribute(&mWeapon, TEXT_CRIT_DMG) +
-               getAttribute(&mArtifact, TEXT_CRIT_DMG) +
-               getAttribute(&mEnvironment, TEXT_CRIT_DMG);
+  float base = *getAttribute(&mAttacker, TEXT_CRIT_DMG) +
+               *getAttribute(&mWeapon, TEXT_CRIT_DMG) +
+               *getAttribute(&mArtifact, TEXT_CRIT_DMG) +
+               *getAttribute(&mEnvironment, TEXT_CRIT_DMG);
 
   if (base > 0)
     return base;
@@ -199,10 +209,10 @@ float calculate::calLevelFactor()
 
 float calculate::calElementalMastery()
 {
-  float base = getAttribute(&mAttacker, TEXT_ELEMENTAL_MASTERY) +
-               getAttribute(&mWeapon, TEXT_ELEMENTAL_MASTERY) +
-               getAttribute(&mArtifact, TEXT_ELEMENTAL_MASTERY) +
-               getAttribute(&mEnvironment, TEXT_ELEMENTAL_MASTERY);
+  float base = *getAttribute(&mAttacker, TEXT_ELEMENTAL_MASTERY) +
+               *getAttribute(&mWeapon, TEXT_ELEMENTAL_MASTERY) +
+               *getAttribute(&mArtifact, TEXT_ELEMENTAL_MASTERY) +
+               *getAttribute(&mEnvironment, TEXT_ELEMENTAL_MASTERY);
 
   if (base > 0)
     return base;
@@ -240,7 +250,7 @@ float calculate::calResFactor(eDamageType damageType,
   float base = getRes(&mSuffer, damageType, elementType);
   if (base > 0.75) // Res>0.75
   {
-    return 1 / (1 + 4 * base);
+    return 1 - 1 / (1 + 4 * base);
   }
   else if (base > 0) // 0.75>=Res>0
   {

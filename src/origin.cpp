@@ -4,43 +4,43 @@ using namespace std;
 origin::origin() {}
 origin::~origin() {}
 
-float origin::getAttribute(tAllAttr *obj, eTextType type)
+float * origin::getAttribute(tAllAttr *obj, eTextType type)
 {
   switch (type)
   {
   case TEXT_UNSURE:
-    return 0;
+    return NULL;
   case TEXT_HP:
-    return obj->attr.hp;
+    return &(obj->attr.hp);
   case TEXT_ATK:
-    return obj->attr.atk;
+    return &(obj->attr.atk);
   case TEXT_DEF:
-    return obj->attr.def;
+    return &(obj->attr.def);
   case TEXT_CRIT_RATE:
-    return obj->attr.critRate;
+    return &(obj->attr.critRate);
   case TEXT_CRIT_DMG:
-    return obj->attr.critDmg;
+    return &(obj->attr.critDmg);
   case TEXT_ELEMENTAL_MASTERY:
-    return obj->attr.elementalMastery;
+    return &(obj->attr.elementalMastery);
   case TEXT_RECHARGE:
-    return obj->attr.rechage;
+    return &(obj->attr.rechage);
 
   case TEXT_FIX_HP:
-    return obj->attrF.hpFix;
+    return &(obj->attrF.hpFix);
   case TEXT_FIX_ATK:
-    return obj->attrF.atkFix;
+    return &(obj->attrF.atkFix);
   case TEXT_FIX_DEF:
-    return obj->attrF.defFix;
+    return &(obj->attrF.defFix);
 
   case TEXT_BASE_HP:
-    return obj->attrB.hpFix;
+    return &(obj->attrB.hpFix);
   case TEXT_BASE_ATK:
-    return obj->attrB.atkFix;
+    return &(obj->attrB.atkFix);
   case TEXT_BASE_DEF:
-    return obj->attrB.defFix;
+    return &(obj->attrB.defFix);
 
   default:
-    return -1;
+    return NULL;
   }
 }
 float origin::getInfo(tAllAttr *obj, eInfoType type)
