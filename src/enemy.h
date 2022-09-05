@@ -1,20 +1,17 @@
+#include "origin.h"
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "para.h"
 
-namespace genShinImpact
-{
-	class enemy
-	{
-	public:
-		enemy();
-		enemy(tEnemy temp);
+namespace genShinImpact {
+class enemy : public virtual origin {
+public:
+  tAllAttr base;
+  enemy();
+  ~enemy();
 
-		tEnemy mEnemy;
-
-	protected:
-	private:
-	};
-}
+protected:
+private:
+};
+} // namespace genShinImpact
 
 #endif

@@ -1,70 +1,66 @@
+#include "origin.h"
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
-#include "para.h"
-#define ART_VALUE_MAIN_HP 0.466f			// all			36
-#define ART_VALUE_MAIN_DEF 0.583f			// all			45
-#define ART_VALUE_MAIN_ATK 0.466f			// all
-#define ART_VALUE_MAIN_CRIT_RATE 0.311f		// head			24
-#define ART_VALUE_MAIN_CRIT_DMG 0.622f		// head			48
-#define ART_VALUE_MAIN_ELEMENT_BONUS 0.466f // cup 583*0.8
-#define ART_VALUE_MAIN_PHYSIC_BONUS 0.583f	// cup
-#define ART_VALUE_MAIN_FIX_HP 4780.0f
-#define ART_VALUE_MAIN_FIX_ATK 311.0f
-#define ART_VALUE_MAIN_ELEMENTAL_MASTERY 187.0f //					14440
-#define ART_VALUE_MAIN_RECHARGE 0.518			//					40
-#define ART_VALUE_SUB_HP 0.058f
-#define ART_VALUE_SUB_ATK 0.058f
-#define ART_VALUE_SUB_DEF 0.073f
-#define ART_VALUE_SUB_CRIT_RATE 0.039f
-#define ART_VALUE_SUB_CRIT_DMG 0.078f
-#define ART_VALUE_SUB_RECHARGE 0.065
-#define ART_VALUE_SUB_FIX_HP 299.0f
-#define ART_VALUE_SUB_FIX_ATK 19.0f
-#define ART_VALUE_SUB_FIX_DEF 23.0f
-#define ART_VALUE_SUB_ELEMENTAL_MASTERY 23.0f
-
-#define STARTS_5_RATIO 1.0f
-#define STARTS_5_MAX_SUBTEXT_NUM 9	   //(4+5)
-#define STARTS_5_MAX_ONE_SUBTEXT_NUM 6 //(1+5)
-
-#define STARTS_4_RATIO 0.8f
-#define STARTS_4_MAX_SUBTEXT_NUM 7	   //(3+4)
-#define STARTS_4_MAX_ONE_SUBTEXT_NUM 4 //(1+3)
-
-#define MAX_LUCK_VALUE 1.0f
-#define MIN_LUCK_VALUE 0.7f
 namespace genShinImpact
 {
-	class artifact
-	{
-	public:
-		artifact(int mainSand, int mainGoblet, int mainCirclet, int rarity);
-		artifact(tArtifact paraArtifact);
-		artifact();
-		// s8 loadOneArt(u8 position, u8 mainText, u8 start);
-		// s8 loadOneSubText(u8 position, u8 start, u16 typs, u16 times);
-		tArtifact mArtifact;
-		bool checkMainText();
+    class artifact:public virtual origin
+    {
+    public:
+        tAllAttr base;
+        artifact();
+        ~artifact();
+        float changeOneText(bool isInc, eTextType text,float fortune);
 
-	protected:
-		// bool checkSubtext(tOneArtifact paraOneArtifact);
-		float getTextValue(int text, float luck, float levelFactor);
-		void loadTextValue(int text, float luck, float levelFactor);
-		float mainTextLevelFactor(int level);
-		// s8 checkOneSubText(u8 start, u16 typs, u16 times);
-		// s8 checkOneMainText(u8 position, u8 mainText);
 
-		// float calArtAtk(float extra_fix, float add_main, s8 time_fix, s8 time_percent);
-		// float calArtDef(float extra_fix, float add_main, s8 time_fix, s8 time_percent);
-		// float calArtHp(float extra_fix, float add_main, s8 time_fix, s8 time_percent);
-		// float calArtCritRate(float add_main, s8 time_percent);
-		// float calArtCritDmg(float add_main, s8 time_percent);
-		// float calElementalMaster(float add_main, s8 time_percent);
-		// float calArtReCharge(float add_main, s8 time_percent);
-
-	private:
-	};
-
+    protected:
+    private:
+    };
 }
+
 #endif
+
+// /**
+//  * A struct use to define one piece of artifact
+//  * This should only use in class artifact and it only a number of /artifactAttribute/
+//  * @param subtext type of Corresponding subtext
+//  * @param totalFortune value of Corresponding subtext should be a float like 3.4=1.0+0.9+0.8+0.7
+//  */
+// typedef struct onePieceArtifact
+// {
+// 	int level;
+// 	int rare;
+// 	string name;
+// 	int position;
+// 	int maintext;
+// 	int subtext[4];
+// 	float totalFortune[4]; // 10 9 8 7
+// } tOneArtifact;
+// /**
+//  * A struct use to define whole artifact set such as set_2/set_4
+//  * This struct can be use to transfer data between object to simplize operate steps
+//  * @param setRes  	[0]is set_2 effect [1]is set_4 effect.
+//  * 					If there is a Probabilistic trigger event, the content will be the expectation
+//  * 					If there are 2 set_2 the [0]and[1] stand for 2 different set_2 effect
+//  * following are same with /setRes/
+//  */
+// typedef struct artifactAttribute
+// {
+// 	int level;
+// 	int rare;
+// 	string name;
+// 	tOneArtifact pieces[5];
+// 	// u8 artifactType;
+// 	tAttribute mainText;
+// 	tAttributeFix mainTextFix;
+// 	tBonus mainBonus;
+// 	tAttribute subText;
+// 	tAttributeFix subTextFix;
+
+// 	tRes setRes[2];
+// 	tBuff setBuff[2];
+// 	tBonus setBonus[2];
+// 	tReactFactor setReactFactor[2];
+// 	tAttribute setAttribute[2];
+// 	tAttributeFix setAttributeFix[2];
+// } tArtifact, *pArtifact;

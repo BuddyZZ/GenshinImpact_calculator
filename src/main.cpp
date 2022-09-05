@@ -5,51 +5,67 @@
 // Copyright   : Your copyright notice
 // Description : Hello World in C++, Ansi-style
 //============================================================================
-#include "para.h"
+#include "origin.h"
 
-#include "weapon.h"
-#include "artifact.h"
+#include "calculate.h"
 #include "character.h"
 #include "enemy.h"
-#include "calculate.h"
+#include "environment.h"
+#include "logger.h"
 
-// #include <iostream>
 #include <bitset> //输出二进制的头文件
+#include <iostream>
 // cout<<hex/oct/dec/bin<<num<<endl;
 // cout<<bitset<sizeof(a)*8>(a)<<endl;
 #include <cstring>
+
+#include<iomanip>
+
 using namespace std;
 using namespace genShinImpact;
 //    A a(1);  //栈中分配
 //    A b = A(1);  //栈中分配
 //    A* c = new A(1);  //堆中分配
+
 int main()
 {
 
-	character *testCharacter = new character();
+  calculate *testCalculate = new calculate();
+  testCalculate->loadAll();
+  memset(&testCalculate->mWeapon, '0', sizeof(tAllAttr));
+  memset(&testCalculate->mEnvironment, '0', sizeof(tAllAttr));
+  memset(&testCalculate->mArtifact, '0', sizeof(tAllAttr));
 
-	enemy *testEnemy = new enemy();
-	weapon *testWeapon = new weapon();
-	artifact *testArtifact = new artifact(ART_TEXT_MAIN_ATK, ART_TEXT_MAIN_ELEMENT_BONUS_CRYO, ART_TEXT_MAIN_CRIT_RATE, STAR_5); // ART_TEXT_MAIN_ELEMENT_BONUS
+  testCalculate->mSuffer.info.level = 88;
+  testCalculate->mSuffer.res.hydro = -0.3;
 
-	testCharacter->mCharacter.attribute.elementalMastery =187;
-	testCharacter->mCharacter.level = 90;
-	testCharacter->mCharacter.basic.atk = 948;
-	testCharacter->mCharacter.basic.critDmg = 1.356;
-	testCharacter->mCharacter.basic.critRate = 0.331;
-	testCharacter->mCharacter.bonus.electro = 0.12;
-	testCharacter->mCharacter.bonus.skill=0.36;
-	testCharacter->mCharacter.attributeFix.atkFix = 83;
-	// testCharacter->mCharacter.reactFactor.vaporize_b = 0.15;
-	testEnemy->mEnemy.level = 85;//6172
-	testEnemy->mEnemy.res.electro = 0.1;
+testCalculate->mEnvironment.bonus.hydro=954/100*0.04;//38.16
 
-	testCharacter->printAllAttribute();
+  testCalculate->mAttacker.info.level = 90;
 
-	calculate *testCalculate = new calculate(testCharacter->mCharacter, testEnemy->mEnemy);
-	cout <<"indep=="<<(1+testCharacter->mCharacter.attribute.elementalMastery*0.0015)*1.706 * testCalculate->calExpectance(IS_REACT, DAMAGE_TYPE_ELECTRO|DAMAGE_TYPE_SKILL) << endl;
+  testCalculate->mAttacker.attrB.atkFix = 1132;
+  testCalculate->mAttacker.attrB.defFix = 9;
+  testCalculate->mAttacker.attrB.hpFix = 34394;
+//36128 37573 39018 40463 41908
+  testCalculate->mAttacker.attr.critDmg = 2.415;
+  testCalculate->mAttacker.attr.critRate = 0.779;
+  testCalculate->mAttacker.attr.elementalMastery = 35;
+  testCalculate->mAttacker.attr.rechage = 0;
 
-	testCalculate->attributeConvert(ATTRIBUTE_ELEMENTAL_MASTERY,ATTRIBUTE_ELEMENT_BONUS_ELECTRO,0.0015,0,999999);
-	cout <<"inc=="<<1.706 * testCalculate->calExpectance(IS_REACT, DAMAGE_TYPE_ELECTRO|DAMAGE_TYPE_SKILL) << endl;
-	//REACT_TYPE_VAPORIZE_A
+  testCalculate->mAttacker.bonus.hydro = 0.816;
+
+  testCalculate->mAttacker.attack.chargeAttackDmg[0][0] = 0.1968;
+  testCalculate->mAttacker.skill.rate[13][0] = 0.4806;
+  testCalculate->mAttacker.burst.rate[13][0] = 0.1035;
+
+
+
+  float damage = testCalculate->calDamage(2.11, REACT_UNSURE, TEXT_ATK, CAL_MIN, DAMAGE_CHARGE_HIT, ELEMENT_HYDRO);
+  //                                         REACT_VAPORIZE_A TEXT_HP,   CAL_MAX         DAMAGE_CHARGE_HIT,
+  //                                         REACT_VAPORIZE_B TEXT_ATK,  CAL_MIN         DAMAGE_SKILL,
+  //                                         REACT_UNSURE     TEXT_DEF,  CAL_EXPECTANCE  DAMAGE_BURST,
+
+  //                            calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType)
+  
+  cout << "damage==" <<fixed<< setprecision(2)<<damage << endl;
 }

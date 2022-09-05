@@ -1,22 +1,36 @@
+#include "origin.h"
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include "para.h"
+namespace genShinImpact {
+class weapon : public virtual origin {
+public:
+  tAllAttr base;
 
-namespace genShinImpact
-{
-	extern tWeapon weaponList[10];
-	class weapon
-	{
-	public:
-		weapon(int rarity, int level, int atkGrade);
-		weapon(tWeapon oWeapon,int level);
-		weapon();
-		tWeapon mWeapon;
-		// bool checkWeaponAttribute();
-		void calWeaponTable(int star, int level, int initialAtk, int subText,tWeapon weap);
-	protected:
-	private:
-	};
-}
+  weapon();
+  ~weapon();
+
+protected:
+private:
+};
+} // namespace genShinImpact
+
 #endif
+
+// /**
+//  * A struct use to define a whole weapon attribute
+//  * This struct can be use to transfer data between object to simplize operate
+//  steps
+//  */
+// typedef struct weaponAttribute
+// {
+// 	int level;
+// 	int rare;
+// 	string name;
+// 	int type;
+// 	float basicAtk;
+// 	tAttributeFix attributeFix;
+// 	tAttribute attribute;
+// 	tBonus bonus;
+// 	tBuff buff;
+// } tWeapon, *pWeapon;
