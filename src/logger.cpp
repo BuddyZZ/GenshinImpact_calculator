@@ -124,8 +124,8 @@ void logger::logSkill(tAllAttr *obj, int type) {}
 // mCharacter.basic.critRate); 	printf("mCharacter.basic.critDmg ==%6.3f\n",
 // mCharacter.basic.critDmg); 	printf("mCharacter.basic.elementalMastery
 // ==%6.3f\n", mCharacter.basic.elementalMastery);
-// 	printf("mCharacter.basic.rechage             ==%6.3f\n",
-// mCharacter.basic.rechage); 	printf("mCharacter.attribute.atk ==%6.3f\n",
+// 	printf("mCharacter.basic.recharge             ==%6.3f\n",
+// mCharacter.basic.recharge); 	printf("mCharacter.attribute.atk ==%6.3f\n",
 // mCharacter.attribute.atk); 	printf("mCharacter.attribute.def ==%6.3f\n",
 // mCharacter.attribute.def); 	printf("mCharacter.attribute.hp ==%6.3f\n",
 // mCharacter.attribute.hp); 	printf("mCharacter.attribute.critRate
@@ -134,8 +134,8 @@ void logger::logSkill(tAllAttr *obj, int type) {}
 // ==%6.3f\n", mCharacter.attribute.critDmg);
 // 	printf("mCharacter.attribute.elementalMastery ==%6.3f\n",
 // mCharacter.attribute.elementalMastery);
-// printf("mCharacter.attribute.rechage
-// ==%6.3f\n", mCharacter.attribute.rechage); 	printf("mCharacter.bonus.anemo
+// printf("mCharacter.attribute.recharge
+// ==%6.3f\n", mCharacter.attribute.recharge); 	printf("mCharacter.bonus.anemo
 // ==%6.3f\n", mCharacter.bonus.anemo); 	printf("mCharacter.bonus.cryo
 // ==%6.3f\n", mCharacter.bonus.cryo); 	printf("mCharacter.bonus.dendro
 // ==%6.3f\n", mCharacter.bonus.dendro); 	printf("mCharacter.bonus.electro

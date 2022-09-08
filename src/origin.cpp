@@ -4,7 +4,7 @@ using namespace std;
 origin::origin() {}
 origin::~origin() {}
 
-float FALSE_RETURN=0;
+float FALSE_RETURN = 0;
 
 float *origin::getAttributeAddr(tAllAttr *obj, eTextType type)
 {
@@ -23,7 +23,7 @@ float *origin::getAttributeAddr(tAllAttr *obj, eTextType type)
   case TEXT_ELEMENTAL_MASTERY:
     return &(obj->attr.elementalMastery);
   case TEXT_RECHARGE:
-    return &(obj->attr.rechage);
+    return &(obj->attr.recharge);
 
   case TEXT_FIX_HP:
     return &(obj->attrF.hpFix);
@@ -366,5 +366,35 @@ float origin::getReactCoefficient(eReactType type)
     return REACT_COEFFICIENT_MELT_B;
   default:
     return 0;
+  }
+}
+float origin::changeAttribute(tAllAttr *obj, eTextType type, float value)
+{
+  switch (type)
+  {
+  case TEXT_HP:
+    obj->attr.hp += value;
+    return obj->attr.hp;
+  case TEXT_ATK:
+    obj->attr.atk += value;
+    return obj->attr.atk;
+  case TEXT_DEF:
+    obj->attr.def += value;
+    return obj->attr.def;
+  case TEXT_CRIT_RATE:
+    obj->attr.critRate += value;
+    return obj->attr.critRate;
+  case TEXT_CRIT_DMG:
+    obj->attr.critDmg += value;
+    return obj->attr.critDmg;
+  case TEXT_ELEMENTAL_MASTERY:
+    obj->attr.elementalMastery += value;
+    return obj->attr.elementalMastery;
+  case TEXT_RECHARGE:
+    obj->attr.recharge += value;
+    return obj->attr.recharge;
+
+  default:
+    return FALSE_RETURN;
   }
 }
