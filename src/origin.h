@@ -87,6 +87,8 @@ namespace genShinImpact
   typedef enum rarity
   {
     RARITY_UNSURE = 0,
+    RARITY_STAR_1,
+    RARITY_STAR_2,
     RARITY_STAR_3,
     RARITY_STAR_4,
     RARITY_STAR_5

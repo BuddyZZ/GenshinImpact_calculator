@@ -5,12 +5,14 @@
 namespace genShinImpact {
 class enemy : public virtual origin {
 public:
-  tAllAttr base;
   enemy();
-  ~enemy();
-
+  float setResistance(eKind kind, int type, float resValue);
+  int setLevel(int level);
 protected:
+  tAllAttr base;
+
 private:
+
 };
 } // namespace genShinImpact
 

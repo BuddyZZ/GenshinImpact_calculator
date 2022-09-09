@@ -111,10 +111,10 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
 
     for (textType = TEXT_HP; textType <= TEXT_RECHARGE; textType++)
     {
-      changeOneText(ADD, static_cast<eTextType>(textType), fortune);
+      changeOneSubText(ADD, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
       after = calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType);
-      changeOneText(SUB, static_cast<eTextType>(textType), fortune);
+      changeOneSubText(SUB, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
       if (befor < after)
       {
@@ -125,7 +125,7 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
     cout<<"damage=="<<befor<<endl;
     cout<<"resultTextType=="<<resultTextType<<endl;
 
-    changeOneText(ADD, resultTextType, fortune);
+    changeOneSubText(ADD, resultTextType, fortune);
     *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
   }
 }
