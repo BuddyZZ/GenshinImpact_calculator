@@ -40,7 +40,7 @@ namespace genShinImpact
     float calLevelFactor();
     float calMainFactor(TextType mainAttr);
     float calCritFactor(eCalType calType);
-    float calReactFactor(eReactType reactType, float elementalMastery, int level);
+    float calReactFactor(eReactType reactType, float elementalMastery);
     float calResFactor(eDamageType damageType, eElementType elementType);
     float calBonus(eDamageType damageType, eElementType elementType);
     float calIndepMult(eDamageType damageType, eElementType elementType);

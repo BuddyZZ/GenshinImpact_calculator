@@ -61,7 +61,7 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   float defFactor = calDefFactor();
   float levelFactor = calLevelFactor();
   float resFactor = calResFactor(damageType, elementType);
-  float reactFactor = calReactFactor(reactType, elementalMastery, *static_cast<int *>(getInfoAddr(&mAttacker, INFO_LEVEL)));
+  float reactFactor = calReactFactor(reactType, elementalMastery);
   float bonus = calBonus(damageType, elementType);
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
@@ -87,11 +87,11 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   }
   else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION & BLOOM
   {
-    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level];
+    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level-1];
   }
   else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor) * (1 + indepMult) * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor*fusioncalLevelFactor[mAttacker.info.level-1]) * (1 + indepMult) * critFactor;
   }
   else // no react
   {
@@ -216,13 +216,13 @@ float calculate::calElementalMastery()
     return 0;
 }
 
-float calculate::calReactFactor(eReactType reactType, float elementalMastery, int level)
+float calculate::calReactFactor(eReactType reactType, float elementalMastery)
 {
   float mastery = calElementalMastery();
 
   if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION
   {
-    return (FUSION_K * mastery / (mastery + FUSION_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType) * fusioncalLevelFactor[level - 1];
+    return (FUSION_K * mastery / (mastery + FUSION_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
   else if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
@@ -230,7 +230,7 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery, in
   }
   else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return (CATALYZE_K * mastery / (mastery + CATALYZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType) * fusioncalLevelFactor[level - 1];
+    return (CATALYZE_K * mastery / (mastery + CATALYZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
   else // CRYSTALLIZE
   {
