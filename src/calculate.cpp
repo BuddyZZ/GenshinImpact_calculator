@@ -61,7 +61,7 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   float defFactor = calDefFactor();
   float levelFactor = calLevelFactor();
   float resFactor = calResFactor(damageType, elementType);
-  float reactFactor = calReactFactor(reactType, elementalMastery);
+  float reactFactor = calReactFactor(reactType, elementalMastery, *static_cast<int *>(getInfoAddr(&mAttacker, INFO_LEVEL)));
   float bonus = calBonus(damageType, elementType);
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
@@ -71,6 +71,7 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   cout << "calDef()               ==" << calDef() << endl;
   cout << "calCritRate()          ==" << calCritRate() << endl;
   cout << "calCritDmg()           ==" << calCritDmg() << endl;
+  cout << "critFactor()           ==" << critFactor << endl;
   cout << "calDefFactor()         ==" << defFactor << endl;
   cout << "calLevelFactor()       ==" << levelFactor << endl;
   cout << "calElementalMastery()  ==" << elementalMastery << endl;
@@ -96,20 +97,6 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   {
     return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor;
   }
-}
-float calculate::findMaxGreedSimple(int times, float fortune, eCalType calType, TextType mainAttr, eReactType reactType)
-{
-  int i = 0;
-  float befor, after;
-  for (i = 0; i < times; i++)
-  {
-    calMainFactor(mainAttr);
-    calReactFactor(reactType, calElementalMastery());
-    calCritFactor(calType);
-  }
-}
-float calculate::findMaxGreed(int times, float fortune, float rate, eCalType calType, TextType mainAttr, eReactType reactType)
-{
 }
 
 float calculate::calHp()
@@ -229,14 +216,13 @@ float calculate::calElementalMastery()
     return 0;
 }
 
-float calculate::calReactFactor(eReactType reactType, float elementalMastery)
+float calculate::calReactFactor(eReactType reactType, float elementalMastery, int level)
 {
   float mastery = calElementalMastery();
 
   if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION
   {
-    // cout<< "REACT_TYPE_FUSION"<<endl;
-    return (FUSION_K * mastery / (mastery + FUSION_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
+    return (FUSION_K * mastery / (mastery + FUSION_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType) * fusioncalLevelFactor[level - 1];
   }
   else if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
@@ -244,7 +230,7 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery)
   }
   else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return (CATALYZE_K * mastery / (mastery + CATALYZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
+    return (CATALYZE_K * mastery / (mastery + CATALYZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType) * fusioncalLevelFactor[level - 1];
   }
   else // CRYSTALLIZE
   {
