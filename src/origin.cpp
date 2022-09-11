@@ -4,7 +4,7 @@ using namespace std;
 origin::origin() {}
 origin::~origin() {}
 
-float FALSE_RETURN=0;
+float FALSE_RETURN = 0;
 
 float *origin::getAttributeAddr(tAllAttr *obj, eTextType type)
 {
@@ -199,20 +199,26 @@ float *origin::getReactFactorAddr(tAllAttr *obj, eReactType type)
     return &(obj->reactFactor.swirl);
   case REACT_SUPERCONDUCT:
     return &(obj->reactFactor.superconduct);
-  case REACT_BURNING:
-    return &(obj->reactFactor.burning);
-  case REACT_OVERGROWN:
-    return &(obj->reactFactor.overgrown);
-  case REACT_RADICALIZE:
-    return &(obj->reactFactor.redicalize);
   case REACT_ELECTRO_CHARGED:
     return &(obj->reactFactor.electroCharged);
   case REACT_OVERLOADED:
     return &(obj->reactFactor.overloaded);
+  case REACT_BURNING:
+    return &(obj->reactFactor.burning);
+
+  case REACT_BLOOM:
+    return &(obj->reactFactor.bloom);
+  case REACT_BURGEON:
+    return &(obj->reactFactor.burgeon);
+  case REACT_HYPERBLOOM:
+    return &(obj->reactFactor.hyperbloom);
+
+  case REACT_SPREAD:
+    return &(obj->reactFactor.spread);
+  case REACT_AGGRAVATE:
+    return &(obj->reactFactor.aggravate);
   case REACT_CRYSTALLIZE:
     return &(obj->reactFactor.crystallize);
-    // case REACT_FROZEN:
-    //     return &(obj->reactFactor.frozen;
 
   default:
     return &FALSE_RETURN;
@@ -349,9 +355,18 @@ float origin::getReactCoefficient(eReactType type)
     return REACT_COEFFICIENT_CRUSHINGICE;
   case REACT_BURNING:
     return REACT_COEFFICIENT_BURNING;
-    // froze
-  case REACT_FROZEN:
-    return REACT_COEFFICIENT_FROZEN;
+    // bloom
+  case REACT_BLOOM:
+    return REACT_COEFFICIENT_BLOOM;
+  case REACT_BURGEON:
+    return REACT_COEFFICIENT_BURGEON;
+  case REACT_HYPERBLOOM:
+    return REACT_COEFFICIENT_HYPERBLOOM;
+    // CATALYZE
+  case REACT_SPREAD:
+    return REACT_COEFFICIENT_SPREAD;
+  case REACT_AGGRAVATE:
+    return REACT_COEFFICIENT_AGGRAVATE;
     // crystallize
   case REACT_CRYSTALLIZE:
     return REACT_COEFFICIENT_CRYSTALLIZE;

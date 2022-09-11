@@ -71,6 +71,7 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   cout << "calDef()               ==" << calDef() << endl;
   cout << "calCritRate()          ==" << calCritRate() << endl;
   cout << "calCritDmg()           ==" << calCritDmg() << endl;
+  cout << "critFactor()           ==" << critFactor << endl;
   cout << "calDefFactor()         ==" << defFactor << endl;
   cout << "calLevelFactor()       ==" << levelFactor << endl;
   cout << "calElementalMastery()  ==" << elementalMastery << endl;
@@ -80,32 +81,22 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   cout << "calIndepMult()         ==" << indepMult << endl;
   cout << "calExtraRate()         ==" << extraRate << endl;
 
-  if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END)
+  if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
     return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor * reactFactor;
   }
-  else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END)
+  else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION & BLOOM
   {
-    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level];
+    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level-1];
+  }
+  else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
+  {
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor*fusioncalLevelFactor[mAttacker.info.level-1]) * (1 + indepMult) * critFactor;
   }
   else // no react
   {
     return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor;
   }
-}
-float calculate::findMaxGreedSimple(int times, float fortune, eCalType calType, TextType mainAttr, eReactType reactType)
-{
-  int i = 0;
-  float befor, after;
-  for (i = 0; i < times; i++)
-  {
-    calMainFactor(mainAttr);
-    calReactFactor(reactType, calElementalMastery());
-    calCritFactor(calType);
-  }
-}
-float calculate::findMaxGreed(int times, float fortune, float rate, eCalType calType, TextType mainAttr, eReactType reactType)
-{
 }
 
 float calculate::calHp()
@@ -229,16 +220,19 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery)
 {
   float mastery = calElementalMastery();
 
-  if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // CHECK(reactType,REACT_TYPE_FUSION,IS_REACT)
+  if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION
   {
-    // cout<< "REACT_TYPE_FUSION"<<endl;
     return (FUSION_K * mastery / (mastery + FUSION_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
-  else if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // CHECK(reactType,REACT_TYPE_FUSION,IS_REACT)
+  else if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
     return (INCREASEMENT_K * mastery / (mastery + INCREASEMENT_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
-  else
+  else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
+  {
+    return (CATALYZE_K * mastery / (mastery + CATALYZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
+  }
+  else // CRYSTALLIZE
   {
     return (CRYSTALLIZE_K * mastery / (mastery + CRYSTALLIZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
@@ -265,12 +259,12 @@ float calculate::calBonus(eDamageType damageType, eElementType elementType)
                *getBonusAddr(&mWeapon, KIND_DAMAGE, damageType) + *getBonusAddr(&mWeapon, KIND_ELEMENT, elementType) +
                *getBonusAddr(&mArtifact, KIND_DAMAGE, damageType) + *getBonusAddr(&mArtifact, KIND_ELEMENT, elementType) +
                *getBonusAddr(&mEnvironment, KIND_DAMAGE, damageType) + *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType);
-  cout<<"bonus=="<<*getBonusAddr(&mAttacker, KIND_ELEMENT, elementType)<<endl;
-    cout<<"bonus=="<<*getBonusAddr(&mWeapon, KIND_ELEMENT, elementType)<<endl;
+  cout << "bonus==" << *getBonusAddr(&mAttacker, KIND_ELEMENT, elementType) << endl;
+  cout << "bonus==" << *getBonusAddr(&mWeapon, KIND_ELEMENT, elementType) << endl;
 
-  cout<<"bonus=="<<*getBonusAddr(&mArtifact, KIND_ELEMENT, elementType)<<endl;
+  cout << "bonus==" << *getBonusAddr(&mArtifact, KIND_ELEMENT, elementType) << endl;
 
-  cout<<"bonus=="<<*getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType)<<endl;
+  cout << "bonus==" << *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType) << endl;
 
   return base;
 }
