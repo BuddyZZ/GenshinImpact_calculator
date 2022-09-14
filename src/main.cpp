@@ -11,7 +11,6 @@
 #include "character.h"
 #include "enemy.h"
 #include "environment.h"
-#include "logger.h"
 
 #include <bitset> //输出二进制的头文件
 #include <iostream>
@@ -19,7 +18,7 @@
 // cout<<bitset<sizeof(a)*8>(a)<<endl;
 #include <cstring>
 
-#include<iomanip>
+#include <iomanip>
 
 using namespace std;
 using namespace genShinImpact;
@@ -31,33 +30,33 @@ int main()
 {
 
   calculate *testCalculate = new calculate();
+    // calculate testCalculate = calculate();
+    // calculate testCalculate();
+
   memset(&testCalculate->mWeapon, '0', sizeof(tAllAttr));
   memset(&testCalculate->mEnvironment, '0', sizeof(tAllAttr));
   memset(&testCalculate->mArtifact, '0', sizeof(tAllAttr));
 
-  testCalculate->mSuffer.info.level = 88;
-  testCalculate->mSuffer.res.hydro = -0.3;
+  testCalculate->mSuffer.info.level = 90;
+  testCalculate->mSuffer.res.anemo = 0.1;
 
-testCalculate->mEnvironment.bonus.hydro=954/100*0.04;//38.16
+  testCalculate->mWeapon.attrB.atkFix = 608;
+  testCalculate->mWeapon.bonus.anemo = 0.5;
 
   testCalculate->mAttacker.info.level = 90;
+    // testCalculate->mAttacker.info.name ="A";
 
-  testCalculate->mAttacker.attrB.atkFix = 1132;
-  testCalculate->mAttacker.attrB.defFix = 9;
-  testCalculate->mAttacker.attrB.hpFix = 34394;
-//36128 37573 39018 40463 41908
-  testCalculate->mAttacker.attr.critDmg = 2.415;
-  testCalculate->mAttacker.attr.critRate = 0.779;
-  testCalculate->mAttacker.attr.elementalMastery = 35;
+  testCalculate->mAttacker.attrB.atkFix = 305;
+  testCalculate->mAttacker.attrB.defFix = 700;
+  testCalculate->mAttacker.attrB.hpFix = 13000;
+  testCalculate->mAttacker.attr.critDmg = 0.5;
+  testCalculate->mAttacker.attr.critRate = 0.05;
+  testCalculate->mAttacker.attr.elementalMastery = 0;
   testCalculate->mAttacker.attr.recharge = 0;
 
-  testCalculate->mAttacker.bonus.hydro = 0.816;
+  testCalculate->logText(&(testCalculate->mSuffer), TEXT_HP);
 
-  testCalculate->mAttacker.attack.chargeAttackDmg[0][0] = 0.1968;
-  testCalculate->mAttacker.skill.rate[13][0] = 0.4806;
-  testCalculate->mAttacker.burst.rate[13][0] = 0.1035;
-
- testCalculate->findMaxGreed(40, 1.0, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_UNSURE, 1/3);
+  testCalculate->findMaxGreed(5, 1.0, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_ANEMO, REACT_UNSURE, 1 / 3);
 
   // calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
 
@@ -67,6 +66,5 @@ testCalculate->mEnvironment.bonus.hydro=954/100*0.04;//38.16
   //                                         REACT_UNSURE     TEXT_DEF,  CAL_EXPECTANCE  DAMAGE_BURST,
 
   //                            calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType)
-  
-  // cout << "damage==" <<fixed<< setprecision(2)<<damage << endl;
+
 }

@@ -4,13 +4,12 @@
 #include "environment.h"
 #include "origin.h"
 #include "weapon.h"
-#include "logger.h"
 #ifndef CALCULATE_H
 #define CALCULATE_H
 
 namespace genShinImpact
 {
-  class calculate : public character, enemy, environment, weapon, artifact, logger
+  class calculate : public character, enemy, environment, weapon, artifact
   {
   public:
     calculate();

@@ -2,18 +2,18 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-namespace genShinImpact {
-class enemy : public virtual origin {
-public:
-  enemy();
-  float setResistance(eKind kind, int type, float resValue);
-  int setLevel(int level);
-protected:
-  tAllAttr base;
+namespace genShinImpact
+{
+  class enemy : public virtual origin
+  {
+  public:
+    enemy();
+    tAllAttr base;
 
-private:
+  protected:
 
-};
+  private:
+  };
 } // namespace genShinImpact
 
 #endif

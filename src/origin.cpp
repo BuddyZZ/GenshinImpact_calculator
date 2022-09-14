@@ -398,3 +398,37 @@ float origin::changeAttribute(tAllAttr *obj, eTextType type, float value)
     return FALSE_RETURN;
   }
 }
+
+float origin::logText(tAllAttr *obj, eTextType type)
+{
+
+  switch(type)
+  {
+    case TEXT_HP:
+    cout<<obj->info.name<<" TEXT_HP == "<<obj->attr.hp<<endl;
+    return obj->attr.hp;
+  }
+  return 0;
+    // TEXT_HP,
+    // TEXT_ATK,
+    // TEXT_DEF,
+    // TEXT_CRIT_RATE,
+    // TEXT_CRIT_DMG,
+    // TEXT_ELEMENTAL_MASTERY,
+    // TEXT_RECHARGE,
+    // TEXT_ELEMENT_BONUS,
+    // TEXT_ELEMENT_BONUS_PYRO,
+    // TEXT_ELEMENT_BONUS_HYDRO,
+    // TEXT_ELEMENT_BONUS_DENDRO,
+    // TEXT_ELEMENT_BONUS_ELECTRO,
+    // TEXT_ELEMENT_BONUS_ANEMO,
+    // TEXT_ELEMENT_BONUS_CRYO,
+    // TEXT_ELEMENT_BONUS_GEO,
+    // TEXT_ELEMENT_BONUS_PHYSICS,
+    // TEXT_FIX_HP,
+    // TEXT_FIX_ATK,
+    // TEXT_FIX_DEF,
+    // TEXT_BASE_HP,
+    // TEXT_BASE_ATK,
+    // TEXT_BASE_DEF,
+}

@@ -68,7 +68,6 @@ namespace genShinImpact
 
 #define factor(K, A, EM, F, C) (((K) * (EM) / ((EM) + (A)) + 1 + (F)) * (C))
 
-
   typedef enum kind
   {
     KIND_RARITY = 0,
@@ -391,6 +390,8 @@ namespace genShinImpact
 
     static float getReactCoefficient(eReactType type);
     static float changeAttribute(tAllAttr *obj, eTextType type, float value);
+
+    static float logText(tAllAttr *obj, eTextType type);
 
   protected:
   private:

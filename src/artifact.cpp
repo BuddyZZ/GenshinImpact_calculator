@@ -157,7 +157,7 @@ float artifact::calRarityFactor(eRarityType rarity)
     else
         return 0;
 }
-float posOrNeg(eAddOrSub add)
+float artifact::posOrNeg(eAddOrSub add)
 {
     if (add == ADD)
         return 1;
