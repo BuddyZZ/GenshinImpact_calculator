@@ -402,33 +402,71 @@ float origin::changeAttribute(tAllAttr *obj, eTextType type, float value)
 float origin::logText(tAllAttr *obj, eTextType type)
 {
 
-  switch(type)
+  switch (type)
   {
-    case TEXT_HP:
-    cout<<obj->info.name<<" TEXT_HP == "<<obj->attr.hp<<endl;
+  case TEXT_HP:
+    cout << obj->info.name << " TEXT_HP == " << obj->attr.hp << endl;
     return obj->attr.hp;
+  case TEXT_ATK:
+    cout << obj->info.name << " TEXT_ATK == " << obj->attr.atk << endl;
+    return obj->attr.atk;
+  case TEXT_DEF:
+    cout << obj->info.name << " TEXT_DEF == " << obj->attr.def << endl;
+    return obj->attr.def;
+  case TEXT_CRIT_RATE:
+    cout << obj->info.name << " TEXT_CRIT_RATE == " << obj->attr.critRate << endl;
+    return obj->attr.critRate;
+  case TEXT_CRIT_DMG:
+    cout << obj->info.name << " TEXT_CRIT_DMG == " << obj->attr.critDmg << endl;
+    return obj->attr.critDmg;
+  case TEXT_ELEMENTAL_MASTERY:
+    cout << obj->info.name << " TEXT_ELEMENTAL_MASTERY == " << obj->attr.elementalMastery << endl;
+    return obj->attr.elementalMastery;
+  case TEXT_RECHARGE:
+    cout << obj->info.name << " TEXT_RECHARGE == " << obj->attr.recharge << endl;
+    return obj->attr.recharge;
+  case TEXT_ELEMENT_BONUS_PYRO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_PYRO == " << obj->bonus.pyro << endl;
+    return obj->bonus.pyro;
+  case TEXT_ELEMENT_BONUS_HYDRO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_HYDRO == " << obj->bonus.hydro << endl;
+    return obj->bonus.hydro;
+  case TEXT_ELEMENT_BONUS_DENDRO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_DENDRO == " << obj->bonus.dendro << endl;
+    return obj->bonus.dendro;
+  case TEXT_ELEMENT_BONUS_ELECTRO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_ELECTRO == " << obj->bonus.electro << endl;
+    return obj->bonus.electro;
+  case TEXT_ELEMENT_BONUS_ANEMO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_ANEMO == " << obj->bonus.anemo << endl;
+    return obj->bonus.anemo;
+  case TEXT_ELEMENT_BONUS_CRYO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_CRYO == " << obj->bonus.cryo << endl;
+    return obj->bonus.cryo;
+  case TEXT_ELEMENT_BONUS_GEO:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_GEO == " << obj->bonus.geo << endl;
+    return obj->bonus.geo;
+  case TEXT_ELEMENT_BONUS_PHYSICS:
+    cout << obj->info.name << " TEXT_ELEMENT_BONUS_PHYSICS == " << obj->bonus.physical << endl;
+    return obj->bonus.physical;
+  case TEXT_FIX_HP:
+    cout << obj->info.name << " TEXT_FIX_HP == " << obj->attrF.hpFix << endl;
+    return obj->attrF.hpFix;
+  case TEXT_FIX_ATK:
+    cout << obj->info.name << " TEXT_FIX_ATK == " << obj->attrF.atkFix << endl;
+    return obj->attrF.atkFix;
+  case TEXT_FIX_DEF:
+    cout << obj->info.name << " TEXT_FIX_DEF == " << obj->attrF.defFix << endl;
+    return obj->attrF.defFix;
+  case TEXT_BASE_HP:
+    cout << obj->info.name << " TEXT_BASE_HP == " << obj->attrB.hpFix << endl;
+    return obj->attrB.hpFix;
+  case TEXT_BASE_ATK:
+    cout << obj->info.name << " TEXT_BASE_ATK == " << obj->attrB.atkFix << endl;
+    return obj->attrB.atkFix;
+  case TEXT_BASE_DEF:
+    cout << obj->info.name << " TEXT_BASE_DEF == " <<  obj->attrB.defFix << endl;
+    return obj->attrB.defFix;
   }
   return 0;
-    // TEXT_HP,
-    // TEXT_ATK,
-    // TEXT_DEF,
-    // TEXT_CRIT_RATE,
-    // TEXT_CRIT_DMG,
-    // TEXT_ELEMENTAL_MASTERY,
-    // TEXT_RECHARGE,
-    // TEXT_ELEMENT_BONUS,
-    // TEXT_ELEMENT_BONUS_PYRO,
-    // TEXT_ELEMENT_BONUS_HYDRO,
-    // TEXT_ELEMENT_BONUS_DENDRO,
-    // TEXT_ELEMENT_BONUS_ELECTRO,
-    // TEXT_ELEMENT_BONUS_ANEMO,
-    // TEXT_ELEMENT_BONUS_CRYO,
-    // TEXT_ELEMENT_BONUS_GEO,
-    // TEXT_ELEMENT_BONUS_PHYSICS,
-    // TEXT_FIX_HP,
-    // TEXT_FIX_ATK,
-    // TEXT_FIX_DEF,
-    // TEXT_BASE_HP,
-    // TEXT_BASE_ATK,
-    // TEXT_BASE_DEF,
 }

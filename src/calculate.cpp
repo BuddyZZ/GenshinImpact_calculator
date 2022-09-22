@@ -123,10 +123,13 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
       }
     }
     cout<<"damage=="<<befor<<endl;
-    cout<<"resultTextType=="<<resultTextType<<endl;
+    // cout<<"resultTextType=="<<resultTextType<<endl;
+
 
     changeOneSubText(ADD, resultTextType, fortune);
     *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
+        // logText(&mArtifact, resultTextType);
+
   }
 }
 

@@ -3,7 +3,6 @@ using namespace genShinImpact;
 using namespace std;
 artifact::artifact()
 {
-    memset(&base, '0', sizeof(tAllAttr));
     base.attrF.atkFix = 311;
     base.attrF.defFix = 0;
     base.attrF.hpFix = 4786;
@@ -18,7 +17,7 @@ artifact::artifact()
 
 void artifact::resetArtifact()
 {
-    memset(&base, '0', sizeof(tAllAttr));
+    // memset(&base, '0', sizeof(tAllAttr)); segment fault
 }
 
 float artifact::changeOneSubText(eAddOrSub add, eTextType text, float fortune)

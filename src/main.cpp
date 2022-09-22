@@ -44,7 +44,6 @@ int main()
   testCalculate->mWeapon.bonus.anemo = 0.5;
 
   testCalculate->mAttacker.info.level = 90;
-    // testCalculate->mAttacker.info.name ="A";
 
   testCalculate->mAttacker.attrB.atkFix = 305;
   testCalculate->mAttacker.attrB.defFix = 700;
@@ -54,7 +53,7 @@ int main()
   testCalculate->mAttacker.attr.elementalMastery = 0;
   testCalculate->mAttacker.attr.recharge = 0;
 
-  testCalculate->logText(&(testCalculate->mSuffer), TEXT_HP);
+ 
 
   testCalculate->findMaxGreed(5, 1.0, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_ANEMO, REACT_UNSURE, 1 / 3);
 
