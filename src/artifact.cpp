@@ -13,6 +13,7 @@ artifact::artifact()
     base.attr.elementalMastery = 120;
     base.attr.hp = 0.2;
     base.attr.recharge = 0.5;
+    base.info.name="Default Artifact";
 }
 
 void artifact::resetArtifact()

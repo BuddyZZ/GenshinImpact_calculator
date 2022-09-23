@@ -33,9 +33,6 @@ int main()
     // calculate testCalculate = calculate();
     // calculate testCalculate();
 
-  memset(&testCalculate->mWeapon, '0', sizeof(tAllAttr));
-  memset(&testCalculate->mEnvironment, '0', sizeof(tAllAttr));
-  memset(&testCalculate->mArtifact, '0', sizeof(tAllAttr));
 
   testCalculate->mSuffer.info.level = 90;
   testCalculate->mSuffer.res.anemo = 0.1;
@@ -55,7 +52,7 @@ int main()
 
  
 
-  testCalculate->findMaxGreed(5, 1.0, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_ANEMO, REACT_UNSURE, 1 / 3);
+  testCalculate->findMaxGreed(40, 1.0, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_ANEMO, REACT_UNSURE, 1 / 3);
 
   // calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
 

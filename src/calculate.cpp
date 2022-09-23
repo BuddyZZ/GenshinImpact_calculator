@@ -21,15 +21,9 @@ calculate::calculate()
 }
 calculate::~calculate()
 {
-  memset(&(character::base), '0', sizeof(tAllAttr));
 }
 void calculate::resetAll()
 {
-  memset(&mAttacker, '\0', sizeof(tAttribute));
-  memset(&mSuffer, '\0', sizeof(tAttribute));
-  memset(&mWeapon, '\0', sizeof(tAttribute));
-  memset(&mArtifact, '\0', sizeof(tAttribute));
-  memset(&mEnvironment, '\0', sizeof(tAttribute));
 }
 void calculate::loadAll()
 {
@@ -128,7 +122,7 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
 
     changeOneSubText(ADD, resultTextType, fortune);
     *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
-        // logText(&mArtifact, resultTextType);
+        logText(&mArtifact, resultTextType);
 
   }
 }
