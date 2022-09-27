@@ -88,12 +88,14 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
   eTextType resultTextType = TEXT_UNSURE;
   for (time = 0; time < TextAmount; time++)
   {
-
     for (textType = TEXT_HP; textType <= TEXT_RECHARGE; textType++)
     {
       changeOneSubText(ADD, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
-      after = calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType);
+      if (reactType == REACT_UNSURE)
+        after = calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType);
+      else
+        after = reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE);
       changeOneSubText(SUB, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
       if (befor < after)
@@ -102,50 +104,31 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
         resultTextType = static_cast<eTextType>(textType);
       }
     }
-    cout << "damage==" << befor << endl;
-    // cout<<"resultTextType=="<<resultTextType<<endl;
-
     changeOneSubText(ADD, resultTextType, fortune);
-    *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
-    logText(&mArtifact, resultTextType);
+    *getAttributeAddr(&mArtifact, resultTextType) = *getAttributeAddr(&(artifact::base), resultTextType);
+    // logText(&mArtifact, resultTextType);
   }
-  for (textType = TEXT_HP; textType <= TEXT_BASE_DEF; textType++)
-  {
-    logText(&mArtifact, static_cast<eTextType>(textType));
-  }
-  putchar('\n');
 
-  for (textType = TEXT_HP; textType <= TEXT_BASE_DEF; textType++)
-  {
-    logText(&mAttacker, static_cast<eTextType>(textType));
-  }
-  putchar('\n');
+  // printf("HP==%.3f\n", calHp());
+  // printf("ATK==%.3f\n", calAtk());
+  // printf("DEF==%.3f\n", calDef());
+  // printf("CRIT_RATE==%.3f\n", calCritRate());
+  // printf("CRIT_DMG==%.3f\n", calCritDmg());
+  // printf("EM==%.3f\n", calElementalMastery());
+  // printf("BONUS==%.3f\n", calBonus(DAMAGE_SKILL, ELEMENT_HYDRO));
 
-  for (textType = TEXT_HP; textType <= TEXT_BASE_DEF; textType++)
+  if (reactType == REACT_UNSURE)
   {
-    logText(&mWeapon, static_cast<eTextType>(textType));
+    cout << "CAL_MAX==" << calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType) << endl;
+    cout << "CAL_EXPECTANCE==" << calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) << endl;
+    cout << "CAL_MIN==" << calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) << endl;
   }
-  putchar('\n');
-
-  // for (textType = TEXT_HP; textType <= TEXT_BASE_DEF; textType++)
-  // {
-  //   logText(&mEnvironment, static_cast<eTextType>(textType));
-  // }
-  printf("HP==%.3f\n", calHp());
-  printf("ATK==%.3f\n", calAtk());
-  printf("DEF==%.3f\n", calDef());
-  printf("CRIT_RATE==%.3f\n", calCritRate());
-  printf("CRIT_DMG==%.3f\n", calCritDmg());
-  printf("EM==%.3f\n", calElementalMastery());
-  printf("BONUS==%.3f\n", calBonus(DAMAGE_SKILL, ELEMENT_HYDRO));
-  
-  cout << "damage==" << calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType)
-       << endl;
-  cout << "damage==" << calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType)
-       << endl;
-  cout << "damage==" << calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType)
-       << endl;
-  cout << "damage==" << befor << endl;
+  else
+  {
+    cout << "CAL_MAX==" << reactRatio * calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
+    cout << "CAL_EXPECTANCE==" << reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
+    cout << "CAL_MIN==" << reactRatio * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
+  }
 }
 
 float calculate::calHp()
