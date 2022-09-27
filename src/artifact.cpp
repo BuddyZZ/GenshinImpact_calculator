@@ -3,16 +3,18 @@ using namespace genShinImpact;
 using namespace std;
 artifact::artifact()
 {
-    base.attrF.atkFix = 311;
-    base.attrF.defFix = 0;
-    base.attrF.hpFix = 4786;
-    base.attr.atk = 0.45;
-    base.attr.critDmg = 0.70;
-    base.attr.critRate = 0.35;
-    base.attr.def = 0.2;
-    base.attr.elementalMastery = 120;
-    base.attr.hp = 0.2;
-    base.attr.recharge = 0.5;
+    base.attrF.atkFix = ART_VALUE_MAIN_ATK_FIX;
+    // base.attrF.defFix = 0;
+    base.attrF.hpFix = ART_VALUE_MAIN_HP_FIX;
+    base.attr.atk = 0;//ART_VALUE_MAIN_ATK;
+    base.attr.critDmg = 0;//ART_VALUE_MAIN_CRIT_DMG
+    base.attr.critRate = ART_VALUE_MAIN_CRIT_RATE;
+    base.attr.def = 0;//ART_VALUE_MAIN_DEF
+    base.attr.elementalMastery = 0;//ART_VALUE_MAIN_ELEMENTAL_MASTERY
+    base.attr.hp = ART_VALUE_MAIN_HP;//ART_VALUE_MAIN_HP
+    base.attr.recharge = 0;//ART_VALUE_MAIN_RECHARGE
+    base.bonus.hydro=ART_VALUE_MAIN_ELEMENT_BONUS + 0.15;//   ART_VALUE_MAIN_ELEMENT_BONUS     ART_VALUE_MAIN_PHYSIC_BONUS 
+
     base.info.name="Default Artifact";
 }
 

@@ -30,29 +30,9 @@ int main()
 {
 
   calculate *testCalculate = new calculate();
-    // calculate testCalculate = calculate();
-    // calculate testCalculate();
 
-
-  testCalculate->mSuffer.info.level = 90;
-  testCalculate->mSuffer.res.anemo = 0.1;
-
-  testCalculate->mWeapon.attrB.atkFix = 608;
-  testCalculate->mWeapon.bonus.anemo = 0.5;
-
-  testCalculate->mAttacker.info.level = 90;
-
-  testCalculate->mAttacker.attrB.atkFix = 305;
-  testCalculate->mAttacker.attrB.defFix = 700;
-  testCalculate->mAttacker.attrB.hpFix = 13000;
-  testCalculate->mAttacker.attr.critDmg = 0.5;
-  testCalculate->mAttacker.attr.critRate = 0.05;
-  testCalculate->mAttacker.attr.elementalMastery = 0;
-  testCalculate->mAttacker.attr.recharge = 0;
-
- 
-
-  testCalculate->findMaxGreed(40, 1.0, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_ANEMO, REACT_UNSURE, 1 / 3);
+  testCalculate->findMaxGreed(32, 0.8, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_UNSURE, 1 / 3);
+        //findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
 
   // calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
 

@@ -3,9 +3,7 @@ using namespace genShinImpact;
 using namespace std;
 environment::environment()
 {
-    INIT_STRUCT(base.extraRate, tExtraRate, float, 0.01);
-    INIT_STRUCT(base.indepMult, tIndepMult, float, 0.01);
-
+	base.info.name="Default Environment";
 }
 environment::~environment()
 {
