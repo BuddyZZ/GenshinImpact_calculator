@@ -66,17 +66,17 @@ float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDam
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
 
-  if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END)
+  if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
     return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor * reactFactor;
   }
-  else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END)
+  else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION & BLOOM
   {
-    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level];
+    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level-1];
   }
-  else // no react
+  else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor*fusioncalLevelFactor[mAttacker.info.level-1]) * (1 + indepMult) * critFactor;
   }
 }
 
@@ -252,16 +252,19 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery)
 {
   float mastery = calElementalMastery();
 
-  if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // CHECK(reactType,REACT_TYPE_FUSION,IS_REACT)
+  if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION
   {
-    // cout<< "REACT_TYPE_FUSION"<<endl;
     return (FUSION_K * mastery / (mastery + FUSION_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
-  else if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // CHECK(reactType,REACT_TYPE_FUSION,IS_REACT)
+  else if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
     return (INCREASEMENT_K * mastery / (mastery + INCREASEMENT_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
-  else
+  else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
+  {
+    return (CATALYZE_K * mastery / (mastery + CATALYZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
+  }
+  else // CRYSTALLIZE
   {
     return (CRYSTALLIZE_K * mastery / (mastery + CRYSTALLIZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }

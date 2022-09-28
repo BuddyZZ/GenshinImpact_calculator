@@ -50,19 +50,23 @@ namespace genShinImpact
 #define REACT_COEFFICIENT_ELECTRO_CHARGED 2.4f
 #define REACT_COEFFICIENT_CRUSHINGICE 3.0f
 #define REACT_COEFFICIENT_OVERLOADED 4.0f
-
+#define REACT_COEFFICIENT_BLOOM 4.0f
+#define REACT_COEFFICIENT_BURGEON 6.0f
+#define REACT_COEFFICIENT_HYPERBLOOM 6.0f
+#define REACT_COEFFICIENT_SPREAD 2.5f    // 2*1.25f
+#define REACT_COEFFICIENT_AGGRAVATE 2.3f // 2*1.15f
 #define REACT_COEFFICIENT_VAPORIZE_A 2.0f
 #define REACT_COEFFICIENT_VAPORIZE_B 1.5f
 #define REACT_COEFFICIENT_MELT_A 2.0f
 #define REACT_COEFFICIENT_MELT_B 1.5f
-
 #define REACT_COEFFICIENT_CRYSTALLIZE 3.0f
-#define REACT_COEFFICIENT_FROZEN 0.0f
 
 #define INCREASEMENT_K (25.0f / 9.0f)
 #define INCREASEMENT_A 1400.0f
 #define FUSION_K 16.0f   // 20/3
 #define FUSION_A 2000.0f // 1400
+#define CATALYZE_K 5.0f
+#define CATALYZE_A 1200.0f
 #define CRYSTALLIZE_K (40.0f / 9.0f)
 #define CRYSTALLIZE_A 1400.0f
 
@@ -162,24 +166,32 @@ namespace genShinImpact
   typedef enum reactType
   {
     REACT_UNSURE = 0,
+
     REACT_TYPE_INCREASEMENT_START,
     REACT_VAPORIZE_A,
     REACT_VAPORIZE_B,
     REACT_MELT_A,
     REACT_MELT_B,
     REACT_TYPE_INCREASEMENT_END,
+
     REACT_TYPE_FUSION_START,
     REACT_SWIRL,
     REACT_SUPERCONDUCT,
     REACT_CRUSHINGICE,
     REACT_BURNING,
-    REACT_OVERGROWN,
-    REACT_RADICALIZE,
+    REACT_BLOOM,
+    REACT_BURGEON,
+    REACT_HYPERBLOOM,
     REACT_ELECTRO_CHARGED,
     REACT_OVERLOADED,
     REACT_CRYSTALLIZE,
-    REACT_FROZEN,
     REACT_TYPE_FUSION_END,
+
+    REACT_CATALYZE_START,
+    REACT_SPREAD,
+    REACT_AGGRAVATE,
+    REACT_CATALYZE_END,
+
   } eReactType;
 
   typedef enum TextType
@@ -323,8 +335,12 @@ namespace genShinImpact
     float overloaded;
     float crushingice;
     float burning;
-    float overgrown;
-    float redicalize;
+    float bloom;
+    float burgeon;
+    float hyperbloom;
+    float spread;
+    float aggravate;
+
     float crystallize;
     // float frozen;
   } tReactFactor;
