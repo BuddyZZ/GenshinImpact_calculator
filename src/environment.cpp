@@ -38,8 +38,8 @@ void environment::loadTeamEffect(elementType type)
 	case ELEMENT_GEO:
 		base.buff.sheldStrength += 0.15;
 		INIT_STRUCT(temp, tBonus, float, 0.15);
-		temp.hit = 0;
-		temp.chargeHit = 0;
+		temp.attack = 0;
+		temp.chargeAttack = 0;
 		temp.plunge = 0;
 		temp.skill = 0;
 		temp.burst = 0;
@@ -48,8 +48,8 @@ void environment::loadTeamEffect(elementType type)
 		break;
 	default:
 		INIT_STRUCT(temp, tRes, float, 0.15);
-		temp.hit = 0;
-		temp.chargeHit = 0;
+		temp.attack = 0;
+		temp.chargeAttack = 0;
 		temp.plunge = 0;
 		temp.skill = 0;
 		temp.burst = 0;

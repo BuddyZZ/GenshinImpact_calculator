@@ -116,10 +116,10 @@ float *origin::getIndepMultAddr(tAllAttr *obj, eKind kind, int type)
   case KIND_DAMAGE:
     switch (type)
     {
-    case DAMAGE_HIT:
-      return &(obj->indepMult.hit);
-    case DAMAGE_CHARGE_HIT:
-      return &(obj->indepMult.chargeHit);
+    case DAMAGE_ATTACK:
+      return &(obj->indepMult.attack);
+    case DAMAGE_CHARGE_ATTACK:
+      return &(obj->indepMult.chargeAttack);
     case DAMAGE_PLUNGE:
       return &(obj->indepMult.plunge);
     case DAMAGE_SKILL:
@@ -165,10 +165,10 @@ float *origin::getExtraRateAddr(tAllAttr *obj, eKind kind, int type)
   case KIND_DAMAGE:
     switch (type)
     {
-    case DAMAGE_HIT:
-      return &(obj->extraRate.hit);
-    case DAMAGE_CHARGE_HIT:
-      return &(obj->extraRate.chargeHit);
+    case DAMAGE_ATTACK:
+      return &(obj->extraRate.attack);
+    case DAMAGE_CHARGE_ATTACK:
+      return &(obj->extraRate.chargeAttack);
     case DAMAGE_PLUNGE:
       return &(obj->extraRate.plunge);
     case DAMAGE_SKILL:
@@ -255,10 +255,10 @@ float *origin::getResAddr(tAllAttr *obj, eKind kind, int type)
   case KIND_DAMAGE:
     switch (type)
     {
-    case DAMAGE_HIT:
-      return &(obj->res.hit);
-    case DAMAGE_CHARGE_HIT:
-      return &(obj->res.chargeHit);
+    case DAMAGE_ATTACK:
+      return &(obj->res.attack);
+    case DAMAGE_CHARGE_ATTACK:
+      return &(obj->res.chargeAttack);
     case DAMAGE_PLUNGE:
       return &(obj->res.plunge);
     case DAMAGE_SKILL:
@@ -303,10 +303,10 @@ float *origin::getBonusAddr(tAllAttr *obj, eKind kind, int type)
   case KIND_DAMAGE:
     switch (type)
     {
-    case DAMAGE_HIT:
-      return &(obj->bonus.hit);
-    case DAMAGE_CHARGE_HIT:
-      return &(obj->bonus.chargeHit);
+    case DAMAGE_ATTACK:
+      return &(obj->bonus.attack);
+    case DAMAGE_CHARGE_ATTACK:
+      return &(obj->bonus.chargeAttack);
     case DAMAGE_PLUNGE:
       return &(obj->bonus.plunge);
     case DAMAGE_SKILL:
