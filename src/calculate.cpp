@@ -15,23 +15,23 @@ float fusioncalLevelFactor[LEVEL_MAX] = {
     /*70*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 539,
     /*80*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 723.9};
 
-calculate::calculate() { memset(&(character::base), '0', sizeof(tAllAttr)); }
-calculate::~calculate() { memset(&(character::base), '0', sizeof(tAllAttr)); }
+calculate::calculate()
+{
+  loadAll();
+}
+calculate::~calculate()
+{
+}
 void calculate::resetAll()
 {
-  memset(&mAttacker, '\0', sizeof(tAttribute));
-  memset(&mSuffer, '\0', sizeof(tAttribute));
-  memset(&mWeapon, '\0', sizeof(tAttribute));
-  memset(&mArtifact, '\0', sizeof(tAttribute));
-  memset(&mEnvironment, '\0', sizeof(tAttribute));
 }
 void calculate::loadAll()
 {
-  loadAttacker();
-  loadSuffer();
-  loadWeapon();
-  loadArtifact();
-  loadEnvironment();
+  memcpy(&mAttacker, &(character::base), sizeof(tAllAttr));
+  memcpy(&mSuffer, &(enemy::base), sizeof(tAllAttr));
+  memcpy(&mWeapon, &(weapon::base), sizeof(tAllAttr));
+  memcpy(&mArtifact, &(artifact::base), sizeof(tAllAttr));
+  memcpy(&mEnvironment, &(environment::base), sizeof(tAllAttr));
 }
 
 float calculate::attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc)
@@ -53,7 +53,7 @@ float calculate::attrChange(TextType aim, float maxAim, float rate, float minSrc
   return rtval;
 }
 
-float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType)
+float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType)
 {
   float elementalMastery = calElementalMastery();
   float critFactor = calCritFactor(calType);
@@ -65,21 +65,6 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   float bonus = calBonus(damageType, elementType);
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
-
-  cout << "calHp()                ==" << calHp() << endl;
-  cout << "calAtk()               ==" << calAtk() << endl;
-  cout << "calDef()               ==" << calDef() << endl;
-  cout << "calCritRate()          ==" << calCritRate() << endl;
-  cout << "calCritDmg()           ==" << calCritDmg() << endl;
-  cout << "critFactor()           ==" << critFactor << endl;
-  cout << "calDefFactor()         ==" << defFactor << endl;
-  cout << "calLevelFactor()       ==" << levelFactor << endl;
-  cout << "calElementalMastery()  ==" << elementalMastery << endl;
-  cout << "calReactFactor()       ==" << reactFactor << endl;
-  cout << "calResFactor()         ==" << resFactor << endl;
-  cout << "calBonus()             ==" << bonus << endl;
-  cout << "calIndepMult()         ==" << indepMult << endl;
-  cout << "calExtraRate()         ==" << extraRate << endl;
 
   if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
@@ -93,9 +78,56 @@ float calculate::calDamage(float rate, eReactType reactType, TextType mainAttr, 
   {
     return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor*fusioncalLevelFactor[mAttacker.info.level-1]) * (1 + indepMult) * critFactor;
   }
-  else // no react
+}
+
+float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
+{
+  int time = 0;
+  int textType;
+  float befor = 0, after = 0;
+  eTextType resultTextType = TEXT_UNSURE;
+  for (time = 0; time < TextAmount; time++)
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor;
+    for (textType = TEXT_HP; textType <= TEXT_RECHARGE; textType++)
+    {
+      changeOneSubText(ADD, static_cast<eTextType>(textType), fortune);
+      *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
+      if (reactType == REACT_UNSURE)
+        after = calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType);
+      else
+        after = reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE);
+      changeOneSubText(SUB, static_cast<eTextType>(textType), fortune);
+      *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
+      if (befor < after)
+      {
+        befor = after;
+        resultTextType = static_cast<eTextType>(textType);
+      }
+    }
+    changeOneSubText(ADD, resultTextType, fortune);
+    *getAttributeAddr(&mArtifact, resultTextType) = *getAttributeAddr(&(artifact::base), resultTextType);
+    // logText(&mArtifact, resultTextType);
+  }
+
+  // printf("HP==%.3f\n", calHp());
+  // printf("ATK==%.3f\n", calAtk());
+  // printf("DEF==%.3f\n", calDef());
+  // printf("CRIT_RATE==%.3f\n", calCritRate());
+  // printf("CRIT_DMG==%.3f\n", calCritDmg());
+  // printf("EM==%.3f\n", calElementalMastery());
+  // printf("BONUS==%.3f\n", calBonus(DAMAGE_SKILL, ELEMENT_HYDRO));
+
+  if (reactType == REACT_UNSURE)
+  {
+    cout << "CAL_MAX==" << calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType) << endl;
+    cout << "CAL_EXPECTANCE==" << calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) << endl;
+    cout << "CAL_MIN==" << calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) << endl;
+  }
+  else
+  {
+    cout << "CAL_MAX==" << reactRatio * calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
+    cout << "CAL_EXPECTANCE==" << reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
+    cout << "CAL_MIN==" << reactRatio * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
   }
 }
 
@@ -259,13 +291,6 @@ float calculate::calBonus(eDamageType damageType, eElementType elementType)
                *getBonusAddr(&mWeapon, KIND_DAMAGE, damageType) + *getBonusAddr(&mWeapon, KIND_ELEMENT, elementType) +
                *getBonusAddr(&mArtifact, KIND_DAMAGE, damageType) + *getBonusAddr(&mArtifact, KIND_ELEMENT, elementType) +
                *getBonusAddr(&mEnvironment, KIND_DAMAGE, damageType) + *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType);
-  cout << "bonus==" << *getBonusAddr(&mAttacker, KIND_ELEMENT, elementType) << endl;
-  cout << "bonus==" << *getBonusAddr(&mWeapon, KIND_ELEMENT, elementType) << endl;
-
-  cout << "bonus==" << *getBonusAddr(&mArtifact, KIND_ELEMENT, elementType) << endl;
-
-  cout << "bonus==" << *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType) << endl;
-
   return base;
 }
 float calculate::calIndepMult(eDamageType damageType, eElementType elementType)
@@ -316,35 +341,4 @@ float calculate::calCritFactor(eCalType calType)
   default:
     return 0;
   }
-}
-
-void calculate::loadAttacker()
-{
-  character *testCharacter = new character();
-  memcpy(&mAttacker, &testCharacter->base, sizeof(tAllAttr));
-  // delete testCharacter;
-}
-void calculate::loadSuffer()
-{
-  enemy *testEnemy = new enemy();
-  memcpy(&mSuffer, &(testEnemy->base), sizeof(tAllAttr));
-  // delete testEnemy; auto delete?
-}
-void calculate::loadWeapon()
-{
-  weapon *testWeapon = new weapon();
-  memcpy(&mWeapon, &(testWeapon->base), sizeof(tAllAttr));
-  // delete testWeapon;
-}
-void calculate::loadArtifact()
-{
-  artifact *testArtifact = new artifact();
-  memcpy(&mArtifact, &(testArtifact->base), sizeof(tAllAttr));
-  // delete testArtifact;
-}
-void calculate::loadEnvironment()
-{
-  environment *testEnvironment = new environment();
-  memcpy(&mEnvironment, &(testEnvironment->base), sizeof(tAllAttr));
-  // delete testEnvironment;
 }

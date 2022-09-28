@@ -4,15 +4,16 @@
 
 namespace genShinImpact
 {
-    class environment:public virtual origin
+    class environment : public virtual origin
     {
     public:
-        tAllAttr base;
         environment();
         ~environment();
         void loadTeamEffect(elementType type);
 
     protected:
+        tAllAttr base;
+
     private:
     };
 }

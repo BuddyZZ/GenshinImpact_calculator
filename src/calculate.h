@@ -4,13 +4,12 @@
 #include "environment.h"
 #include "origin.h"
 #include "weapon.h"
-#include "logger.h"
 #ifndef CALCULATE_H
 #define CALCULATE_H
 
 namespace genShinImpact
 {
-  class calculate : public character, enemy, environment, weapon, artifact, logger
+  class calculate : public character, enemy, environment, weapon, artifact
   {
   public:
     calculate();
@@ -24,9 +23,12 @@ namespace genShinImpact
     void resetAll();
     void loadAll();
 
-    float calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType);
+    float calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
+
 
     float attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc);
+
+    float findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio);
 
   protected:
     float calHp();
@@ -45,12 +47,6 @@ namespace genShinImpact
     float calBonus(eDamageType damageType, eElementType elementType);
     float calIndepMult(eDamageType damageType, eElementType elementType);
     float calExtraRate(eDamageType damageType, eElementType elementType);
-
-    void loadAttacker();
-    void loadSuffer();
-    void loadWeapon();
-    void loadArtifact();
-    void loadEnvironment();
 
   private:
   };

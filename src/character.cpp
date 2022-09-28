@@ -3,12 +3,15 @@ using namespace genShinImpact;
 using namespace std;
 character::character()
 {
-    memset(&base, '0', sizeof(tAllAttr));
-    base.info.level=90;
-    base.attrB.hpFix = 10000;
+    base.info.level = 90;
+    base.info.name = "Default Character";
+    base.attrB.hpFix = 15000;
     base.attrB.atkFix = 350;
     base.attrB.defFix = 650;
-    // INIT_STRUCT(base.bonus, tBonus, float, 0.01);
+    
+    base.attr.critRate=0.05+0.184;
+
+    base.attr.hp=0.4;
 }
 // character::~character()
 // {

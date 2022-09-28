@@ -4,14 +4,15 @@
 
 namespace genShinImpact
 {
-    class character:public virtual origin
+    class character : public virtual origin
     {
     public:
-        tAllAttr base;
         character();
         // ~character();
 
     protected:
+        tAllAttr base;
+
     private:
     };
 }

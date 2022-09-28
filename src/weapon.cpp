@@ -5,7 +5,11 @@ using namespace genShinImpact;
 using namespace std;
 weapon::weapon()
 {
-    memset(&base,'0',sizeof(tAllAttr));
+	base.info.name = "Default Weapon";
+	base.attrB.atkFix = 568;
+	base.attr.critDmg = 0.886;
+	base.attr.hp=0.2;
+	base.bonus.hydro=0.2;
 }
 weapon::~weapon()
 {
