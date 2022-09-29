@@ -35,27 +35,33 @@ const float ART_VALUE_SUB_ELEMENTAL_MASTERY = 23.0f;
 
 #define MAX_LUCK_VALUE 1.0f
 #define MIN_LUCK_VALUE 0.7f
-typedef enum addOrSub
-{
-    SUB = 0,
-    ADD = 1
-} eAddOrSub;
 
 namespace genShinImpact
 {
     class artifact : public origin
     {
     public:
+        typedef enum addOrSub
+        {
+            SUB = 0,
+            ADD = 1
+        } eAddOrSub;
+        typedef enum artifactList
+        {
+            ARTIFACT_A,
+            ARTIFACT_B,
+        } eArtifactList;
         artifact();
+        artifact(eArtifactList artifactNumOne, eArtifactList artifactNumTwo, eRarityType ArtifactRarity);
 
         void resetArtifact();
         float changeOneSubText(eAddOrSub add, eTextType text, float fortune);
 
         float changeFlowerOfLife(eAddOrSub add, eRarityType rarity);
-        float changePlumeOfDeath(eAddOrSub add,eRarityType rarity);
-        float changeSandOfEon(eAddOrSub add,eRarityType rarity, eTextType mainText);
-        float changeGobletOfEonothem(eAddOrSub add,eRarityType rarity, eTextType mainText);
-        float changeCircletOfLogos(eAddOrSub add,eRarityType rarity, eTextType mainText);
+        float changePlumeOfDeath(eAddOrSub add, eRarityType rarity);
+        float changeSandOfEon(eAddOrSub add, eRarityType rarity, eTextType mainText);
+        float changeGobletOfEonothem(eAddOrSub add, eRarityType rarity, eTextType mainText);
+        float changeCircletOfLogos(eAddOrSub add, eRarityType rarity, eTextType mainText);
 
     protected:
         tAllAttr base;

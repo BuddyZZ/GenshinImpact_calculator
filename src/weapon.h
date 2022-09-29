@@ -4,11 +4,17 @@
 
 namespace genShinImpact
 {
+
   class weapon : public virtual origin
   {
   public:
+    typedef enum weaponList
+    {
+      WEAPON_A,
+      WEAPON_B,
+    } eWeaponlist;
     weapon();
-    ~weapon();
+    weapon(eWeaponlist weaponNum, int level, int breakThrough);
 
   protected:
     tAllAttr base;

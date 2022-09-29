@@ -17,14 +17,26 @@ float fusioncalLevelFactor[LEVEL_MAX] = {
 
 calculate::calculate()
 {
+  character();
+  enemy();
+  weapon();
+  artifact();
+  environment();
   loadAll();
 }
-calculate::~calculate()
+calculate::calculate(eCharacterList characterNum, int characterLevel, int chracterBreak,
+                     eWeaponlist weaponNum, int weaponLevel, int weaponBreak,
+                     eArtifactList artifactNumOne, eArtifactList artifactNumTwo, eRarityType ArtifactRarity,
+                     eEnemyList enemyNum, int enemyLevel)
 {
+  character(characterNum, characterLevel, chracterBreak);
+  enemy(enemyNum, enemyLevel);
+  weapon(weaponNum, weaponLevel, weaponBreak);
+  artifact(artifactNumOne, artifactNumTwo, ArtifactRarity);
+  environment();
+  loadAll();
 }
-void calculate::resetAll()
-{
-}
+
 void calculate::loadAll()
 {
   memcpy(&mAttacker, &(character::base), sizeof(tAllAttr));
@@ -72,11 +84,11 @@ float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDam
   }
   else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION & BLOOM
   {
-    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level-1];
+    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level - 1];
   }
   else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor*fusioncalLevelFactor[mAttacker.info.level-1]) * (1 + indepMult) * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor * fusioncalLevelFactor[mAttacker.info.level - 1]) * (1 + indepMult) * critFactor;
   }
 }
 

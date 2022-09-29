@@ -13,18 +13,20 @@ namespace genShinImpact
   {
   public:
     calculate();
-    ~calculate();
+    calculate(eCharacterList characterNum, int characterLevel, int chracterBreak,
+              eWeaponlist weaponNum, int weaponLevel, int weaponBreak,
+              eArtifactList artifactNumOne,  eArtifactList artifactNumTwo,eRarityType ArtifactRarity,
+              eEnemyList enemyNum, int enemyLevel);
+
     tAllAttr mAttacker;
     tAllAttr mSuffer;
     tAllAttr mWeapon;
     tAllAttr mArtifact;
     tAllAttr mEnvironment;
 
-    void resetAll();
     void loadAll();
 
     float calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
-
 
     float attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc);
 
