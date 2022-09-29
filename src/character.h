@@ -4,17 +4,16 @@
 
 namespace genShinImpact
 {
+    typedef enum characterList
+    {
+        TEST_A,
+        TEST_B
+    } eCharacterList;
     class character : public virtual origin
     {
     public:
-        typedef enum characterList
-        {
-            TEST_A,
-            TEST_B
-        } eCharacterList;
-
         character();
-        character(eCharacterList characterNum, int level, int breakthrough);
+        character(eCharacterList characterNum, int level, int constellation);
 
     protected:
         void breakthrough(eCharacterList characterNum, int time);

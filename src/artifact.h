@@ -38,19 +38,19 @@ const float ART_VALUE_SUB_ELEMENTAL_MASTERY = 23.0f;
 
 namespace genShinImpact
 {
+    typedef enum addOrSub
+    {
+        SUB = 0,
+        ADD = 1
+    } eAddOrSub;
+    typedef enum artifactList
+    {
+        ARTIFACT_A,
+        ARTIFACT_B,
+    } eArtifactList;
     class artifact : public origin
     {
     public:
-        typedef enum addOrSub
-        {
-            SUB = 0,
-            ADD = 1
-        } eAddOrSub;
-        typedef enum artifactList
-        {
-            ARTIFACT_A,
-            ARTIFACT_B,
-        } eArtifactList;
         artifact();
         artifact(eArtifactList artifactNumOne, eArtifactList artifactNumTwo, eRarityType ArtifactRarity);
 
@@ -68,6 +68,7 @@ namespace genShinImpact
 
         float calRarityFactor(eRarityType rarity);
         float posOrNeg(eAddOrSub add);
+
     private:
     };
 }

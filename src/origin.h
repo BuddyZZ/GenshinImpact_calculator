@@ -148,11 +148,11 @@ namespace genShinImpact
   typedef enum elementType
   {
     ELEMENT_UNSURE = 0,
-    ELEMENT_CRYO,
     ELEMENT_PYRO,
     ELEMENT_HYDRO,
-    ELEMENT_DENDRO,
     ELEMENT_ELECTRO,
+    ELEMENT_CRYO,
+    ELEMENT_DENDRO,
     ELEMENT_ANEMO,
     ELEMENT_GEO,
     ELEMENT_PHYSICS,
@@ -361,6 +361,7 @@ namespace genShinImpact
     int level;
     eElementType element;
     eWeaponType weapon;
+    eTextType breakthroughText;
     // eArtifactKind artifact;
   } tInfo;
   typedef struct allAttribute
@@ -415,6 +416,7 @@ namespace genShinImpact
 //        .level = 90,
 //        .element = ELEMENT_ANEMO,
 //        .weapon = WEAPON_BOW,
+//				.breakthroughText=TEXT_CRIT_DMG,
 //    }, /*info*/
 //    {
 //        .atkFix = 0,

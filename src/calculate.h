@@ -13,8 +13,8 @@ namespace genShinImpact
   {
   public:
     calculate();
-    calculate(eCharacterList characterNum, int characterLevel, int chracterBreak,
-              eWeaponlist weaponNum, int weaponLevel, int weaponBreak,
+    calculate(eCharacterList characterNum, int characterLevel, int constellation,
+              eWeaponlist weaponNum, int weaponLevel, int refine,
               eArtifactList artifactNumOne,  eArtifactList artifactNumTwo,eRarityType ArtifactRarity,
               eEnemyList enemyNum, int enemyLevel);
 

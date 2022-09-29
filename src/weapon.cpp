@@ -8,11 +8,12 @@ tAllAttr weaponArr[2] =
 	{
 		{
 			{
-				.name = "test-weapon-",
+				.name = "test-weapon-0",
 				.rarity = RARITY_STAR_5,
 				.level = 90,
 				.element = ELEMENT_UNSURE,
 				.weapon = WEAPON_SWORD,
+				.breakthroughText = TEXT_CRIT_DMG,
 			}, /*info*/
 			{
 				.atkFix = 608,
@@ -69,6 +70,7 @@ tAllAttr weaponArr[2] =
 				.level = 90,
 				.element = ELEMENT_UNSURE,
 				.weapon = WEAPON_BOW,
+				.breakthroughText = TEXT_CRIT_DMG,
 			}, /*info*/
 			{
 				.atkFix = 548,

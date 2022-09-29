@@ -4,14 +4,14 @@
 
 namespace genShinImpact
 {
+    typedef enum enemyList
+    {
+        ENEMY_A,
+        ENEMY_B
+    } eEnemyList;
     class enemy : public virtual origin
     {
     public:
-        typedef enum enemyList
-        {
-            ENEMY_A,
-            ENEMY_B
-        } eEnemyList;
         enemy();
         enemy(eEnemyList enemyNum, int level);
 

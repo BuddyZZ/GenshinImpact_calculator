@@ -24,14 +24,14 @@ calculate::calculate()
   environment();
   loadAll();
 }
-calculate::calculate(eCharacterList characterNum, int characterLevel, int chracterBreak,
-                     eWeaponlist weaponNum, int weaponLevel, int weaponBreak,
+calculate::calculate(eCharacterList characterNum, int characterLevel, int constellation,
+                     eWeaponlist weaponNum, int weaponLevel, int refine,
                      eArtifactList artifactNumOne, eArtifactList artifactNumTwo, eRarityType ArtifactRarity,
                      eEnemyList enemyNum, int enemyLevel)
 {
-  character(characterNum, characterLevel, chracterBreak);
+  character(characterNum, characterLevel, constellation);
   enemy(enemyNum, enemyLevel);
-  weapon(weaponNum, weaponLevel, weaponBreak);
+  weapon(weaponNum, weaponLevel, refine);
   artifact(artifactNumOne, artifactNumTwo, ArtifactRarity);
   environment();
   loadAll();

@@ -9,6 +9,7 @@ tAllAttr enemyArr[2] = {
             .level = 90,
             .element = ELEMENT_ANEMO,
             .weapon = WEAPON_BOW,
+            .breakthroughText = TEXT_UNSURE,
         },  /*info*/
         {}, /*attrB*/
         {}, /*attrF*/
@@ -36,6 +37,7 @@ tAllAttr enemyArr[2] = {
             .level = 90,
             .element = ELEMENT_ANEMO,
             .weapon = WEAPON_BOW,
+            .breakthroughText = TEXT_UNSURE,
         },  /*info*/
         {}, /*attrB*/
         {}, /*attrF*/

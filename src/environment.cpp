@@ -3,39 +3,43 @@ using namespace genShinImpact;
 using namespace std;
 environment::environment()
 {
-	base.info.name="Default Environment";
+	base.info.name = "Default Environment";
 }
-environment::~environment()
+environment::environment(tEnvironmentBuff *environmentBuffList)
 {
+	tEnvironmentBuff *temp = environmentBuffList;
+	while (temp->type == ENVIRONMENT_DOUBLE_HYDRO)
+	{
+		// load all
+		temp++;
+	}
 }
 
-void environment::loadTeamEffect(elementType type)
+void environment::loadTeamEffect(eEnvironmentList type)
 {
-			tBonus temp;
+	tBonus temp;
 
 	switch (type)
 	{
-	case ELEMENT_UNSURE:
-		break;
-	case ELEMENT_CRYO:
-		base.attr.critRate += 0.15;
-		break;
-	case ELEMENT_PYRO:
+	case ENVIRONMENT_DOUBLE_PYRO:
 		base.attr.atk += 0.25;
 		break;
-	case ELEMENT_HYDRO:
+	case ENVIRONMENT_DOUBLE_HYDRO:
 		base.buff.incomingHelthingBonus += 0.3;
 		break;
-	case ELEMENT_DENDRO:
+	case ENVIRONMENT_DOUBLE_ELECTRO:
 		break;
-	case ELEMENT_ELECTRO:
+	case ENVIRONMENT_DOUBLE_CRYO:
+		base.attr.critRate += 0.15;
 		break;
-	case ELEMENT_ANEMO:
+	case ENVIRONMENT_DOUBLE_DENDRO:
+		break;
+	case ENVIRONMENT_DOUBLE_ANEMO:
 		base.buff.staminaReduce = 0.1;
 		base.buff.cdReduce = 0.05;
 		base.buff.moveSpeed = 0.1;
 		break;
-	case ELEMENT_GEO:
+	case ENVIRONMENT_DOUBLE_GEO:
 		base.buff.sheldStrength += 0.15;
 		INIT_STRUCT(temp, tBonus, float, 0.15);
 		temp.attack = 0;

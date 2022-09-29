@@ -14,7 +14,7 @@ namespace genShinImpact
       WEAPON_B,
     } eWeaponlist;
     weapon();
-    weapon(eWeaponlist weaponNum, int level, int breakThrough);
+    weapon(eWeaponlist weaponNum, int level, int refine);
 
   protected:
     tAllAttr base;

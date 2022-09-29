@@ -2,7 +2,7 @@
 using namespace genShinImpact;
 using namespace std;
 
-tAllAttr characterArr[2] = {
+tAllAttr characterArr[TEST_B + 1] = {
     {
         {
             .name = "test-character-0",
@@ -10,6 +10,7 @@ tAllAttr characterArr[2] = {
             .level = 90,
             .element = ELEMENT_ANEMO,
             .weapon = WEAPON_BOW,
+            .breakthroughText = TEXT_CRIT_RATE,
         }, /*info*/
         {
             .atkFix = 300,
@@ -89,6 +90,7 @@ tAllAttr characterArr[2] = {
             .level = 90,
             .element = ELEMENT_ANEMO,
             .weapon = WEAPON_BOW,
+            .breakthroughText = TEXT_CRIT_RATE,
         }, /*info*/
         {
             .atkFix = 300,
