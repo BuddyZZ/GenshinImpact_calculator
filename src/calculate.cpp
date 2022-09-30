@@ -46,20 +46,22 @@ void calculate::loadAll()
   memcpy(&mEnvironment, &(environment::base), sizeof(tAllAttr));
 }
 
-float calculate::attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc)
+float attrConvert(float minSrc, float src, float maxSrc, float rate, float aim, float maxAim)
 {
   float value, rtval;
-  value = *getAttributeAddr(&mAttacker, src);
-  if (value > maxSrc)
-    value = maxSrc;
-  else if (value > minSrc)
+  value = src;
+
+  if (minSrc > 0 && value > minSrc)
     value -= minSrc;
   else
-    value = 0;
+    return 0;
+
+  if (maxSrc > 0 && value > maxSrc)
+    value = maxSrc;
 
   rtval = value * rate;
 
-  if (rtval > maxAim)
+  if (maxAim > 0 && rtval > maxAim)
     rtval = maxAim;
 
   return rtval;
@@ -141,6 +143,34 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
     cout << "CAL_EXPECTANCE==" << reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
     cout << "CAL_MIN==" << reactRatio * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
   }
+}
+float calculate::chargeEffect(float energyCost, float rechargeFactor, eTeamMember teamMemberNum, float frontSameColor, float frontNonColor, float frontDiffColor,
+                              float backSameColor, float backNonColor, float backDiffColor)
+
+{
+  // big == 3 small
+
+  float base, backgroundFactor;
+
+  switch (teamMemberNum)
+  {
+  case TEAM_MEMBER_1:
+    backgroundFactor = 1;
+    break;
+  case TEAM_MEMBER_2:
+    backgroundFactor = 0.8;
+    break;
+  case TEAM_MEMBER_3:
+    backgroundFactor = 0.7;
+    break;
+  case TEAM_MEMBER_4:
+    backgroundFactor = 0.6;
+    break;
+  }
+  base = 3 * backSameColor + 2 * backNonColor + 1 * backDiffColor;
+  base *= backgroundFactor;
+  base += 3 * frontSameColor + 2 * frontNonColor + 1 * frontDiffColor;
+  return base * rechargeFactor;
 }
 
 float calculate::calHp()

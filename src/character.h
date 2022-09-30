@@ -9,6 +9,16 @@ namespace genShinImpact
         TEST_A,
         TEST_B
     } eCharacterList;
+    typedef enum constellation
+    {
+        CONSTELLATION_0 = 0,
+        CONSTELLATION_1,
+        CONSTELLATION_2,
+        CONSTELLATION_3,
+        CONSTELLATION_4,
+        CONSTELLATION_5,
+        CONSTELLATION_6
+    } eConstellation;
     class character : public virtual origin
     {
     public:

@@ -45,6 +45,14 @@ namespace genShinImpact
     EXTREME_GREED = 0,
     EXTREME_BARREL
   } eFindExtreme;
+  typedef enum teamMember
+  {
+    TEAM_MEMBER_1 = 0,
+    TEAM_MEMBER_2,
+    TEAM_MEMBER_3,
+    TEAM_MEMBER_4
+  } eTeamMember;
+
 
   const int LEVEL_MAX = 90;
   const int LEVEL_MAX_TALENT = 15;
@@ -67,16 +75,7 @@ namespace genShinImpact
 #define REACT_COEFFICIENT_MELT_B 1.5f
 #define REACT_COEFFICIENT_CRYSTALLIZE 3.0f
 
-#define INCREASEMENT_K (25.0f / 9.0f)
-#define INCREASEMENT_A 1400.0f
-#define FUSION_K 16.0f   // 20/3
-#define FUSION_A 2000.0f // 1400
-#define CATALYZE_K 5.0f
-#define CATALYZE_A 1200.0f
-#define CRYSTALLIZE_K (40.0f / 9.0f)
-#define CRYSTALLIZE_A 1400.0f
 
-#define factor(K, A, EM, F, C) (((K) * (EM) / ((EM) + (A)) + 1 + (F)) * (C))
 
   typedef enum kind
   {
