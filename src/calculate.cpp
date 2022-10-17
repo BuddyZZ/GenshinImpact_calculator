@@ -99,6 +99,7 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
       if (reactType == REACT_UNSURE)
         after = calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType);
       else
+#warning need change reactRatio for fusion/incresment
         after = reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE);
       changeOneSubText(SUB, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
