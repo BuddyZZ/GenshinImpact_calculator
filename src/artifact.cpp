@@ -6,16 +6,16 @@ artifact::artifact()
     base.attrF.atkFix = ART_VALUE_MAIN_ATK_FIX;
     // base.attrF.defFix = 0;
     base.attrF.hpFix = ART_VALUE_MAIN_HP_FIX;
-    base.attr.atk = 0;//ART_VALUE_MAIN_ATK;
-    base.attr.critDmg = 0;//ART_VALUE_MAIN_CRIT_DMG
+    base.attr.atk = 0;     // ART_VALUE_MAIN_ATK;
+    base.attr.critDmg = 0; // ART_VALUE_MAIN_CRIT_DMG
     base.attr.critRate = ART_VALUE_MAIN_CRIT_RATE;
-    base.attr.def = 0;//ART_VALUE_MAIN_DEF
-    base.attr.elementalMastery = 0;//ART_VALUE_MAIN_ELEMENTAL_MASTERY
-    base.attr.hp = ART_VALUE_MAIN_HP;//ART_VALUE_MAIN_HP
-    base.attr.recharge = 0;//ART_VALUE_MAIN_RECHARGE
-    base.bonus.hydro=ART_VALUE_MAIN_ELEMENT_BONUS + 0.15;//   ART_VALUE_MAIN_ELEMENT_BONUS     ART_VALUE_MAIN_PHYSIC_BONUS 
+    base.attr.def = 0;                                      // ART_VALUE_MAIN_DEF
+    base.attr.elementalMastery = 0;                         // ART_VALUE_MAIN_ELEMENTAL_MASTERY
+    base.attr.hp = ART_VALUE_MAIN_HP;                       // ART_VALUE_MAIN_HP
+    base.attr.recharge = 0;                                 // ART_VALUE_MAIN_RECHARGE
+    base.bonus.hydro = ART_VALUE_MAIN_ELEMENT_BONUS + 0.15; //   ART_VALUE_MAIN_ELEMENT_BONUS     ART_VALUE_MAIN_PHYSIC_BONUS
 
-    base.info.name="Default Artifact";
+    base.info.name = "Default Artifact";
 }
 
 void artifact::resetArtifact()
@@ -43,6 +43,8 @@ float artifact::changeOneSubText(eAddOrSub add, eTextType text, float fortune)
         return changeAttribute(&base, TEXT_ELEMENTAL_MASTERY, ART_VALUE_SUB_ELEMENTAL_MASTERY * fortune * posOrNeg(add));
     case TEXT_RECHARGE:
         return changeAttribute(&base, TEXT_RECHARGE, ART_VALUE_SUB_RECHARGE * fortune * posOrNeg(add));
+    default:
+        return 0;
     }
 }
 
@@ -151,11 +153,10 @@ float artifact::changeCircletOfLogos(eAddOrSub add, eRarityType rarity, eTextTyp
 
 float artifact::calRarityFactor(eRarityType rarity)
 {
-    float rarityFactor;
     if (rarity == RARITY_STAR_5)
-        rarityFactor = 1;
+        return 1;
     else if (rarity == RARITY_STAR_4)
-        rarityFactor = 0.8;
+        return 0.8;
     else
         return 0;
 }
