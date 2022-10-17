@@ -5,15 +5,15 @@ using namespace std;
 
 float fusioncalLevelFactor[LEVEL_MAX] = {
     /*		1		2		3		4 5 6 7 8 9 10*/
-    /* 0*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*10*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*20*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*30*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*40*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*50*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*60*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 42,
-    /*70*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 539,
-    /*80*/ 7, 10, 13, 17, 20, 24, 28, 33, 37, 723.9};
+    /* 0*/ 9, 9, 10, 11, 11, 12, 13, 14, 16, 17,
+    /*10*/ 19, 20, 22, 24, 27, 32, 35, 38, 40,
+    /*20*/ 43, 46, 49, 51, 54, 57, 59, 61, 65, 68, 68,
+    /*30*/ 71, 75, 78, 81, 85, 88, 92, 96, 100, 104,
+    /*40*/ 108, 112, 117, 122, 128, 134, 141, 148, 155, 162,
+    /*50*/ 168, 175, 182, 189, 199, 208, 217, 226, 236, 245,
+    /*60*/ 257, 270, 283, 296, 312, 326, 340, 354, 368, 383,
+    /*70*/ 397, 412, 426, 439, 457, 473, 490, 506, 522, 539,
+    /*80*/ 555, 571, 588, 605, 627, 644, 663, 682, 703, 723.9};
 
 calculate::calculate()
 {
@@ -72,11 +72,15 @@ float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDam
   }
   else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION & BLOOM
   {
-    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level-1];
+    return resFactor * levelFactor * reactFactor * fusioncalLevelFactor[mAttacker.info.level - 1];
   }
   else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor*fusioncalLevelFactor[mAttacker.info.level-1]) * (1 + indepMult) * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor * fusioncalLevelFactor[mAttacker.info.level - 1]) * (1 + indepMult) * critFactor;
+  }
+  else
+  {
+    return 0;
   }
 }
 
