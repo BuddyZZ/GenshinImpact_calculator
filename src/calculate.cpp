@@ -4,11 +4,11 @@ using namespace genShinImpact;
 using namespace std;
 
 float fusioncalLevelFactor[LEVEL_MAX] = {
-    /*		1		2		3		4 5 6 7 8 9 10*/
-    /* 0*/ 9, 9, 10, 11, 11, 12, 13, 14, 16, 17,
-    /*10*/ 19, 20, 22, 24, 27, 32, 35, 38, 40,
-    /*20*/ 43, 46, 49, 51, 54, 57, 59, 61, 65, 68, 68,
-    /*30*/ 71, 75, 78, 81, 85, 88, 92, 96, 100, 104,
+    /*     1    2		 3		4    5    6    7    8    9    10*/
+    /* 0*/ 9,   9,   10,  11,  11,  12,  13,  14,  16,  17,
+    /*10*/ 19,  20,  22,  24,  27,  32,  35,  38,  40,  43,
+    /*20*/ 46,  49,  51,  54,  57,  59,  61,  65,  68,  68,
+    /*30*/ 71,  75,  78,  81,  85,  88,  92,  96,  100, 104,
     /*40*/ 108, 112, 117, 122, 128, 134, 141, 148, 155, 162,
     /*50*/ 168, 175, 182, 189, 199, 208, 217, 226, 236, 245,
     /*60*/ 257, 270, 283, 296, 312, 326, 340, 354, 368, 383,
@@ -52,12 +52,21 @@ float calculate::attrChange(TextType aim, float maxAim, float rate, float minSrc
 
   return rtval;
 }
-
-float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType)
+float calculate::calDamage(eCalType calType, float *rate, TextType *mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
 {
+  int i = 0;
+  float basicDamage = 0;
+  while (rate[i] > 0 &&
+         (mainAttr[i] == TEXT_DEF ||
+          mainAttr[i] == TEXT_HP ||
+          mainAttr[i] == TEXT_ATK ||
+          mainAttr[i] == TEXT_ELEMENTAL_MASTERY))
+  {
+    basicDamage += mainAttr[i] * rate[i];
+    ++i;
+  }
   float elementalMastery = calElementalMastery();
   float critFactor = calCritFactor(calType);
-  float basicDamageFactor = calMainFactor(mainAttr);
   float defFactor = calDefFactor();
   float levelFactor = calLevelFactor();
   float resFactor = calResFactor(damageType, elementType);
@@ -65,10 +74,12 @@ float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDam
   float bonus = calBonus(damageType, elementType);
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
-
+  if (reactRatio > 1)
+    return 0;
   if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate) * (1 + indepMult) * critFactor * reactFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamage + extraRate) * (1 + indepMult) * critFactor * reactFactor * reactRatio +
+           defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamage + extraRate) * (1 + indepMult) * critFactor * (1 - reactRatio);
   }
   else if (REACT_TYPE_FUSION_START < reactType && reactType < REACT_TYPE_FUSION_END) // FUSION & BLOOM
   {
@@ -76,7 +87,8 @@ float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDam
   }
   else if (REACT_CATALYZE_START < reactType && reactType < REACT_CATALYZE_END) // CATALYZE
   {
-    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamageFactor * rate + extraRate + reactFactor * fusioncalLevelFactor[mAttacker.info.level - 1]) * (1 + indepMult) * critFactor;
+    return defFactor * resFactor * levelFactor * (1 + bonus) * (basicDamage + extraRate) * (1 + indepMult) * critFactor +
+           defFactor * resFactor * levelFactor * (1 + bonus) * (reactFactor * fusioncalLevelFactor[mAttacker.info.level - 1]) * (1 + indepMult) * critFactor * reactRatio;
   }
   else
   {
@@ -84,7 +96,7 @@ float calculate::calDamage(eCalType calType, float rate, TextType mainAttr, eDam
   }
 }
 
-float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
+float calculate::findMaxGreed(int TextAmount, float fortune, float *rate, TextType *mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
 {
   int time = 0;
   int textType;
@@ -96,10 +108,7 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
     {
       changeOneSubText(ADD, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
-      if (reactType == REACT_UNSURE)
-        after = calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType);
-      else
-        after = reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE);
+      after = reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType, reactRatio);
       changeOneSubText(SUB, static_cast<eTextType>(textType), fortune);
       *getAttributeAddr(&mArtifact, static_cast<eTextType>(textType)) = *getAttributeAddr(&(artifact::base), static_cast<eTextType>(textType));
       if (befor < after)
@@ -110,29 +119,12 @@ float calculate::findMaxGreed(int TextAmount, float fortune, float rate, TextTyp
     }
     changeOneSubText(ADD, resultTextType, fortune);
     *getAttributeAddr(&mArtifact, resultTextType) = *getAttributeAddr(&(artifact::base), resultTextType);
-    // logText(&mArtifact, resultTextType);
   }
 
-  // printf("HP==%.3f\n", calHp());
-  // printf("ATK==%.3f\n", calAtk());
-  // printf("DEF==%.3f\n", calDef());
-  // printf("CRIT_RATE==%.3f\n", calCritRate());
-  // printf("CRIT_DMG==%.3f\n", calCritDmg());
-  // printf("EM==%.3f\n", calElementalMastery());
-  // printf("BONUS==%.3f\n", calBonus(DAMAGE_SKILL, ELEMENT_HYDRO));
-
-  if (reactType == REACT_UNSURE)
-  {
-    cout << "CAL_MAX==" << calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType) << endl;
-    cout << "CAL_EXPECTANCE==" << calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) << endl;
-    cout << "CAL_MIN==" << calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) << endl;
-  }
-  else
-  {
-    cout << "CAL_MAX==" << reactRatio * calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
-    cout << "CAL_EXPECTANCE==" << reactRatio * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
-    cout << "CAL_MIN==" << reactRatio * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType) + (1 - reactRatio) * calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, REACT_UNSURE) << endl;
-  }
+  cout << "CAL_MAX==" << calDamage(CAL_MAX, rate, mainAttr, damageType, elementType, reactType, reactRatio) << endl;
+  cout << "CAL_EXPECTANCE==" << calDamage(CAL_EXPECTANCE, rate, mainAttr, damageType, elementType, reactType, reactRatio) << endl;
+  cout << "CAL_MIN==" << calDamage(CAL_MIN, rate, mainAttr, damageType, elementType, reactType, reactRatio) << endl;
+  return befor;
 }
 
 float calculate::calHp()
@@ -151,6 +143,7 @@ float calculate::calHp()
                   *getAttributeAddr(&mEnvironment, TEXT_HP);
   return base * (1 + percent) + fix;
 }
+
 float calculate::calAtk()
 {
   float base = *getAttributeAddr(&mAttacker, TEXT_BASE_ATK) +
@@ -167,6 +160,7 @@ float calculate::calAtk()
                   *getAttributeAddr(&mEnvironment, TEXT_ATK);
   return base * (1 + percent) + fix;
 }
+
 float calculate::calDef()
 {
   float base = *getAttributeAddr(&mAttacker, TEXT_BASE_DEF) +
@@ -183,6 +177,7 @@ float calculate::calDef()
                   *getAttributeAddr(&mEnvironment, TEXT_DEF);
   return base * (1 + percent) + fix;
 }
+
 float calculate::calCritRate()
 {
   float base = *getAttributeAddr(&mAttacker, TEXT_CRIT_RATE) +
@@ -196,6 +191,7 @@ float calculate::calCritRate()
   else
     return 0;
 }
+
 float calculate::calCritDmg()
 {
   float base = *getAttributeAddr(&mAttacker, TEXT_CRIT_DMG) +
@@ -213,7 +209,7 @@ float calculate::calDefFactor()
 {
   int attackerLevel = *static_cast<int *>(getInfoAddr(&mAttacker, INFO_LEVEL));
   int sufferLevel = *static_cast<int *>(getInfoAddr(&mSuffer, INFO_LEVEL));
-  return (1 - (sufferLevel + 100.0f) / (attackerLevel + sufferLevel + 200.0f));
+  return (1 - (sufferLevel + 100.0f) * (1.0f - *getBuffAddr(&mAttacker, BUFF_DEF_IGNOR)) * (1.0f + *getAttributeAddr(&mSuffer, TEXT_DEF)) / (attackerLevel + sufferLevel + 200.0f));
 }
 
 float calculate::calLevelFactor()
@@ -273,6 +269,7 @@ float calculate::calReactFactor(eReactType reactType, float elementalMastery)
     return (CRYSTALLIZE_K * mastery / (mastery + CRYSTALLIZE_A) + 1 + *getReactFactorAddr(&mAttacker, reactType)) * getReactCoefficient(reactType);
   }
 }
+
 float calculate::calResFactor(eDamageType damageType, eElementType elementType)
 {
   float base = *getResAddr(&mSuffer, KIND_DAMAGE, damageType) + *getResAddr(&mSuffer, KIND_ELEMENT, elementType);
@@ -289,6 +286,7 @@ float calculate::calResFactor(eDamageType damageType, eElementType elementType)
     return 1 - (base / 2);
   }
 }
+
 float calculate::calBonus(eDamageType damageType, eElementType elementType)
 {
   float base = *getBonusAddr(&mAttacker, KIND_DAMAGE, damageType) + *getBonusAddr(&mAttacker, KIND_ELEMENT, elementType) +
@@ -297,6 +295,7 @@ float calculate::calBonus(eDamageType damageType, eElementType elementType)
                *getBonusAddr(&mEnvironment, KIND_DAMAGE, damageType) + *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType);
   return base;
 }
+
 float calculate::calIndepMult(eDamageType damageType, eElementType elementType)
 {
   float base = *getIndepMultAddr(&mAttacker, KIND_DAMAGE, damageType) + *getIndepMultAddr(&mAttacker, KIND_ELEMENT, elementType) +
@@ -305,6 +304,7 @@ float calculate::calIndepMult(eDamageType damageType, eElementType elementType)
                *getIndepMultAddr(&mEnvironment, KIND_DAMAGE, damageType) + *getIndepMultAddr(&mEnvironment, KIND_ELEMENT, elementType);
   return base;
 }
+
 float calculate::calExtraRate(eDamageType damageType, eElementType elementType)
 {
   float base = *getExtraRateAddr(&mAttacker, KIND_DAMAGE, damageType) + *getExtraRateAddr(&mAttacker, KIND_ELEMENT, elementType) +
@@ -324,6 +324,8 @@ float calculate::calMainFactor(TextType mainAttr)
     return calAtk();
   case TEXT_DEF:
     return calDef();
+  case TEXT_ELEMENTAL_MASTERY:
+    return calElementalMastery();
   default:
     return 0;
   }
