@@ -6,7 +6,6 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 #include "origin.h"
-
 #include "calculate.h"
 #include "character.h"
 #include "enemy.h"
@@ -19,6 +18,7 @@
 #include <cstring>
 
 #include <iomanip>
+#include <vector>
 
 using namespace std;
 using namespace genShinImpact;
@@ -30,8 +30,11 @@ int main()
 {
 
   calculate *testCalculate = new calculate();
-
-  testCalculate->findMaxGreed(32, 0.9, 0.4806, TEXT_HP, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_VAPORIZE_A, 0.33);
+  float rate[3];
+  eTextType text[3];
+  rate[0]=0.5;
+  text[0]=TEXT_HP;
+  testCalculate->findMaxGreed(32, 0.9, rate, text, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_VAPORIZE_A, 0.33);
   // findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
 
   // calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
@@ -49,4 +52,5 @@ int main()
 //                                            REACT_BURGEON,
 //                                            REACT_HYPERBLOOM,
   //                            calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType)
+
 }
