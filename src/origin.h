@@ -15,11 +15,18 @@ using namespace std;
 #define debug_log //
 #endif
 
-#define LOAD_STRUCT(destStruct, srcStruct, structType, ContentType)            \
+#define LOAD_STRUCT(destStruct, srcStruct, structType, ContentType)           \
+  for (int i = 0; i < sizeof(structType) / sizeof(ContentType); i++)          \
+  {                                                                           \
+    *((ContentType *)&(destStruct) + i) = *((ContentType *)&(srcStruct) + i); \
+  }
+
+#define ADD_STRUCT(destStruct, srcStruct, structType, ContentType)             \
   for (int i = 0; i < sizeof(structType) / sizeof(ContentType); i++)           \
   {                                                                            \
     *((ContentType *)&(destStruct) + i) += *((ContentType *)&(srcStruct) + i); \
   }
+
 #define INIT_STRUCT(destStruct, structType, ContentType, initValue)  \
   for (int i = 0; i < sizeof(structType) / sizeof(ContentType); i++) \
   {                                                                  \
@@ -39,6 +46,14 @@ namespace genShinImpact
     EXTREME_GREED = 0,
     EXTREME_BARREL
   } eFindExtreme;
+  typedef enum teamMember
+  {
+    TEAM_MEMBER_1 = 0,
+    TEAM_MEMBER_2,
+    TEAM_MEMBER_3,
+    TEAM_MEMBER_4
+  } eTeamMember;
+
 
   const int LEVEL_MAX = 90;
   const int LEVEL_MAX_TALENT = 15;
@@ -78,14 +93,13 @@ namespace genShinImpact
     KIND_WEAPON,
     KIND_ARTIFACT,
     KIND_BUFF,
-    KIND_INFO,
     KIND_ELEMENT,
     KIND_DAMAGE,
     KIND_REACT,
     KIND_TEXT,
-    KIND_ATTACK
     KIND_SKILL,
     KIND_BURST,
+    KIND_ATTACK
   } eKind;
 
   typedef enum rarity
@@ -143,11 +157,11 @@ namespace genShinImpact
   typedef enum elementType
   {
     ELEMENT_UNSURE = 0,
-    ELEMENT_CRYO,
     ELEMENT_PYRO,
     ELEMENT_HYDRO,
-    ELEMENT_DENDRO,
     ELEMENT_ELECTRO,
+    ELEMENT_CRYO,
+    ELEMENT_DENDRO,
     ELEMENT_ANEMO,
     ELEMENT_GEO,
     ELEMENT_PHYSICS,
@@ -157,8 +171,8 @@ namespace genShinImpact
   typedef enum damageType
   {
     DAMAGE_UNSURE = 0,
-    DAMAGE_HIT,
-    DAMAGE_CHARGE_HIT,
+    DAMAGE_ATTACK,
+    DAMAGE_CHARGE_ATTACK,
     DAMAGE_PLUNGE,
     DAMAGE_SKILL,
     DAMAGE_BURST,
@@ -201,9 +215,9 @@ namespace genShinImpact
     TEXT_HP,
     TEXT_ATK,
     TEXT_DEF,
-    TEXT_ELEMENTAL_MASTERY,
     TEXT_CRIT_RATE,
     TEXT_CRIT_DMG,
+    TEXT_ELEMENTAL_MASTERY,
     TEXT_RECHARGE,
     TEXT_ELEMENT_BONUS,
     TEXT_ELEMENT_BONUS_PYRO,
@@ -224,10 +238,12 @@ namespace genShinImpact
 
   /**
    * A struct use to define all kinds of normal attack type
-   * @param NormalAttackDmg[level][segment]
+   * @param AttackDmg[level][segment]
    */
-  typedef struct normalAttackDmg
+  typedef struct attackDmg
   {
+    string name;
+    int element;
     float NormalAttackDmg[15][16];
     float chargeAttackDmg[15][16];
     float chargeAttackStaminaCost[15];
@@ -243,8 +259,8 @@ namespace genShinImpact
   {
     string name;
     int element;
-    float rate[15][16];
     float cooldown[15];
+    float rate[15][16];
   } tSkill;
   /**
    * A struct use to define character elemental burst info
@@ -255,20 +271,20 @@ namespace genShinImpact
     string name;
     int element;
     float energy;
-    float rate[15][16];
     float cooldown[15];
+    float rate[15][16];
   } tBurst;
   /**
    * A struct use to define basic attribute that used commonly
    */
   typedef struct basicAttribute
   {
-    float hp;
     float atk;
     float def;
-    float elementalMastery;
+    float hp;
     float critRate;
     float critDmg;
+    float elementalMastery;
     float recharge;
     // float stamina;
   } tAttribute;
@@ -278,9 +294,9 @@ namespace genShinImpact
    */
   typedef struct attributeFixAdd
   {
-    float hpFix;
     float atkFix;
     float defFix;
+    float hpFix;
   } tAttributeFix;
   /**
    * A struct use to define some character attribute seldom use or can not be seen
@@ -291,11 +307,12 @@ namespace genShinImpact
     float healingBonus;
     float incomingHelthingBonus;
     float sheldStrength;
+    float defIgnor;
     float cdReduce;
-    float moveSpeed;
     float normalAtkSpeed;
     float staminaReduce;
-    float defIgnor;
+    float moveSpeed;
+
   } tBuff;
 
   /**
@@ -303,22 +320,23 @@ namespace genShinImpact
    * element/physics/skill/burst/Attack All the value should Addition and
    * subtraction operations
    */
-  typedef struct BonusAndResistance
+  typedef struct BonusResistanceIndependentRate
   {
     float pyro;
     float hydro;
-    float dendro;
     float electro;
-    float anemo;
     float cryo;
+    float dendro;
+    float anemo;
     float geo;
     float physical;
-    float hit;
-    float chargeHit;
+    float attack;
+    float chargeAttack;
     float plunge;
-    float burst;
     float skill;
-  } tBonus, tRes;
+    float burst;
+  } tBonus, tRes, tIndepMult, tExtraRate;
+  ;
   /**
    * A struct use to define all kinds of elemental react bonus factor
    * Now it can be get from artifact 4-set only
@@ -332,61 +350,44 @@ namespace genShinImpact
     float melt_b;
     float swirl;
     float superconduct;
+    float crushingice;
     float electroCharged;
     float overloaded;
-    float crushingice;
     float burning;
     float bloom;
     float burgeon;
     float hyperbloom;
     float spread;
     float aggravate;
-
     float crystallize;
     // float frozen;
   } tReactFactor;
 
-  typedef struct independentRate
-  {
-    float burst;
-    float skill;
-    float hit;
-    float chargeHit;
-    float plunge;
-    float cryo;
-    float pyro;
-    float hydro;
-    float dendro;
-    float electro;
-    float anemo;
-    float geo;
-    float physical;
-  } tIndepMult, tExtraRate;
-
   typedef struct infomation
   {
-    int level;
     string name;
     eRarityType rarity;
+    int level;
     eElementType element;
     eWeaponType weapon;
+    eTextType breakthroughText;
     // eArtifactKind artifact;
   } tInfo;
   typedef struct allAttribute
   {
-    tAttribute attr;
-    tAttributeFix attrF;
+    tInfo info;
     tAttributeFix attrB;
+    tAttributeFix attrF;
+    tAttribute attr;
     tRes res;
     tBonus bonus;
-    tIndepMult indepMult;
-    tExtraRate extraRate;
     tReactFactor reactFactor;
     tBuff buff;
-    tInfo info;
     tAttack attack;
     tSkill skill;
     tBurst burst;
+    tIndepMult indepMult;
+    tExtraRate extraRate;
   } tAllAttr;
   class origin
   {

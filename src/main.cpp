@@ -30,34 +30,39 @@ using namespace genShinImpact;
 int main()
 {
 
-  // calculate *testCalculate = new calculate();
+  calculate *testCalculate = new calculate();
+  tAllAttr test;
   // float rate[3];
   // eTextType text[3];
   // rate[0]=0.5;
   // text[0]=TEXT_HP;
   // testCalculate->findMaxGreed(32, 0.9, rate, text, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_VAPORIZE_A, 0.33);
 
-  string temp="C:\\Users\\z004c38h\\Desktop\\GenshinTest.txt";
-  string tempLinux="/home/buddy/GenshinImpact_calculator/src/test.txt";
+  string temp = "C:\\Users\\z004c38h\\Desktop\\GenshinTest.txt";
+  string tempLinux = "/home/buddy/GenshinImpact_calculator/src/test";
 
   fileHandler *testFileHandler = new fileHandler(tempLinux);
+cout<<testCalculate->mAttacker.info.name<<endl;
+  testFileHandler->exportOneAttr(PART_CHARACTER, &testCalculate->mAttacker);
+
+  testFileHandler->importOneAttr(PART_CHARACTER, &test);
+  cout << test.info.name << endl;
 
   // findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
 
   // calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);
 
   // float damage = testCalculate->calDamage(2.11, REACT_UNSURE, TEXT_ATK, CAL_MIN, DAMAGE_CHARGE_HIT, ELEMENT_HYDRO);
-//   float damage = testCalculate->calDamage(2.88, REACT_BURNING, TEXT_ATK, CAL_MIN, DAMAGE_HIT, ELEMENT_ELECTRO);
+  //   float damage = testCalculate->calDamage(2.88, REACT_BURNING, TEXT_ATK, CAL_MIN, DAMAGE_HIT, ELEMENT_ELECTRO);
 
   //                                         REACT_VAPORIZE_A TEXT_HP,   CAL_MAX         DAMAGE_CHARGE_HIT,
   //                                         REACT_VAPORIZE_B TEXT_ATK,  CAL_MIN         DAMAGE_SKILL,
   //                                         REACT_UNSURE     TEXT_DEF,  CAL_EXPECTANCE  DAMAGE_BURST,
-//                                           REACT_AGGRAVATE 
-//                                            REACT_SPREAD
-//                                            REACT_BURNING,
-//                                            REACT_BLOOM,
-//                                            REACT_BURGEON,
-//                                            REACT_HYPERBLOOM,
+  //                                           REACT_AGGRAVATE
+  //                                            REACT_SPREAD
+  //                                            REACT_BURNING,
+  //                                            REACT_BLOOM,
+  //                                            REACT_BURGEON,
+  //                                            REACT_HYPERBLOOM,
   //                            calDamage(float rate, eReactType reactType, TextType mainAttr, eCalType calType, eDamageType damageType, eElementType elementType)
-
 }

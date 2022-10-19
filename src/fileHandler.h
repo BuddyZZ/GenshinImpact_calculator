@@ -19,15 +19,16 @@ namespace genShinImpact
         fileHandler();
         fileHandler(string name);
 
-        void importOneAttr(ePart part, tAllAttr *attr);
-        void importAllAttr();
-        void exportOneAttr(ePart part, tAllAttr *attr);
-        void exportAllAttr();
-        void exportOneCalResult(ePart part, tAllAttr *attr);
-        void exportAllCalResult();
+        int importOneAttr(ePart part, tAllAttr *attr);
+        int importAllAttr();
+        int exportOneAttr(ePart part, tAllAttr *attr);
+        int exportAllAttr();
+        int exportOneCalResult(ePart part, tAllAttr *attr);
+        int exportAllCalResult();
 
     protected:
-    string mFileName;
+        string mFileName;
+        string getSuffix(ePart part);
         // void encrypt();
         // void decrypt();
         // void calibrate();

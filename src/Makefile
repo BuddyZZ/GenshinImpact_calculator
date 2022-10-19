@@ -2,7 +2,7 @@
 target=calculator
 #
 objects=origin.o character.o enemy.o environment.o artifact.o  weapon.o calculate.o fileHandler.o main.o 
-flags=-std=c++11 -std=gnu++11
+flags=-std=c++11
 #flags=''
 ${target}:${objects}
 	g++ ${flags} -o ${@} ${objects} 
