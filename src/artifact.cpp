@@ -20,7 +20,6 @@ artifact::artifact()
 
 void artifact::resetArtifact()
 {
-    // memset(&base, '0', sizeof(tAllAttr)); segment fault
 }
 
 float artifact::changeOneSubText(eAddOrSub add, eTextType text, float fortune)

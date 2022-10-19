@@ -10,6 +10,7 @@
 #include "character.h"
 #include "enemy.h"
 #include "environment.h"
+#include "fileHandler.h"
 
 #include <bitset> //输出二进制的头文件
 #include <iostream>
@@ -29,12 +30,18 @@ using namespace genShinImpact;
 int main()
 {
 
-  calculate *testCalculate = new calculate();
-  float rate[3];
-  eTextType text[3];
-  rate[0]=0.5;
-  text[0]=TEXT_HP;
-  testCalculate->findMaxGreed(32, 0.9, rate, text, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_VAPORIZE_A, 0.33);
+  // calculate *testCalculate = new calculate();
+  // float rate[3];
+  // eTextType text[3];
+  // rate[0]=0.5;
+  // text[0]=TEXT_HP;
+  // testCalculate->findMaxGreed(32, 0.9, rate, text, DAMAGE_SKILL, ELEMENT_HYDRO, REACT_VAPORIZE_A, 0.33);
+
+  string temp="C:\\Users\\z004c38h\\Desktop\\GenshinTest.txt";
+  string tempLinux="/home/buddy/GenshinImpact_calculator/src/test.txt";
+
+  fileHandler *testFileHandler = new fileHandler(tempLinux);
+
   // findMaxGreed(int TextAmount, float fortune, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio)
 
   // calDamage(eCalType calType, float rate, TextType mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType);

@@ -78,13 +78,14 @@ namespace genShinImpact
     KIND_WEAPON,
     KIND_ARTIFACT,
     KIND_BUFF,
+    KIND_INFO,
     KIND_ELEMENT,
     KIND_DAMAGE,
     KIND_REACT,
     KIND_TEXT,
+    KIND_ATTACK
     KIND_SKILL,
     KIND_BURST,
-    KIND_ATTACK
   } eKind;
 
   typedef enum rarity
