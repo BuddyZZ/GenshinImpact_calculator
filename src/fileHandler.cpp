@@ -9,12 +9,15 @@ fileHandler::fileHandler()
 }
 fileHandler::fileHandler(string name) : mFileName(name)
 {
+    cout << "mFileName==" << mFileName << endl;
 }
-int fileHandler::importOneAttr(ePart part, tAllAttr *attr)
+int fileHandler::importOneAttr(ePart part, char *attr)
 {
     ifstream file;
-    string tempFile = mFileName + getSuffix(part);
-    file.open(tempFile, ios::in | ios::binary);
+    cout << __FUNCTION__ << endl;
+
+    string tempFile = mFileName + "." + getSuffix(part);
+    file.open(tempFile, ios::in | ios::binary); //
     if (!file)
     {
         cout << "open fail" << endl;
@@ -22,7 +25,9 @@ int fileHandler::importOneAttr(ePart part, tAllAttr *attr)
     }
     else
     {
-        file.read((char *)attr, sizeof(tAllAttr));
+        file.read(attr, sizeof(tAllAttr));
+        // file.read(reinterpret_cast<char *>(&temp), sizeof(tAllAttr));
+
         file.close();
         return 0;
     }
@@ -34,7 +39,7 @@ int fileHandler::importAllAttr()
 int fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
 {
     ofstream file;
-    string tempFile = mFileName + getSuffix(part);
+    string tempFile = mFileName + "." + getSuffix(part);
     file.open(tempFile, ios::out | ios::binary);
     if (!file)
     {
@@ -43,7 +48,7 @@ int fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
     }
     else
     {
-        file.write((char *)attr, sizeof(tAllAttr));
+        file.write(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
         file.close();
         return 0;
     }

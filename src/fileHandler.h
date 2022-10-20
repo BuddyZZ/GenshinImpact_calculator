@@ -19,7 +19,7 @@ namespace genShinImpact
         fileHandler();
         fileHandler(string name);
 
-        int importOneAttr(ePart part, tAllAttr *attr);
+        int importOneAttr(ePart part, char *attr);
         int importAllAttr();
         int exportOneAttr(ePart part, tAllAttr *attr);
         int exportAllAttr();
@@ -28,10 +28,10 @@ namespace genShinImpact
 
     protected:
         string mFileName;
+        tAllAttr temp;
         string getSuffix(ePart part);
-        // void encrypt();
-        // void decrypt();
-        // void calibrate();
+        // void addSignature();
+        // void checkSignature();
     private:
     };
 }
