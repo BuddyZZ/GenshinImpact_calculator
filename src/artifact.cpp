@@ -15,7 +15,8 @@ artifact::artifact()
     base.attr.recharge = 0;                                 // ART_VALUE_MAIN_RECHARGE
     base.bonus.hydro = ART_VALUE_MAIN_ELEMENT_BONUS + 0.15; //   ART_VALUE_MAIN_ELEMENT_BONUS     ART_VALUE_MAIN_PHYSIC_BONUS
 
-    base.info.name = "Default Artifact";
+    char tempName[] = "Default Artifact";
+	memcpy(base.info.name, tempName, sizeof(tempName));
 }
 
 void artifact::resetArtifact()

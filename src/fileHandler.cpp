@@ -11,13 +11,13 @@ fileHandler::fileHandler(string name) : mFileName(name)
 {
     cout << "mFileName==" << mFileName << endl;
 }
-int fileHandler::importOneAttr(ePart part, char *attr)
+int fileHandler::importOneAttr(ePart part, tAllAttr *attr)
 {
     ifstream file;
     cout << __FUNCTION__ << endl;
 
     string tempFile = mFileName + "." + getSuffix(part);
-    file.open(tempFile, ios::in | ios::binary); //
+    file.open(tempFile, ios::in | ios::binary);
     if (!file)
     {
         cout << "open fail" << endl;
@@ -25,9 +25,7 @@ int fileHandler::importOneAttr(ePart part, char *attr)
     }
     else
     {
-        file.read(attr, sizeof(tAllAttr));
-        // file.read(reinterpret_cast<char *>(&temp), sizeof(tAllAttr));
-
+        file.read(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
         file.close();
         return 0;
     }

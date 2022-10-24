@@ -11,6 +11,7 @@ enemy::enemy()
     base.res.skill = 0;
 
     base.info.level = 90;
-    base.info.name = "Default Enemy";
+    char tempName[] = "Default Enemy";
+	memcpy(base.info.name, tempName, sizeof(tempName));
     base.info.rarity = RARITY_UNSURE;
 }

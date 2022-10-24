@@ -10,7 +10,6 @@
 #include <iostream>
 // cout<<hex/oct/dec/bin<<num<<endl;
 // cout<<bitset<sizeof(a)*8>(a)<<endl;
-#include <cstring>
 
 #include <iomanip>
 #include <vector>
@@ -38,7 +37,9 @@ int main()
 
   testFileHandler->exportOneAttr(PART_CHARACTER, &testCalculate->mAttacker);
 
-  testFileHandler->importOneAttr(PART_CHARACTER, (char *)test);
+  testFileHandler->importOneAttr(PART_CHARACTER, test);
+
+
   cout << test->info.name << endl;
 
 }

@@ -2,7 +2,6 @@
 #define ORIGIN_H
 #include <cstring>
 #include <iostream>
-#include <string>
 #include <unistd.h>
 using namespace std;
 
@@ -53,7 +52,6 @@ namespace genShinImpact
     TEAM_MEMBER_3,
     TEAM_MEMBER_4
   } eTeamMember;
-
 
   const int LEVEL_MAX = 90;
   const int LEVEL_MAX_TALENT = 15;
@@ -242,8 +240,8 @@ namespace genShinImpact
    */
   typedef struct attackDmg
   {
-    string name;
-    int element;
+    char name[32];
+    eElementType element;
     float NormalAttackDmg[15][16];
     float chargeAttackDmg[15][16];
     float chargeAttackStaminaCost[15];
@@ -257,8 +255,8 @@ namespace genShinImpact
    */
   typedef struct skill
   {
-    string name;
-    int element;
+    char name[32];
+    eElementType element;
     float cooldown[15];
     float rate[15][16];
   } tSkill;
@@ -268,8 +266,8 @@ namespace genShinImpact
    */
   typedef struct burst
   {
-    string name;
-    int element;
+    char name[32];
+    eElementType element;
     float energy;
     float cooldown[15];
     float rate[15][16];
@@ -365,7 +363,7 @@ namespace genShinImpact
 
   typedef struct infomation
   {
-    string name;
+    char name[32];
     eRarityType rarity;
     int level;
     eElementType element;

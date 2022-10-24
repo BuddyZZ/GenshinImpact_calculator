@@ -3,7 +3,8 @@ using namespace genShinImpact;
 using namespace std;
 environment::environment()
 {
-	base.info.name = "Default Environment";
+	char tempName[] = "Default Environment";
+	memcpy(base.info.name, tempName, sizeof(tempName));
 }
 environment::~environment()
 {

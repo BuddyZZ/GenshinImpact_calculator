@@ -1,4 +1,6 @@
 #include "origin.h"
+#include <string>
+
 #ifndef FILE_HANDLER_H
 #define FILE_HANDLER_H
 
@@ -19,7 +21,7 @@ namespace genShinImpact
         fileHandler();
         fileHandler(string name);
 
-        int importOneAttr(ePart part, char *attr);
+        int importOneAttr(ePart part, tAllAttr *attr);
         int importAllAttr();
         int exportOneAttr(ePart part, tAllAttr *attr);
         int exportAllAttr();
