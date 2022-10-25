@@ -3,45 +3,43 @@
 using namespace genShinImpact;
 using namespace std;
 
-fileHandler::fileHandler()
+fileHandler::fileHandler() : mFileName(DEFAULT_NAME)
 {
-    cout << "fileHandler nothing to do" << endl;
 }
 fileHandler::fileHandler(string name) : mFileName(name)
 {
-    cout << "mFileName==" << mFileName << endl;
 }
-int fileHandler::importOneAttr(ePart part, tAllAttr *attr)
+bool fileHandler::importOneAttr(string path, ePart part, tAllAttr *attr)
 {
-    ifstream file;
-    cout << __FUNCTION__ << endl;
+    // ifstream file;
+    // cout << __FUNCTION__ << endl;
 
-    string tempFile = mFileName + "." + getSuffix(part);
-    file.open(tempFile, ios::in | ios::binary);
-    if (!file)
-    {
-        cout << "open fail" << endl;
-        return false;
-    }
-    else
-    {
-        file.read(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
-        file.close();
-        return 0;
-    }
+    // string tempFile = mFileName + "." + getSuffix(part);
+    // file.open(tempFile, ios::in | ios::binary);
+    // if (!file)
+    // {
+    //     cout << "open fail" << endl;
+    //     return false;
+    // }
+    // else
+    // {
+    //     file.read(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
+    //     file.close();
+    //     return 0;
+    // }
 }
-int fileHandler::importAllAttr()
+bool fileHandler::importAllAttr(string path, tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy)
 {
     return 0;
 }
-int fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
+bool fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
 {
     ofstream file;
-    string tempFile = mFileName + "." + getSuffix(part);
+    string tempFile = generateFullPath(part);
     file.open(tempFile, ios::out | ios::binary);
     if (!file)
     {
-        cout << "open fail" << endl;
+        cout << "open fail -- " << tempFile << endl;
         return false;
     }
     else
@@ -51,36 +49,89 @@ int fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
         return 0;
     }
 }
-int fileHandler::exportAllAttr()
+bool fileHandler::exportAllAttr(string path, tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy)
+{
+    #warning not ok
+    ofstream file;
+    for (ePart part = PART_CHARACTER; part <= PART_RESULT; part++)
+    {
+        string tempFile = generateFullPath(part);
+        file.open(tempFile, ios::out | ios::binary);
+        if (!file)
+        {
+            cout << "open fail -- " << tempFile << endl;
+            return false;
+        }
+        else
+        {
+            file.write(reinterpret_cast<char *>(character), sizeof(tAllAttr));
+            file.close();
+        }
+    }
+    return true;
+}
+bool fileHandler::exportOneCalResult(string path, ePart part)
 {
     return 0;
 }
-int fileHandler::exportOneCalResult(ePart part, tAllAttr *attr)
-{
-    return 0;
-}
-int fileHandler::exportAllCalResult()
+bool fileHandler::exportAllCalResult(string path)
 {
     return 0;
 }
 
-string fileHandler::getSuffix(ePart part)
+string fileHandler::generateFullPath(ePart part)
 {
     switch (part)
     {
     case PART_CHARACTER:
-        return "cha";
+        return DEFAULT_ATTR_PATH + mFileName + ".cha";
     case PART_WEAPON:
-        return "wep";
+        return DEFAULT_ATTR_PATH + mFileName + ".wep";
     case PART_ARTIFACT:
-        return "art";
+        return DEFAULT_ATTR_PATH + mFileName + ".art";
     case PART_ENVIRONMRNT:
-        return "evr";
+        return DEFAULT_ATTR_PATH + mFileName + ".evr";
     case PART_RESULT:
-        return "rst";
+        return DEFAULT_RESULT_PATH + mFileName + ".rst";
+    case PART_CONFIGURATION:
+        DEFAULT_CONFIGURATION_PATH + mFileName + ".conf";
     default:
-        return "wrong";
+        return mFileName + ".wrong";
     }
+}
+bool fileHandler::checkName(string name, ePart part)
+{
+    string aim, find;
+    switch (part)
+    {
+    case PART_CHARACTER:
+        aim = ".cha";
+        break;
+    case PART_WEAPON:
+        aim = ".wep";
+        break;
+    case PART_ARTIFACT:
+        aim = ".art";
+        break;
+    case PART_ENVIRONMRNT:
+        aim = ".evr";
+        break;
+    case PART_RESULT:
+        aim = ".rst";
+        break;
+    case PART_CONFIGURATION:
+        aim = ".conf";
+        break;
+
+        break;
+    default:
+        return false;
+    }
+    find = name.substr(name.find_last_of(".") + 1);
+    if (aim == find)
+        return true;
+    else
+        return false;
 }
 
 // {
