@@ -65,6 +65,7 @@ float calculate::calDamage(eCalType calType, float *rate, TextType *mainAttr, eD
     basicDamage += mainAttr[i] * rate[i];
     ++i;
   }
+  
   float elementalMastery = calElementalMastery();
   float critFactor = calCritFactor(calType);
   float defFactor = calDefFactor();
@@ -74,6 +75,7 @@ float calculate::calDamage(eCalType calType, float *rate, TextType *mainAttr, eD
   float bonus = calBonus(damageType, elementType);
   float indepMult = calIndepMult(damageType, elementType);
   float extraRate = calExtraRate(damageType, elementType);
+
   if (reactRatio > 1)
     return 0;
   if (REACT_TYPE_INCREASEMENT_START < reactType && reactType < REACT_TYPE_INCREASEMENT_END) // INCREASEMENT

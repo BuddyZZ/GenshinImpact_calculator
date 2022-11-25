@@ -3,35 +3,32 @@
 using namespace genShinImpact;
 using namespace std;
 
-fileHandler::fileHandler() : mFileName(DEFAULT_NAME)
+fileHandler::fileHandler()
 {
-}
-fileHandler::fileHandler(string name) : mFileName(name)
-{
+    mFileName = DEFAULT_NAME;
 }
 bool fileHandler::importOneAttr(string path, ePart part, tAllAttr *attr)
 {
-    // ifstream file;
-    // cout << __FUNCTION__ << endl;
+    ifstream file;
+    if (checkName(path, part))
+    {
+        file.open(path, ios::in | ios::binary);
+        if (!file)
+        {
+            cout << "open fail" << endl;
+            return false;
+        }
+        else
+        {
+            file.read(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
+            file.close();
+            return true;
+        }
+    }
+    else
+        return false;
+}
 
-    // string tempFile = mFileName + "." + getSuffix(part);
-    // file.open(tempFile, ios::in | ios::binary);
-    // if (!file)
-    // {
-    //     cout << "open fail" << endl;
-    //     return false;
-    // }
-    // else
-    // {
-    //     file.read(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
-    //     file.close();
-    //     return 0;
-    // }
-}
-bool fileHandler::importAllAttr(string path, tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy)
-{
-    return 0;
-}
 bool fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
 {
     ofstream file;
@@ -46,35 +43,27 @@ bool fileHandler::exportOneAttr(ePart part, tAllAttr *attr)
     {
         file.write(reinterpret_cast<char *>(attr), sizeof(tAllAttr));
         file.close();
-        return 0;
+        return true;
     }
 }
-bool fileHandler::exportAllAttr(string path, tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy)
+bool fileHandler::exportAllAttr(tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy)
 {
-    #warning not ok
-    ofstream file;
-    for (ePart part = PART_CHARACTER; part <= PART_RESULT; part++)
-    {
-        string tempFile = generateFullPath(part);
-        file.open(tempFile, ios::out | ios::binary);
-        if (!file)
-        {
-            cout << "open fail -- " << tempFile << endl;
-            return false;
-        }
-        else
-        {
-            file.write(reinterpret_cast<char *>(character), sizeof(tAllAttr));
-            file.close();
-        }
-    }
-    return true;
+    bool retVal = true;
+    if (character != NULL)
+        retVal &= exportOneAttr(PART_CHARACTER, character);
+    if (weapon != NULL)
+        retVal &= exportOneAttr(PART_WEAPON, weapon);
+    if (artifact != NULL)
+        retVal &= exportOneAttr(PART_ARTIFACT, artifact);
+    if (environment != NULL)
+        retVal &= exportOneAttr(PART_ENVIRONMRNT, environment);
+    if (enemy != NULL)
+        retVal &= exportOneAttr(PART_ENEMY, enemy);
+
+    return retVal;
 }
-bool fileHandler::exportOneCalResult(string path, ePart part)
-{
-    return 0;
-}
-bool fileHandler::exportAllCalResult(string path)
+
+bool fileHandler::exportCalResult(string path)
 {
     return 0;
 }
@@ -91,6 +80,8 @@ string fileHandler::generateFullPath(ePart part)
         return DEFAULT_ATTR_PATH + mFileName + ".art";
     case PART_ENVIRONMRNT:
         return DEFAULT_ATTR_PATH + mFileName + ".evr";
+    case PART_ENEMY:
+        return DEFAULT_ATTR_PATH + mFileName + ".enm";
     case PART_RESULT:
         return DEFAULT_RESULT_PATH + mFileName + ".rst";
     case PART_CONFIGURATION:

@@ -24,9 +24,7 @@ namespace genShinImpact
     void loadAll();
 
     float calDamage(eCalType calType, float *rate, TextType *mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio);
-
     float attrChange(TextType aim, float maxAim, float rate, float minSrc, TextType src, float maxSrc);
-
     float findMaxGreed(int TextAmount, float fortune, float *rate, TextType *mainAttr, eDamageType damageType, eElementType elementType, eReactType reactType, float reactRatio);
 
   protected:
@@ -46,6 +44,8 @@ namespace genShinImpact
     float calBonus(eDamageType damageType, eElementType elementType);
     float calIndepMult(eDamageType damageType, eElementType elementType);
     float calExtraRate(eDamageType damageType, eElementType elementType);
+
+    void summary(TextType *text, float before, float after);
 
   private:
   };

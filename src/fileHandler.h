@@ -12,6 +12,7 @@ namespace genShinImpact
         PART_WEAPON,
         PART_ARTIFACT,
         PART_ENVIRONMRNT,
+        PART_ENEMY,
         PART_RESULT,
         PART_CONFIGURATION
     } ePart;
@@ -20,21 +21,18 @@ namespace genShinImpact
     {
     public:
         fileHandler();
-        fileHandler(string name);
 
         bool importOneAttr(string path, ePart part, tAllAttr *attr);
-        bool importAllAttr(string path, tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy);
-        bool exportOneAttr(string path, ePart part, tAllAttr *attr);
-        bool exportAllAttr(string path, tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy);
-        bool exportOneCalResult(string path, ePart part);
-        bool exportAllCalResult(string path);
+        bool exportOneAttr(ePart part, tAllAttr *attr);
+        bool exportAllAttr(tAllAttr *character, tAllAttr *weapon, tAllAttr *artifact, tAllAttr *environment, tAllAttr *enemy);
+        bool exportCalResult(string path);
 
         bool importSetting();
         bool exportSetting();
 
     protected:
         string mFileName;
-                const string DEFAULT_NAME = "default";
+        const string DEFAULT_NAME = "default";
 
 #define LINUX
 #ifdef LINUX
