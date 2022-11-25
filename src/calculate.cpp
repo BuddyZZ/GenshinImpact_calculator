@@ -292,7 +292,8 @@ float calculate::calBonus(eDamageType damageType, eElementType elementType)
   float base = *getBonusAddr(&mAttacker, KIND_DAMAGE, damageType) + *getBonusAddr(&mAttacker, KIND_ELEMENT, elementType) +
                *getBonusAddr(&mWeapon, KIND_DAMAGE, damageType) + *getBonusAddr(&mWeapon, KIND_ELEMENT, elementType) +
                *getBonusAddr(&mArtifact, KIND_DAMAGE, damageType) + *getBonusAddr(&mArtifact, KIND_ELEMENT, elementType) +
-               *getBonusAddr(&mEnvironment, KIND_DAMAGE, damageType) + *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType);
+               *getBonusAddr(&mEnvironment, KIND_DAMAGE, damageType) + *getBonusAddr(&mEnvironment, KIND_ELEMENT, elementType)+
+               *getBonusAddr(&mSuffer, KIND_DAMAGE, damageType) + *getBonusAddr(&mSuffer, KIND_ELEMENT, elementType);
   return base;
 }
 
